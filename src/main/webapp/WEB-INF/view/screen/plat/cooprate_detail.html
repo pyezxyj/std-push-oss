@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Expires" content="0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+<title>公司详情</title>
+<#include 'layout/resources.html'/>
+<script type="text/javascript" src="${resourceUrl}/resources/plat/js/cooprate-detail.js?version=${version}"></script>
+</head>
+<body>
+	<#include 'layout/hidden_ares.html' />
+	<div class="place">
+	    <span>位置：</span>
+	    <ul>
+	    	<li>平台管理</li>
+	    	<li>信息查询</li>
+	    	<li>合作申请查询</li>
+   		</ul>
+    </div>
+    <form id="jsForm">
+	    <div class="form-body">
+	    <div class="form-title"><span>合作申请详情</span></div>
+		    <ul class="form-info">
+			    <li><label><b>*</b>单位名称:</label><span id="organization"></span></li>
+			    <li><label><b>*</b>联系人:</label><span id="person"></span></li>
+			    <li><label><b>*</b>联系方式:</label><span id="contact"></span></li>
+			    <li><label><b>*</b>合作内容:</label><span id="content1"></span></li>
+			    <li><label><b>*</b>公司简介:</label><span id="organizationDesc"></span></li>
+			    <li><label><b>*</b>创建时间:</label><span id="createDatatime"></span></li>
+			    <li><input id="backBtn" type="button" class="btn margin-left-100" value="返回"/></li>
+			</ul>
+	    </div>
+    </form>
+</body>
+</html>

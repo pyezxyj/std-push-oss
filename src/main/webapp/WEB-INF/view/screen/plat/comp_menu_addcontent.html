@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Expires" content="0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+<title>公司详情</title>
+<#include 'layout/resources.html'/>
+<script type="text/javascript" src="${resourceUrl}/resources/plat/js/comp-menu-detail.js?version=${version}"></script>
+</head>
+<body>
+	<#include 'layout/hidden_ares.html' />
+	<div class="place">
+	    <span>位置：</span>
+	    <ul>
+	    	<li>平台管理</li>
+	    	<li>公司管理</li>
+	    	<li>菜单管理</li>
+   		</ul>
+    </div>
+    <form id="jsForm">
+	    <div class="form-body">
+	    <div class="form-title"><span>新增内容</span></div>
+		    <ul class="form-info">
+			    <li><label><b>*</b>名称:</label><span id="name"></span></li>
+			    <li><label><b>*</b>对应父菜单:</label><span id="parentCode"></span></li>
+			    <li><label><b>*</b>顺序:</label><span id="orderNo"></span></li>
+			    <li><label><b>*</b>内容格式:</label>
+			    <img id="content-type-1" src="${resourceUrl}/resources/security/images/111.png"   onclick="clickPic(1,this)" style="width:100px;"/>
+			    <img id="content-type-2" src="${resourceUrl}/resources/security/images/222.png"   onclick="clickPic(2,this)" style="width:100px;"/>
+			    </li>
+			    <div class="form-title"><span>内容列表</span></div>
+    		<div class="tools">
+			   <ul class="toolbar_children">
+			       <li id="addBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"></span>新增</li>
+			       <li id="editBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"></span>修改</li>
+			       <li id="dropBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"></span>删除</li>
+			       <li id="detailBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"></span>详情</li>
+		       </ul>
+		    </div>
+		    <table id="tableList"></table>
+			    <li><input id="backBtn" type="button" class="btn" value="返回" style="margin-top:20px;"/></li>
+			</ul>
+	    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Expires" content="0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+<title>合作伙伴详情</title>
+<#include 'layout/resources.html'/>
+<script type="text/javascript" src="${resourceUrl}/resources/web/js/news-detail.js?version=${version}"></script>
+</head>
+<body>
+	<#include 'layout/hidden_ares.html' />
+	<div class="place">
+	    <span>位置：</span>
+	    <ul>
+	    	<li>网站管理</li>
+	    	<li>网站管理</li>
+	    	<li>合作伙伴</li>
+	    	<li>新闻信息详情</li>
+   		</ul>
+    </div>
+    <form id="jsForm">
+	    <div class="form-body">
+	    <div class="form-title"><span>新闻信息详情</span></div>
+		    <ul class="form-info">
+			    <li><label>所属公司:</label><span id="companyCode"></span></li>
+			    <li><label>新闻编号:</label><span id="code"></span></li>
+			    <li><label>新闻标题:</label><span id="title"></span></li>
+			    <li><label>关键字:</label><span id="keyword"></span></li>
+			    <li><label>新闻类型:</label><span id="type"></span></li>
+			    <li><label>作者:</label><span id="author"></span></li>
+			    <li><label>跳转链接:</label><span id="jumpUrl"></span></li>
+			    <li><label>显示链接:</label><span id="showUrl"></span></li>
+			    <li><label>图片:</label><img id="picture"></img></li>
+			    <li><label>内容:</label><span id="content"></span></li>
+			    <li><label>备注:</label><span id="remark"></span></li>
+			    <li><input id="backBtn" type="button" class="btn margin-left-100" value="返回"/></li>
+			</ul>
+	    </div>
+    </form>
+</body>
+</html>

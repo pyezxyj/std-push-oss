@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Expires" content="0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+<title>公司详情</title>
+<#include 'layout/resources.html'/>
+<script type="text/javascript" src="${resourceUrl}/resources/plat/js/company-detail1.js?version=${version}"></script>
+</head>
+<body>
+	<#include 'layout/hidden_ares.html' />
+	<div class="place">
+	    <span>位置：</span>
+	    <ul>
+	    	<li>平台管理</li>
+	    	<li>公司管理</li>
+	    	<li>公司详情</li>
+   		</ul>
+    </div>
+    <form id="jsForm">
+	    <div class="form-body">
+	    <div class="form-title"><span>公司详情</span></div>
+		    <ul class="form-info">
+			    <li><label><b>*</b>名称:</label><span id="name"></span></li>
+			    <li><label><b>*</b>Logo:</label><img id="logo"></img></li>
+			    <li><label><b>*</b>广告语:</label><span id="slogan" ></span></li>
+			    <li><label><b>*</b>法人:</label><span id="corporation"></span></li>
+			    <li><label><b>*</b>二维码:</label><img id="barCode"></img></li>
+			    <li><label><b>*</b>地址:</label><span id="address"></span></li>
+			    <li><label><b>*</b>经度:</label><span id="longitude"></span></li>
+			    <li><label><b>*</b>纬度:</label><span id="latitude"></span></li>
+			    <li><label><b>*</b>copyright:</label><span id="copyright"></span></li>
+			    <li><label><b>*</b>座机:</label><span id="telephone"></span></li>
+			    <li><label><b>*</b>传真:</label><span id="fax"></span></li>
+			    <li><label><b>*</b>邮箱:</label><span id="email"></span></li>
+			    <li><label><b>*</b>域名:</label><span id="url"></span></li>
+			    <li><label><b>*</b>公司简介:</label><span id="description"></span></li>			   
+			    <li><input id="editBtn" type="button" class="btn margin-left-100" value="修改"/></li>
+			</ul>
+	    </div>
+    </form>
+</body>
+</html>
