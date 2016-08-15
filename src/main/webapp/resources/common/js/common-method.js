@@ -332,3 +332,48 @@ function myReturnValue(value) {
 function getUserId() {
 	return $('#topUserId', window.parent.frames[0].document).val();
 }
+
+function getCompanyId() {
+	var companyCode ='';
+	if (getUserId() == '100001') { // admin
+		return '';
+	}
+	doGetAjaxIsAsync($("#basePath").val()+"/plat/company/list", {userid:getUserId()}, false, function(res) {
+		if (res.data.length > 0) {
+			companyCode = res.data[0].code;
+		}
+	});
+	return companyCode || '0';
+}
+
+//下拉框
+setTimeout(function() {
+	$('select').chosen && $('select').not('.norender').chosen({search_contains: true});
+}, 100);
+var oriVal = $.fn.val;
+$.fn.val = function(value) {
+	var res = oriVal.apply($(this), arguments);
+	if ($(this).is('select')) {
+		$(this).trigger('chosen:updated');
+	}
+	return res;
+}
+
+//面包屑
+setTimeout(function() {
+	var topTitle = $('.nav .selected h2', window.parent.frames[0].document).text();
+	var leftFirstTitle = $('.left-menu .active', window.parent.frames[1].document).parent().parent().find('.title').text();
+	var leftSecondTitle = $('.left-menu .active', window.parent.frames[1].document).text();
+	var html = '<li>'+topTitle+'</li><li>'+leftFirstTitle+'</li><li>'+leftSecondTitle+'</li>';
+	var BtnTitle = localStorage.getItem('syj-btn');
+	localStorage.setItem('syj-btn', '');
+	if (BtnTitle) {
+		html += '<li>'+BtnTitle+'</li>';
+	}
+	$('.place ul').html(html);
+}, 1);
+
+$(document).on('click', '.toolbar li[id*=Btn]', function(e) {
+	var text = $(this).text();
+	localStorage.setItem('syj-btn', text);
+});

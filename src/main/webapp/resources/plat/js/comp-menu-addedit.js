@@ -3,7 +3,10 @@ var contentType = null;
 
 $(function() {
 	
-	
+	var isCus = getQueryString('isCus');
+	if (isCus) {
+		$('#contentCtn').hide();
+	}
 	
 	var url = $("#basePath").val() + "/plat/menu/list";
     doGetAjaxIsAsync(url, null, false, doSuccessBackCode);
@@ -46,7 +49,7 @@ $(function() {
 	
 	//返回
 	$('#backBtn').click(function() {
-		location.href = $("#basePath").val()+"/plat/comp_menu.htm";
+		window.history.back();
 	});
 	
 	//入参合法性校验
@@ -100,7 +103,7 @@ function doGetDetailBack(res){
 function doSuccessBack(res) {
 	if (res.success == true) {
 		alert("操作成功");
-		window.location.href = $("#basePath").val()+"/plat/comp_menu.htm";
+		window.history.back();
 	}else{
 		alert(res.msg);
 	}

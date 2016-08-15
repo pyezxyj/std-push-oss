@@ -63,18 +63,16 @@ $(function() {
 			valign : 'middle',
 			sortable : false
 		}, {
-			field : 'templetCode',
-			title : '内容格式',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
 			field : 'status',
 			title : '状态',
 			align : 'left',
 			valign : 'middle',
 			sortable : false,
 			formatter : statusFormatter
+		}, {
+			field : 'companyCode',
+			title : '所属公司',
+			formatter : companyFormatter
 		}]
 	});
 	
@@ -94,7 +92,7 @@ $(function() {
 			return;
 		}
 		else
-			window.location.href = $("#basePath").val()+"/plat/comp_menu_addedit.htm?code="+selRecords[0].code;
+			window.location.href = $("#basePath").val()+"/plat/comp_menu_addedit.htm?isCus=1&code="+selRecords[0].code;
 	});
 	
 	//插入内容
@@ -174,6 +172,9 @@ function initData(){
 	// 列表
     var url = $("#basePath").val() + "/plat/menu/list";
     doGetAjaxIsAsync(url, null, false, doSuccessBackCode);
+    // 公司列表
+    var url = $("#basePath").val() + "/plat/company/list";
+    doGetAjaxIsAsync(url, null, false, doSuccessBackCompany);
 }
 
 //类型转化
@@ -192,6 +193,25 @@ function codeFormatter(value, row) {
 	for(var i = 0;i < dictCode.length;i++){
 		if(dictCode[i].code == value){
 			return dictCode[i].name;
+		}
+	}
+}
+
+function doSuccessBackCompany(res){
+	dictCompany = res.data;
+	var html = "<option value=''>请选择";
+	if(typeof(dictCompany) != "undefined"){//判断undifined
+		for(var i = 0;i < dictCompany.length;i++){
+			html += "<option value='"+dictCompany[i].code+"'>"+dictCompany[i].name +"</option>";
+		}
+	}
+	$("#companyCode").html(html);
+}
+
+function companyFormatter(value, row) {
+	for(var i = 0;i < dictCompany.length;i++){
+		if(dictCompany[i].code == value){
+			return dictCompany[i].name;
 		}
 	}
 }
