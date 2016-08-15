@@ -63,16 +63,6 @@ $(function() {
 				required: true,
 				maxlength: 2
 			}
-		},
-		messages: {
-			name: {
-				required: "请输入名称",
-				maxlength: jQuery.format("名称不能大于{0}个字符")
-			},
-			orderNo: {
-				required: "请输入顺序",
-				maxlength: jQuery.format("顺序不能大于{0}个字符")
-			}
 		}
 	});
 });

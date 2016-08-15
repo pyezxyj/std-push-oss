@@ -57,24 +57,6 @@ $(function(){
 				required: false,
 				maxlength: 255
 			}
-		},
-		messages: {
-			title: {
-				required: "请输入标题",
-				maxlength: jQuery.format("标题不能大于{0}个字符")
-			},
-			content: {
-				required: "请输入内容",
-			},
-			type: {
-				required: "请选择类型",
-			},
-			status: {
-				required: "请选择状态",
-			},
-			remark: {
-				maxlength: jQuery.format("备注不能大于{0}个字符")
-			}
 		}
 	});
 });

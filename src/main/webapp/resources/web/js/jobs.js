@@ -110,7 +110,7 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/web/jobs/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
@@ -119,7 +119,7 @@ function queryTableData(){
 				code : $("#code").val(),
 				name : $("#name").val(),
 				status : $("#status").val(),
-				companyCode :$("#companyCode").val(),
+				companyCode :getCompanyId(),
 				dateStart: $("#dateStart").val(),
 				dateEnd: $("#dateEnd").val(),
 				start : params.offset / params.limit + 1,
@@ -188,7 +188,7 @@ function queryTableData(){
 			title : '所属公司',
 			align : 'left',
 			valign : 'middle',
-			sortable : false,
+			visible : false,
 			formatter : companyFormatter
 		}]
 		

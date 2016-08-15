@@ -3,6 +3,7 @@ var dictCompany = null;
 var ue = UE.getEditor('description');
 $(function() {
 	initData();
+	$("#companyCode").val(getCompanyId());
 	var code = getQueryString('code');
     //	新增修改判断
 	if(isBlank(code)){
@@ -65,27 +66,6 @@ $(function() {
 			companyCode: {
 				required: true
 			}
-		},
-		messages: {
-			name: {
-				required: "请输入姓名",
-				maxlength: jQuery.format("姓名不能大于{0}个字符")
-			},
-			position: {
-				required: "请输入职位",
-				maxlength: jQuery.format("职位不能大于{0}个字符")
-			},
-			description: {
-				required: "请输入简介",
-				maxlength: jQuery.format("描述不能大于{0}个字符")
-			},
-			remark: {
-				required: "请输入备注",
-				maxlength: jQuery.format("备注不能大于{0}个字符")
-			},
-			companyCode: {
-				required: "请选择公司"
-			}
 		}
 	});
 });
@@ -116,7 +96,7 @@ function doGetDetailBack(res){
 	if (res.success == true) {
 		if(res.data.length > 0){
 			var data = res.data[0];
-			$("#companyCode").val(data.companyCode);
+			
 			$("#name").val(data.name);
 			$("#position").val(data.position);
 			image = data.picture;

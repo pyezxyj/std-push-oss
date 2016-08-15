@@ -5,6 +5,7 @@ $(function() {
 	
 	//数据初始化
 	initData();
+	$("#companyCode").val(getCompanyId());
 	var code = getQueryString('code');
     //	新增修改判断
 	if(isBlank(code)){
@@ -60,21 +61,9 @@ $(function() {
 			description: {
 				required: true,
 				maxlength: 255
-			}
-			
-		},
-		messages: {
-			name: {
-				required: "请输入案例名称",
-				maxlength: jQuery.format("案例名称不能大于{0}个字符")
 			},
-			url: {
-				required: "请输入域名地址",
-				maxlength: jQuery.format("案例地址不能大于{0}个字符")
-			},
-			description: {
-				required: "请输入案例描述",
-				maxlength: jQuery.format("案例描述不能大于{0}个字符")
+			status: {
+				required: true
 			}
 			
 		}
@@ -123,7 +112,6 @@ function doGetDetailBack(res){
 	if (res.success == true) {
 		if(res.data.length > 0){
 			console.log(res.data);
-			$("#companyCode").val(res.data[0].companyCode);
 			$("#name").val(res.data[0].name);
 			$("#url").val(res.data[0].url);
 			$("#status").val(res.data[0].status);

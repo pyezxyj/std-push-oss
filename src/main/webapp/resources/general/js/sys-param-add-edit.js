@@ -50,20 +50,6 @@ $(function(){
 				required: true,
 				maxlength: 64
 			}
-		},
-		messages: {
-			key: {
-				required: "请输入参数键",
-				maxlength: jQuery.format("参数键不能大于{0}个字符")
-			},
-			value: {
-				required: "请输入参数值",
-				maxlength:jQuery.format("参数值不能大于{0}个字符")
-			},
-			remark: {
-				required: "请输入参数说明",
-				maxlength:jQuery.format("参数说明不能大于{0}个字符")
-			}
 		}
 	});
 });

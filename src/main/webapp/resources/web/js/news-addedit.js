@@ -2,6 +2,7 @@ var image = null;
 var ue = UE.getEditor('content');
 $(function() {
 	initData();
+	$("#companyCode").val(getCompanyId());
 	var code = getQueryString('code');
     //	新增修改判断
 	if(isBlank(code)){
@@ -61,31 +62,6 @@ $(function() {
 			},
 			companyCode: {
 				required: true,
-			}
-		},
-		messages: {
-			title: {
-				required: "请输入标题",
-				maxlength: jQuery.format("标题不能大于{0}个字符")
-			},
-			type: {
-				required: "请选择类型",
-				maxlength: jQuery.format("类型不能大于{0}个字符")
-			},
-			author: {
-				required: "请输入作者",
-				maxlength: jQuery.format("作者不能大于{0}个字符")
-			},
-			content: {
-				required: "请输入内容",
-				maxlength: jQuery.format("内容不能大于{0}个字符")
-			},
-			jumpUrl: {
-				required: "请输入链接",
-				maxlength: jQuery.format("链接不能大于{0}个字符")
-			},
-			companyCode: {
-				required: "请选择公司"
 			}
 		}
 	});
@@ -149,7 +125,7 @@ function doGetDetailBack(res){
 	if (res.success == true) {
 		if(res.data.length > 0){
 			var data = res.data[0];
-			$("#companyCode").val(data.companyCode);
+
 			$("#title").val(data.title);
 			$("#keyword").val(data.keyword);
 			$("#type").val(data.type);

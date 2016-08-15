@@ -64,33 +64,6 @@ $(function() {
 			remark: {
 				maxlength: 64
 			}
-		},
-		messages: {
-			menuCode: {
-				required: "请输入菜单编号",
-				number: "菜单编号请输入数字",
-				maxlength: jQuery.format("菜单编号不能大于{0}个字符")
-			},
-			menuName: {
-				required: "请输入菜单名称",
-				maxlength: jQuery.format("菜单名称不能大于{0}个字符")
-			},
-			type: {
-				required: "请选择类型",
-				maxlength: jQuery.format("菜单类型不能大于{0}个字符")
-			},
-			menuUrl: {
-				required: "请输入菜单地址",
-				maxlength: jQuery.format("菜单地址不能大于{0}个字符")
-			},
-			orderNo: {
-				required: "请输入顺序号",
-				number: jQuery.format("顺序号请输入数字"),
-				maxlength: jQuery.format("顺序号不能大于{0}个字符")
-			},
-			remark: {
-				maxlength: jQuery.format("备注不能大于{0}个字符")
-			}
 		}
 	});
 });

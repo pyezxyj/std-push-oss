@@ -143,6 +143,9 @@ public class UploadUtil {
      */
     public static String uploadPicture(String base64String) {
         // 参数检测
+    	if (base64String == null) {
+    		return base64String;
+    	}
         Pattern pattern = Pattern.compile("data:image/(.+?);base64");
         Matcher matcher = pattern.matcher(base64String);
         if (!matcher.find()) {

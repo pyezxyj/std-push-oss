@@ -54,16 +54,6 @@ $(function() {
 				required: true,
 				maxlength: 250
 			}
-		},
-		messages: {
-			title: {
-				required: "请输入标题",
-				maxlength: jQuery.format("标题不能大于{0}个字符")
-			},
-			orderNo: {
-				required: "请输入顺序",
-				maxlength: jQuery.format("顺序不能大于{0}个字符")
-			}
 		}
 	});
 });

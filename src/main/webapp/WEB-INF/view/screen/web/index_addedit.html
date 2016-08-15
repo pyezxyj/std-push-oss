@@ -16,22 +16,20 @@
 	<div class="place">
     	<span>位置：</span>
 	    <ul>
-	    	<li>网站管理</li>
-	    	<li>网站管理</li>
-	    	<li>合作伙伴</li>
-	    	<li id="operContent">新增合作伙伴</li>
    		</ul>
     </div>
     <form id="jsForm">
     	<input type="hidden" id="code" name="code" />
 	    <div class="form-body">
-	    <div class="form-title"><span>新增合作伙伴</span></div>
+	    <div class="form-title"><span>修改首页信息</span></div>
 		    <ul class="form-info">
-			    <li><label><b>*</b>所属公司:</label><select id="companyCode" name="companyCode"></select></li>
-			    <li><label><b>*</b>名称:</label><input type="text" id="name" name="name" class="control-def"/></li>
-			    <li><label><b>*</b>域名:</label><input type="text" id="url" name="url" class="control-def"/></li>
-			    <li><label><b>*</b>Logo:</label><input type="file" onchange="selectImage(this);" id="logo" name="logo"/><img src="" id="previewPic" width="100" height="100"></img></li>
-			    <li><label><b>*</b>简介:</label><textarea id="description" name="description" style="width:800px;height:250px;float:left"></textarea></li>
+			    <li style="display: none;"><label><b>*</b>所属公司:</label><select id="companyCode" name="companyCode"></select></li>
+			    <li><label><b></b>banner1:</label><input type="file" onchange="selectImage(this);" id="banner1" name="banner1"/><img src="" id="previewPic1" width="100" height="100"></img></li>
+			    <li><label><b></b>banner2:</label><input type="file" onchange="selectImage(this);" id="banner2" name="banner2"/><img src="" id="previewPic2" width="100" height="100"></img></li>
+			    <li><label><b></b>banner3:</label><input type="file" onchange="selectImage(this);" id="banner3" name="banner3"/><img src="" id="previewPic3" width="100" height="100"></img></li>
+			    <li><label><b></b>全尺寸图:</label><input type="file" onchange="selectImage(this);" id="banner4" name="banner4"/><img src="" id="previewPic4" width="100" height="100"></img></li>
+			    <li><label><b></b>url:</label><input type="text" id="url" name="url" class="control-def"/></li>
+			    <li><label><b></b>text:</label><textarea id="description" name="description" style="width:800px;height:250px;float:left"></textarea></li>
 			    <li><input id="subBtn" type="button" class="btn margin-left-100" value="保存"/><input id="backBtn" type="button" class="btn margin-left-20" value="返回"/></li>
 			</ul>
 	    </div>

@@ -29,13 +29,6 @@ $(function() {
 				maxlength: 12,
 				minlength: 6
 			}
-		},
-		messages: {
-			adminPwd: {
-				required: "请输入管理员密码",
-				maxlength: jQuery.format("密码不能大于{0}个字符"),
-				minlength: jQuery.format("密码不能小于{0}个字符")
-			}
 		}
 	});
 });

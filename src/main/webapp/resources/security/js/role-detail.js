@@ -48,21 +48,6 @@ $(function() {
 			remark: {
 				maxlength: 100
 			}
-		},
-		messages: {
-			roleCode: {
-				required: "请输入角色编号",
-				number: "角色编号请输入数字",
-				maxlength: jQuery.format("角色编号不能大于{0}个字符")
-			},
-			roleName: {
-				required: "请输入角色名称",
-				maxlength: jQuery.format("角色名称不能大于{0}个字符")
-			},
-			roleLevel: "请选择角色等级",
-			remark: {
-				maxlength: jQuery.format("备注不能大于{0}个字符")
-			}
 		}
 	});
 	

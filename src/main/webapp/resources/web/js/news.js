@@ -112,7 +112,7 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/web/news/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
@@ -122,7 +122,7 @@ function queryTableData(){
 				code : $("#code").val(),
 				title : $("#title").val(),
 				type : $("#type").val(),
-				companyCode :$("#companyCode").val(),
+				companyCode :getCompanyId(),
 				creator :$("#creator").val(),
 				dateStart :$("#dateStart").val(),
 				dateEnd :$("#dateEnd").val(),
@@ -186,7 +186,7 @@ function queryTableData(){
 			title : '所属公司',
 			align : 'left',
 			valign : 'middle',
-			sortable : false,
+			visible : false,
 			formatter : companyFormatter
 		}]
 		

@@ -31,12 +31,6 @@ $(function() {
 				required: true,
 				maxlength: 32
 			}
-		},
-		messages: {
-			roleCode: {
-				required: "请选择角色",
-				maxlength: jQuery.format("角色不能大于{0}个字符")
-			}
 		}
 	});
 });

@@ -69,19 +69,6 @@ $(function() {
 			type: {
 				required: true,
 			}
-		},
-		messages: {
-			title: {
-				required: "请输入标题",
-				maxlength: jQuery.format("标题不能大于{0}个字符")
-			},
-			description: {
-				required: "请输入描述",
-				maxlength: jQuery.format("描述不能大于{0}个字符")
-			},
-			type: {
-				required: "请选择状态"
-			}
 		}
 	});
 	$("#sendFile").on("click", function(){

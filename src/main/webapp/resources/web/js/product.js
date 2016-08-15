@@ -135,7 +135,7 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/web/product/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
@@ -145,7 +145,7 @@ function queryTableData(){
 				name : $("#name").val(),
 				kind : $("#kind").val(),
 				status : $("#status").val(),
-				companyCode :$("#companyCode").val(),
+				companyCode :getCompanyId(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
 			};
@@ -200,7 +200,7 @@ function queryTableData(){
 			title : '所属公司',
 			align : 'left',
 			valign : 'middle',
-			sortable : false,
+			visible : false,
 			formatter : companyFormatter
 		}]
 	});

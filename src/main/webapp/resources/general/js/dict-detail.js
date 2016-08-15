@@ -52,19 +52,6 @@ $(function(){
 				maxlength: 64
 			}
 			
-		},
-		messages: {
-			pId: {
-			required: "请选择父编号",
-			},
-			key: {
-				required: "请输入字典键",
-				maxlength: jQuery.format("字典键不能大于{0}个字符")
-			},
-			value: {
-				required: "请输入字典值",
-				maxlength:jQuery.format("字典值不能大于{0}个字符")
-			}
 		}
 	});
 });

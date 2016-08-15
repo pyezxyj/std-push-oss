@@ -334,16 +334,13 @@ function getUserId() {
 }
 
 function getCompanyId() {
-	var companyCode ='';
-	if (getUserId() == '100001') { // admin
-		return '';
-	}
+	var companyCode ='0';
 	doGetAjaxIsAsync($("#basePath").val()+"/plat/company/list", {userid:getUserId()}, false, function(res) {
 		if (res.data.length > 0) {
 			companyCode = res.data[0].code;
 		}
 	});
-	return companyCode || '0';
+	return companyCode;
 }
 
 //下拉框

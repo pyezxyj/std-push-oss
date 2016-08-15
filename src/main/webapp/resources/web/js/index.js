@@ -33,7 +33,7 @@ $(function() {
 	
 	// 查询事件绑定
 	$('#searchBtn').click(function() {
-		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/web/partner/page"});
+		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/web/index/page"});
 	});
 });
 
@@ -67,14 +67,14 @@ function queryTableData(){
 	// 绑定列表
 	$('#tableList').bootstrapTable({
 		method : "get",
-		url : $("#basePath").val()+"/web/partner/page",
-		height : $(window).height() - 180,
+		url : $("#basePath").val()+"/web/index/page",
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
 		queryParams : function(params) {
 			return {
-				companyCode :$("#companyCode").val(),
+				companyCode :getCompanyId(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
 			};
@@ -98,26 +98,39 @@ function queryTableData(){
 			checkbox : true
 		}, {
 			field : 'banner1',
-			title : 'banner1'
+			title : 'banner1',
+			formatter: function(v) {
+				return v ? '<img width=100 src="'+v+'"/>' : '';
+			}
 		}, {
 			field : 'banner2',
-			title : 'banner2'
+			title : 'banner2',
+			formatter: function(v) {
+				return v ? '<img width=100 src="'+v+'"/>' : '';
+			}
 		}, {
 			field : 'banner3',
-			title : 'banner3'
+			title : 'banner3',
+			formatter: function(v) {
+				return v ? '<img width=100 src="'+v+'"/>' : '';
+			}
 		}, {
-			field : 'banner3',
-			title : '全尺寸图'
+			field : 'fullSizePic',
+			title : '全尺寸图',
+			formatter: function(v) {
+				return v ? '<img width=100 src="'+v+'"/>' : '';
+			}
 		}, {
 			field : 'url',
 			title : 'url'
 		}, {
-			field : 'text',
+			field : 'urlText',
 			title : 'text'
 		}, {
 			field : 'companyCode',
 			title : '所属公司',
-			formatter : companyFormatter
+			formatter : companyFormatter,
+			visible: false
 		}]
 	});
 }

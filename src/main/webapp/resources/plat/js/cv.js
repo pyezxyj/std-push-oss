@@ -18,7 +18,7 @@ $(function() {
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/plat/search/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,

@@ -3,6 +3,7 @@ var ue = UE.getEditor('description');
 $(function() {
 	var code = getQueryString('code');
 	initData();
+	$("#companyCode").val(getCompanyId());
     //	新增修改判断
 	if(isBlank(code)){
 		$("#operate").val("add");
@@ -57,27 +58,6 @@ $(function() {
 			},
 			companyCode: {
 				required: true,
-			}
-		},
-		messages: {
-			name: {
-				required: "请输入名称",
-				maxlength: jQuery.format("名称不能大于{0}个字符")
-			},
-			kind: {
-				required: "请选择类别",
-				maxlength: jQuery.format("类别不能大于{0}个字符")
-			},
-			status: {
-				required: "请选择产品状态",
-				maxlength: jQuery.format("产品状态不能大于{0}个字符")
-			},
-			description: {
-				required: "请输入简介",
-				maxlength: jQuery.format("简介不能大于{0}个字符")
-			},
-			companyCode: {
-				required: "请选择公司",
 			}
 		}
 	});
@@ -154,7 +134,7 @@ function doSuccessSaveBack(res){
 function doGetDetailBack(res){
 	if (res.success == true) {
 		if(res.data.length > 0){
-			$("#companyCode").val(res.data[0].companyCode);
+			
 			$("#name").val(res.data[0].name);
 			$("#kind").val(res.data[0].kind);
 			$("#status").val(res.data[0].status);

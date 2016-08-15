@@ -49,21 +49,6 @@ $(function() {
 				maxlength: 64
 			},
 			
-		},
-		messages: {
-			userCode: {
-				required: "请输入用户编号",
-				number: "用户编号请输入数字",
-				maxlength: jQuery.format("用户编号不能大于{0}个字符")
-			},
-			userName: {
-				required: "请输入用户名",
-				maxlength: jQuery.format("用户名不能大于{0}个字符"),
-				nochina: "请输入以字母打头的数字字母下划线组合"
-			},
-			remark: {
-				maxlength: jQuery.format("备注不能大于{0}个字符"),
-			}
 		}
 	});
 });

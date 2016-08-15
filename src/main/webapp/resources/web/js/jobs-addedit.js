@@ -5,6 +5,7 @@ var ueContent = UE.getEditor('content');
 $(function() {
 	var code = getQueryString('code');
 	initData();
+	$("#companyCode").val(getCompanyId());
     //	新增修改判断
 	if(isBlank(code)){
 		$("#operate").val("add");
@@ -70,39 +71,9 @@ $(function() {
 			content: {
 				required: true,
 				maxlength:255
-			}
-		},
-		messages: {
-			name: {
-				required: "请输入岗位名称",
-				maxlength: jQuery.format("岗位名称不能大于{0}个字符")
 			},
-			department: {
-				required: "请选择岗位部门",
-				maxlength: jQuery.format("岗位部门不能大于{0}个字符")
-			},
-			duty: {
-				required: "请输入岗位职责",
-				maxlength: jQuery.format("岗位职责不能大于{0}个字符")
-			},
-			claim: {
-				required: "请输入岗位要求",
-				maxlength: jQuery.format("岗位要求不能大于{0}个字符")
-			},
-			companyCode: {
-				required: "请选择公司",
-			},
-			description: {
-				required: "请输入岗位描述",
-				maxlength: jQuery.format("岗位描述要求不能大于{0}个字符")
-			},
-			area: {
-				required: "请输入招聘地区",
-				maxlength: jQuery.format("招聘地区要求不能大于{0}个字符")
-			},
-			content: {
-				required: "请输入简介",
-				maxlength: jQuery.format("简介要求不能大于{0}个字符")
+			status: {
+				required: true
 			}
 		}
 	});
@@ -119,7 +90,6 @@ function doGetDetailBack(res){
 	if (res.success == true) {
 		if(res.data.length > 0){
 			$("#name").val(res.data[0].name);
-			$("#companyCode").val(res.data[0].companyCode);
 			$("#status").val(res.data[0].status);
 			$("#department").val(res.data[0].department);
 			$("#area").val(res.data[0].area);

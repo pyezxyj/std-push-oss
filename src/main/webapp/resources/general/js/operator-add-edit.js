@@ -91,44 +91,6 @@ $(function(){
 				required: false,
 				maxlength: 255
 			}
-		},
-		messages: {
-			userId: {
-				required: "请输入用户编号",
-				maxlength: jQuery.format("用户编号不能大于{0}个字符")
-			},
-			companyId: {
-				required: "请输入公司编号",
-				maxlength: jQuery.format("公司编号不能大于{0}个字符")
-			},
-			mobile: {
-				required: "请输入手机号",
-				mobile: "手机号格式有误",
-				maxlength: jQuery.format("手机号不能大于{0}个字符")
-			},
-			idKind: {
-				required: "请选择证件类型"
-			},
-			idNo: {
-				required: "请输入证件号",
-				idCard: "证件号格式有误",
-				maxlength: jQuery.format("证件号不能大于{0}个字符")
-			},
-			realName: {
-				required: "请输入真实姓名",
-				maxlength: jQuery.format("真实姓名不能大于{0}个字符")
-			},
-			tradePwd: {
-				required: "请输入交易密码",
-				maxlength: jQuery.format("交易密码不能大于{0}个字符")
-			},
-			introduction: {
-				required: "请输入简介",
-				maxlength: jQuery.format("简介不能大于{0}个字符")
-			},
-			remark: {
-				maxlength: jQuery.format("备注不能大于{0}个字符")
-			}
 		}
 	});
 });

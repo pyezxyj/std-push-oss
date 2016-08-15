@@ -128,3 +128,7 @@ img.active {
 .tools li {
 	clear: none;
 }
+
+.edui-editor {
+	margin-bottom: 10px;
+}

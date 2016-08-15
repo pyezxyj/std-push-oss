@@ -31,18 +31,6 @@ $(function() {
 				maxlength: 12,
 				minlength: 6
 			}
-		},
-		messages: {
-			oldPwd: {
-				required: "请输入旧密码",
-				maxlength: jQuery.format("旧密码不能大于{0}个字符"),
-				minlength: jQuery.format("旧密码不能小于{0}个字符")
-			},
-			newPwd: {
-				required: "请输入新密码",
-				maxlength: jQuery.format("新密码不能大于{0}个字符"),
-				minlength: jQuery.format("新密码不能小于{0}个字符")
-			}
 		}
 	});
 });

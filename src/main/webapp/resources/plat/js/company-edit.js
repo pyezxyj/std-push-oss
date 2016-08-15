@@ -94,62 +94,6 @@ $(function() {
 				required: true,
 				maxlength: 255
 			}
-		},
-		messages: {
-			code: {
-				required: "请输入公司编码",
-				maxlength: jQuery.format("公司编码不能大于{0}个字符")
-			},
-			userid: {
-				required: "请选择",
-			},
-			name: {
-				required: "请输入公司名称",
-				maxlength: jQuery.format("公司名称不能大于{0}个字符")
-			},
-			slogan: {
-				required: "请输入广告语",
-				maxlength: jQuery.format("广告语不能大于{0}个字符")
-			},
-			corporation: {
-				required: "请输入公司法人",
-				maxlength: jQuery.format("公司法人不能大于{0}个字符")
-			},
-			telephone: {
-				required: "请输入公司座机",
-				maxlength: jQuery.format("公司座机不能大于{0}个字符")
-			},
-			fax: {
-				required: "请输入公司传真",
-				maxlength: jQuery.format("公司传真不能大于{0}个字符")
-			},
-			email: {
-				required: "请输入公司邮箱",
-				maxlength: jQuery.format("公司邮箱不能大于{0}个字符")
-			},
-			url: {
-				required: "请输入域名",
-				maxlength: jQuery.format("域名不能大于{0}个字符")
-			},
-			address: {
-				required: "请输入公司地址",
-				maxlength: jQuery.format("公司地址不能大于{0}个字符")
-			},
-			description: {
-				required: "请输入公司简介",
-			},
-			longitude: {
-				required: "请输入公司经度",
-				maxlength: jQuery.format("公司经度不能大于{0}个字符")
-			},
-			latitude: {
-				required: "请输入公司纬度",
-				maxlength: jQuery.format("公司纬度不能大于{0}个字符")
-			},
-			copyright: {
-				required: "请输入copyright",
-				maxlength: jQuery.format("copyright不能大于{0}个字符")
-			}
 		}
 	});
 });

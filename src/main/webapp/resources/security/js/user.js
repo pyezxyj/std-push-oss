@@ -67,7 +67,7 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/user/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,

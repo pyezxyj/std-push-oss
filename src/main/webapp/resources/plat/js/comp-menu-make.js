@@ -10,7 +10,7 @@ $(function() {
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/plat/menu/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
@@ -72,7 +72,8 @@ $(function() {
 		}, {
 			field : 'companyCode',
 			title : '所属公司',
-			formatter : companyFormatter
+			formatter : companyFormatter,
+			visible: false
 		}]
 	});
 	

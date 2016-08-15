@@ -109,7 +109,7 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/web/case/page",
-		height : $(window).height() - 180,
+		
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
@@ -117,7 +117,7 @@ function queryTableData(){
 			return {
 				code : $("#userCodeSearch").val(),
 				name : $("#userNameSearch").val(),
-				companyCode :$("#companyCode").val(),
+				companyCode :getCompanyId(),
 				status: $("#statue").val(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
@@ -166,7 +166,8 @@ function queryTableData(){
 			align : 'left',
 			valign : 'middle',
 			sortable : false,
-			formatter : companyFormatter
+			formatter : companyFormatter,
+			visible: false
 		}, {
 			field : 'status',
 			title : '状态',
