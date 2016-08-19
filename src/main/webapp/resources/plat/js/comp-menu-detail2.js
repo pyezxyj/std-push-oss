@@ -78,7 +78,7 @@ $(function() {
 			title : '标题',
 		},{
 			field : 'description',
-			title: '备注',
+			title: '内容',
 		},{
 			field : 'menuCode',
 			title: '菜单编号',

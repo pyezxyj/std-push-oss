@@ -41,8 +41,7 @@ $(function() {
 			},
 			userName: {
 				required: true,
-				maxlength: 32,
-				nochina:true
+				maxlength: 32
 			},
 			remark: {
 				required: false,

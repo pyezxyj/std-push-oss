@@ -48,7 +48,7 @@ public interface IMenuplatAO {
      * @create: 2016年7月15日 下午8:51:21 xieyj
      * @history:
      */
-    public Object editmenu(String code, String name, String parentCode, String orderNo,
+    public Object editmenu(String code, String name, String url, String parentCode, String orderNo,
             String templetCode, String contentType, String userId,
             String remark);
 
@@ -71,7 +71,7 @@ public interface IMenuplatAO {
      */
     public Object querymenuPage(String code, String name, String status,
             String templetCode, String parentCode, String contentType,
-            String companyCode, String start, String limit, String orderColumn,
+            String companyCode, String isCustomize, String start, String limit, String orderColumn,
             String orderDir);
 
     /**

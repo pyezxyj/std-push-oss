@@ -38,6 +38,7 @@ public class SearchController extends BaseController {
     		@RequestParam(value = "contact", required = false) String contact,
     		@RequestParam(value = "content1", required = false) String content1,
     		@RequestParam(value = "content2", required = false) String content2,
+    		@RequestParam(value = "organization", required = false) String organization,
     		@RequestParam(value = "organizationDesc", required = false) String organizationDesc,
     		@RequestParam(value = "remark", required = false) String remark,
     		@RequestParam(value = "personDesc", required = false) String personDesc,
@@ -53,7 +54,7 @@ public class SearchController extends BaseController {
             @RequestParam("limit") String limit,
             @RequestParam(value = "orderColumn", required = false) String orderColumn,
             @RequestParam(value = "orderDir", required = false) String orderDir) {
-        return searchAO.querySearchPage(person, contact, content1, content2, 
+        return searchAO.querySearchPage(person, contact, content1, content2, organization,
      		   organizationDesc, remark ,personDesc, dateStart, dateEnd, code, type, status,
         		creator, updater, companyCode, start, limit, orderColumn, orderDir);
     }

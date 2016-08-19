@@ -85,19 +85,19 @@ $(function() {
 			},
 			url: {
 				required: true,
-				maxlength: 64
+				maxlength: 60
 			},
 			slogan: {
 				required: true,
-				maxlength: 255
+				maxlength: 250
 			},
 			address: {
 				required: true,
-				maxlength: 255
+				maxlength: 250
 			},
 			description: {
 				required: true,
-				maxlength: 255
+				maxlength: 250
 			},
 			longitude: {
 				required: true,

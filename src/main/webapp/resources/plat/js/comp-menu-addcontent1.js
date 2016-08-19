@@ -40,13 +40,7 @@ $(function() {
 		data['menuCode'] = menuCode;
 		data["picture1"]=picture1Img;
 		data["picture2"]=picture2Img;
-		var value = $("#fileUrl").val();
-		if(value){
-			data['endNote'] = value;
-		}else{
-			data['endNote'] = $("#endNote1").val();
-		}
-		
+		data['endNote'] = $("#endNote1").val();
 		var url = $("#basePath").val() + "/plat/content/" +(code ? 'edit' : 'add');
 		doPostAjax(url, data, doSuccessBack);
 	});
@@ -84,7 +78,6 @@ function doGetDetailBack(res){
 			$("#title").val(res.data[0].title);
 			$("#type").val(res.data[0].type);
 			$("#endNote1").val(res.data[0].endNote);
-			$("#fileUrl").val(res.data[0].endNote);
 			picture1Img = res.data[0].picture1;
 			$('#picture1Img').attr('src', picture1Img);
 			picture2Img = res.data[0].picture2;
@@ -114,7 +107,7 @@ function ajaxFileUpload(postUrl,fileId,uploadControlId) {
                 if (typeof (data.status) != 'undefined') {
                     if (data.status == "1") {
                     	alert('上传成功');
-                    	$("#fileUrl, #endNote1").val(data.url);
+                    	$("#endNote1").val(data.url);
                     	if(!isBlank(uploadControlId)){
                     		$("#"+uploadControlId).text(data.url.substring(data.url.lastIndexOf('/')+1));
             		    	$("#"+uploadControlId).attr('href',data.url); 

@@ -42,26 +42,33 @@ $(function() {
 		rules: {
 			title: {
 				required: true,
-				maxlength: 64
+				maxlength: 30
 			},
 			type: {
-				required: true,
-				maxlength: 64
+				required: true
 			},
 			author: {
 				required: true,
-				maxlength: 64
+				maxlength: 30
 			},
 			jumpUrl: {
 				required: true,
 				maxlength: 64
 			},
+			showUrl: {
+				maxlength: 64
+			},
 			content: {
-				required: true,
-				maxlength: 255
+				required: true
 			},
 			companyCode: {
 				required: true,
+			},
+			remark: {
+				maxlength: 250
+			},
+			keyword: {
+				maxlength: 60
 			}
 		}
 	});

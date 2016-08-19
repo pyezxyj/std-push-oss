@@ -19,6 +19,13 @@ $(function(){
 		var url = $("#basePath").val()+"/user/login";
 		doPostAjax(url, data, doSuccessLoginBack);
 	});
+	
+	// enter
+	$(document).on('keyup', function(e) {
+		if (e.keyCode == 13) {
+			$('#loginBtn').click();
+		}
+	});
 });
 
 function doSuccessLoginBack(res){

@@ -26,7 +26,7 @@ $(function() {
 			return false;
 		}
 		if (!$('#logoImg').attr('src') || !$('#pictureImg').attr('src')) {
-			alert('请上传图片');
+			alert('请上传图片或logo');
 			return;
 		}
 		//2、组装数据
@@ -59,8 +59,7 @@ $(function() {
 				maxlength: 64
 			},
 			description: {
-				required: true,
-				maxlength: 255
+				required: true
 			},
 			status: {
 				required: true

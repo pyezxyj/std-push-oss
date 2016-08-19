@@ -1,11 +1,4 @@
 $(function() {
-	var companyCode = '';
-	var url = $("#basePath").val() + "/plat/company/detailuserid";
-	   doGetAjaxIsAsync(url, {
-		   userid: getUserId()
-	   }, false, function(res) {
-		   companyCode = res.data.code;
-	   });
 	
 	//按钮权限判断
 	showPermissionControl();
@@ -22,7 +15,7 @@ $(function() {
 	
 	// 查询事件绑定
 	$('#searchBtn').click(function() {
-		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/plat/search/list"});
+		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/plat/search/page"});
 	});
 	
 	$('#tableList').bootstrapTable({
@@ -35,7 +28,13 @@ $(function() {
 		queryParams : function(params) {
 			return {
 				type: 3,
-				companyCode: companyCode,
+				companyCode: getCompanyId(),
+				person : $("#person").val(),
+				personDesc: $("#personDesc").val(),
+				contact : $("#contact").val(),
+				content1 : $("#content1").val(),
+				content2 : $("#content2").val(),
+				remark : $("#remark").val(),
 				dateStart :$("#dateStart").val(),
 				dateEnd :$("#dateEnd").val(),
 				start : params.offset / params.limit + 1,
@@ -45,13 +44,6 @@ $(function() {
 		queryParamsType : 'limit',
 		responseHandler : function(res) {
 			return {
-				type: 3,
-				person : $("#person").val(),
-				personDesc: $("#personDesc").val(),
-				contact : $("#contact").val(),
-				content1 : $("#content1").val(),
-				content2 : $("#content2").val(),
-				remark : $("#remark").val(),
 				rows : res.data.list,
 				total : res.data.totalCount
 			};
@@ -105,7 +97,7 @@ $(function() {
 			sortable : false
 		}, {
 			field : 'createDatatime',
-			title : '创建时间',
+			title : '提交时间',
 			align : 'left',
 			valign : 'middle',
 			sortable : false,

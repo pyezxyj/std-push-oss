@@ -45,19 +45,18 @@ $(function() {
 		rules: {
 			name: {
 				required: true,
-				maxlength: 64
+				maxlength: 60
 			},
 			position: {
 				required: true,
-				maxlength: 128
+				maxlength: 60
 			},
 			picture: {
 				required: false,
-				maxlength: 64
+				maxlength: 60
 			},
 			description: {
-				required: true,
-				maxlength: 255
+				required: true
 			},
 			remark: {
 				required: true,

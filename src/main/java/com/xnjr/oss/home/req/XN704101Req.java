@@ -11,6 +11,8 @@ public class XN704101Req {
 	
 	private String content2;
 	
+	private String organization;
+	
 	private String organizationDesc;
 	
 	private String remark;
@@ -197,6 +199,14 @@ public class XN704101Req {
 
 	public void setDateEnd(String dateEnd) {
 		this.dateEnd = dateEnd;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
 	}
     
 

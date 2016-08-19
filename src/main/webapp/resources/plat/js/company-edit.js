@@ -44,7 +44,7 @@ $(function() {
 			},
 			name: {
 				required: true,
-				maxlength: 60
+				maxlength: 30
 			},
 			corporation: {
 				required: true,
@@ -59,7 +59,8 @@ $(function() {
 				maxlength: 15
 			},
 			slogan: {
-				maxlength: 255
+				required: true,
+				maxlength: 250
 			},
 			email: {
 				required: true,
@@ -67,7 +68,7 @@ $(function() {
 			},
 			corporation: {
 				required: true,
-				maxlength: 60
+				maxlength: 15
 			},
 			address: {
 				required: true,
@@ -75,6 +76,7 @@ $(function() {
 			},
 			description: {
 				required: true,
+				maxlength: 250
 			},
 			longitude: {
 				required: true,
@@ -88,7 +90,7 @@ $(function() {
 			},
 			url: {
 				required: true,
-				maxlength: 255
+				maxlength: 60
 			},
 			copyright: {
 				required: true,

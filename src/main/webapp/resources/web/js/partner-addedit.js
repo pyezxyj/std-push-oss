@@ -50,8 +50,7 @@ $(function() {
 				maxlength: 64
 			},
 			description: {
-				required: true,
-				maxlength: 255
+				required: true
 			},
 			url: {
 				required: true,

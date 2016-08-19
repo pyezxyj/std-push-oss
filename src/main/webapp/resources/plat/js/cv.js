@@ -1,12 +1,4 @@
 $(function() {
-	
-	var companyCode = '';
-	var url = $("#basePath").val() + "/plat/company/detailuserid";
-	   doGetAjaxIsAsync(url, {
-		   userid: getUserId()
-	   }, false, function(res) {
-		   companyCode = res.data.code;
-	   });
 		
 	//按钮权限判断
 	showPermissionControl();
@@ -25,7 +17,7 @@ $(function() {
 		queryParams : function(params) {
 			return {
 				type: 4,
-				companyCode: companyCode,
+				companyCode: getCompanyId(),
 				content1 : $("#content1").val(),
 				dateStart :$("#dateStart").val(),
 				dateEnd :$("#dateEnd").val(),
@@ -74,7 +66,7 @@ $(function() {
 			
 		}, {
 			field : 'createDatatime',
-			title : '创建时间',
+			title : '提交时间',
 			align : 'left',
 			valign : 'middle',
 			sortable : false,

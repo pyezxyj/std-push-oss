@@ -36,6 +36,8 @@ public class XN704048Req extends APageReq {
 
     // 备注
     private String remark;
+    
+    private String isCustomize;
 
     public String getCode() {
         return code;
@@ -116,5 +118,13 @@ public class XN704048Req extends APageReq {
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
     }
+
+	public String getIsCustomize() {
+		return isCustomize;
+	}
+
+	public void setIsCustomize(String isCustomize) {
+		this.isCustomize = isCustomize;
+	}
 
 }

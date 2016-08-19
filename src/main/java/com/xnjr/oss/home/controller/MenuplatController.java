@@ -44,12 +44,13 @@ public class MenuplatController extends BaseController {
     @ResponseBody
     public Object editMenu(@RequestParam("code") String code,
             @RequestParam("name") String name,
+            @RequestParam(value = "url", required = false) String url,
             @RequestParam("parentCode") String parentCode,
             @RequestParam("orderNo") String orderNo,
             @RequestParam("templetCode") String templetCode,
             @RequestParam("contentType") String contentType,
             @RequestParam(value = "remark", required = false) String remark) {
-        return menuplatAO.editmenu(code, name, parentCode, orderNo, templetCode,
+        return menuplatAO.editmenu(code, name, url, parentCode, orderNo, templetCode,
             contentType, this.getSessionUser().getUserCode(), remark);
     }
 
@@ -76,12 +77,13 @@ public class MenuplatController extends BaseController {
             @RequestParam(value = "parentCode", required = false) String parentCode,
             @RequestParam(value = "contentType", required = false) String contentType,
             @RequestParam(value = "companyCode", required = false) String companyCode,
+            @RequestParam(value = "isCustomize", required = false) String isCustomize,
             @RequestParam("start") String start,
             @RequestParam("limit") String limit,
             @RequestParam(value = "orderColumn", required = false) String orderColumn,
             @RequestParam(value = "orderDir", required = false) String orderDir) {
         return menuplatAO.querymenuPage(code, name, status, templetCode,
-            parentCode, contentType, companyCode, start, limit, orderColumn,
+            parentCode, contentType, companyCode, isCustomize, start, limit, orderColumn,
             orderDir);
     }
 

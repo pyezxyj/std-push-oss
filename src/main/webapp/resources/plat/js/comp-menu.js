@@ -19,6 +19,7 @@ $(function() {
 				name:$("#name").val(),
 				parentCode:$("#parentCode").val(),
 				companyCode:companyCode,
+				isCustomize: 0,
 				start : params.offset / params.limit + 1,
 				limit : params.limit
 			};
@@ -89,10 +90,10 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-		else if(selRecords[0].code == "Menu2016072030990400" || selRecords[0].code == "Menu2016072050826150"){
-			alert("该菜单为定制页面不可修改！");
-			return;
-		}
+//		else if(selRecords[0].code == "Menu2016072030990400" || selRecords[0].code == "Menu2016072050826150"){
+//			alert("该菜单为定制页面不可修改！");
+//			return;
+//		}
 		else
 			window.location.href = $("#basePath").val()+"/plat/comp_menu_addedit.htm?code="+selRecords[0].code;
 	});
@@ -104,10 +105,10 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-		else if(selRecords[0].code == "Menu2016072030990400" || selRecords[0].code == "Menu2016072050826150"){
-			alert("该菜单为定制页面不可插入内容！");
-			return;
-		}
+//		else if(selRecords[0].code == "Menu2016072030990400" || selRecords[0].code == "Menu2016072050826150"){
+//			alert("该菜单为定制页面不可插入内容！");
+//			return;
+//		}
 		else
 			window.location.href = $("#basePath").val()+"/plat/comp_menu_addcontent.htm?code="+selRecords[0].code;
 	});

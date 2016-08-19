@@ -47,7 +47,7 @@ $(function() {
 			},
 			department: {
 				required: true,
-				maxlength: 64
+				maxlength: 15
 			},
 			duty: {
 				required: true,
@@ -66,7 +66,7 @@ $(function() {
 			},
 			area: {
 				required: true,
-				maxlength:64
+				maxlength:15
 			},
 			content: {
 				required: true,

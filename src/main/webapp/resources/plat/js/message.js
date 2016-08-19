@@ -26,7 +26,7 @@ $(function() {
 		queryParams : function(params) {
 			return {
 				type : 1,
-				companyCode: companyCode,
+				companyCode: getCompanyId(),
 				person :$("#person").val(),
 				dateStart :$("#dateStart").val(),
 				dateEnd :$("#dateEnd").val(),
@@ -67,7 +67,7 @@ $(function() {
 			sortable : false
 		}, {
 			field : 'createDatatime',
-			title : '创建时间',
+			title : '提交时间',
 			align : 'left',
 			valign : 'middle',
 			sortable : false,

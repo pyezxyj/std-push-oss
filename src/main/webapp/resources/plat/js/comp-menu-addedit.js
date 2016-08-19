@@ -72,6 +72,7 @@ function doGetDetailBack(res){
 		if(res.data.length > 0){
 			templetCode = res.data[0].templetCode;
 			contentType = res.data[0].contentType;
+			$('#url').val(res.data[0].url);
 			$("#name").val(res.data[0].name);
 			$("#parentCode").val(res.data[0].parentCode);
 			$("#orderNo").val(res.data[0].orderNo);

@@ -47,12 +47,13 @@ public class MenuplatAOImpl implements IMenuplatAO {
     }
 
     @Override
-    public Object editmenu(String code, String name, String parentCode, String orderNo,
+    public Object editmenu(String code, String name, String url, String parentCode, String orderNo,
             String templetCode, String contentType, String userId,
             String remark) {
         XN704047Req req = new XN704047Req();
         req.setCode(code);
         req.setName(name);
+        req.setUrl(url);
         req.setParentCode(parentCode);
         req.setOrderNo(orderNo);
         req.setTempletCode(templetCode);
@@ -65,7 +66,7 @@ public class MenuplatAOImpl implements IMenuplatAO {
     @Override
     public Object querymenuPage(String code, String name, String status,
             String templetCode, String parentCode, String contentType,
-            String companyCode, String start, String limit, String orderColumn,
+            String companyCode, String isCustomize, String start, String limit, String orderColumn,
             String orderDir) {
         XN704048Req req = new XN704048Req();
         req.setCode(code);
@@ -75,6 +76,7 @@ public class MenuplatAOImpl implements IMenuplatAO {
         req.setParentCode(parentCode);
         req.setContentType(contentType);
         req.setCompanyCode(companyCode);
+        req.setIsCustomize(isCustomize);
         req.setStart(start);
         req.setLimit(limit);
         req.setOrderColumn(orderColumn);
