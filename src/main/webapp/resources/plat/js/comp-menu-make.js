@@ -176,7 +176,9 @@ function initData(){
     doGetAjaxIsAsync(url, null, false, doSuccessBackCode);
     // 公司列表
     var url = $("#basePath").val() + "/plat/company/list";
-    doGetAjaxIsAsync(url, null, false, doSuccessBackCompany);
+    doGetAjaxIsAsync(url, {
+    	companyCode: getCompanyId()
+    }, false, doSuccessBackCompany);
 }
 
 //类型转化

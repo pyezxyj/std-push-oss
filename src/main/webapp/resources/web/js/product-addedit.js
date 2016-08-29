@@ -53,8 +53,7 @@ $(function() {
 				maxlength: 1
 			},
 			description: {
-				required: true,
-				maxlength: 255
+				required: true
 			},
 			companyCode: {
 				required: true,

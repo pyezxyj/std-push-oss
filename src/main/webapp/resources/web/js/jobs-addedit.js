@@ -61,16 +61,14 @@ $(function() {
 				required: true,
 			},
 			description: {
-				required: true,
-				maxlength:255
+				required: true
 			},
 			area: {
 				required: true,
 				maxlength:15
 			},
 			content: {
-				required: true,
-				maxlength:255
+				required: true
 			},
 			status: {
 				required: true

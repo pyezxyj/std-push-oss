@@ -174,7 +174,9 @@ function doSuccessDelBack(res) {
 function initData(){
 	// 列表
     var url = $("#basePath").val() + "/plat/menu/list";
-    doGetAjaxIsAsync(url, null, false, doSuccessBackCode);
+    doGetAjaxIsAsync(url, {
+    	companyCode: getCompanyId()
+    }, false, doSuccessBackCode);
 }
 
 //类型转化

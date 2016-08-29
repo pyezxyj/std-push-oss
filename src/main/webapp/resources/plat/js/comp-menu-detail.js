@@ -93,7 +93,10 @@ $(function() {
 			field : 'endNote',
 			title: '尾注',
 			formatter : 
-				function(value, row, index){          
+				function(value, row, index){       
+				if (!value) {
+					return '';
+				}
 				var filename=value.substr(value.lastIndexOf('/')+1);  
 				var str = '<a target="_blank" href="'+value+'" >' + filename +'</a>';
 				return str;

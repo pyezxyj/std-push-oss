@@ -1,5 +1,6 @@
 var templetCode = null;
 var contentType = null;
+var parentCode = '';
 
 $(function() {
 	
@@ -9,7 +10,9 @@ $(function() {
 	}
 	
 	var url = $("#basePath").val() + "/plat/menu/list";
-    doGetAjaxIsAsync(url, null, false, doSuccessBackCode);
+    doGetAjaxIsAsync(url, {
+    	companyCode: getCompanyId()
+    }, false, doSuccessBackCode);
 	
 	
 	
@@ -41,6 +44,7 @@ $(function() {
 		});
 		data['templetCode'] = templetCode;
 		data['contentType'] = contentType;
+		data['parentCode'] = $('#parentCode').val() || parentCode;
 		var url = $("#basePath").val() + "/plat/menu/"+$("#operate").val();
 		doPostAjax(url, data, doSuccessBack);
 	});
@@ -75,6 +79,7 @@ function doGetDetailBack(res){
 			$('#url').val(res.data[0].url);
 			$("#name").val(res.data[0].name);
 			$("#parentCode").val(res.data[0].parentCode);
+			parentCode = res.data[0].parentCode;
 			$("#orderNo").val(res.data[0].orderNo);
 			if (res.data[0].templetCode == '001') {
 				$('#content-type-2').addClass('active');
