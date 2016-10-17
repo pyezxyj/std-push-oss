@@ -152,7 +152,7 @@ $.extend($.fn, {
 
 		var data = $.validator.normalizeRules(
 		$.extend(
-			{isNotFace: false},
+			{isNotFace: true},
 			$.validator.classRules(element),
 			$.validator.attributeRules(element),
 			$.validator.dataRules(element),
@@ -260,13 +260,23 @@ $.extend($.validator, {
 		highlight: function( element, errorClass, validClass ) {
 			if ( element.type === "radio" ) {
 				this.findByName(element.name).addClass(errorClass).removeClass(validClass);
-			} else {
+			} else if (element.type === "file") {
+				$(element).parent('.btn-file').addClass(errorClass).removeClass(validClass);
+			} else if (element.type === "select-one") {
+				$('#' + element.id + '_chosen').addClass(errorClass).removeClass(validClass);
+				$(element).addClass(errorClass).removeClass(validClass);
+			}else {
 				$(element).addClass(errorClass).removeClass(validClass);
 			}
 		},
 		unhighlight: function( element, errorClass, validClass ) {
 			if ( element.type === "radio" ) {
 				this.findByName(element.name).removeClass(errorClass).addClass(validClass);
+			} else if (element.type === "file") {
+				$(element).parent('.btn-file').removeClass(errorClass).addClass(validClass);
+			} else if (element.type === "select-one") {
+				$('#' + element.id + '_chosen').removeClass(errorClass).addClass(validClass);
+				$(element).addClass(errorClass).addClass(validClass);
 			} else {
 				$(element).removeClass(errorClass).addClass(validClass);
 			}
@@ -482,6 +492,10 @@ $.extend($.validator, {
 				if ( !this.name && validator.settings.debug && window.console ) {
 					console.error( "%o has no name assigned", this);
 				}
+				
+				if ($(this).attr('maxLength') || $(this).attr('required')) {
+					return true;
+				}
 
 				// select only the first element for each name, and only those with rules specified
 				if ( this.name in rulesCache || !validator.objectLength($(this).rules()) ) {
@@ -542,6 +556,10 @@ $.extend($.validator, {
 			var dependencyMismatch = false;
 			var val = this.elementValue(element);
 			var result;
+			
+			if (element.nodeName != 'TEXTAREA' && element.style.display == 'none') {
+				return true;
+			}
 
 			for (var method in rules ) {
 				var rule = { method: method, parameters: rules[method] };
@@ -1003,6 +1021,9 @@ $.extend($.validator, {
 			if ( element.nodeName.toLowerCase() === "select" ) {
 				// could be an array for select-multiple or a string, both are fine this way
 				var val = $(element).val();
+				return val && val.length > 0;
+			} else if (element.type === 'file' && element.id.indexOf('Img') > -1) {
+				var val = $('#' + element.id.replace('Img', '')).attr('src');
 				return val && val.length > 0;
 			}
 			if ( this.checkable(element) ) {

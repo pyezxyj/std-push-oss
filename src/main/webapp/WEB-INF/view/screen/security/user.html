@@ -1,3 +1,4 @@
+<#include 'layout/config.html' />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -13,7 +14,7 @@
 	<div class="place">
 	    <span>位置：</span>
 	    <ul>
-		    <li>权限管理</li>
+	    	<li>权限管理</li>
 		    <li>用户管理</li>
 	    </ul>
     </div>
@@ -21,15 +22,9 @@
          <!-- 搜索表单 -->
     	 <form class="search-form">
         	<ul>
-	            <li><label>用户编号</label><input type="text" id="userCodeSearch"/></li>
-	            <li><label>用户名</label><input type="text" id="userNameSearch"/></li>
-	            <!-- <li><label>状态</label>
-	            	<select id="statusSearch">
-	            		<option value ="" selected="selected">请选择</option>
-		            	<option value ="1">正常</option>
-		            	<option value ="2">注销</option>
-	            	</select>
-	            </li> -->
+        		<li><label>用户名</label><input type="text" id="loginName"/></li>
+	            <li><label>角色</label><select id="roleCode"></select></li>
+	            <li style="display: none;"><label>更新人</label><input type="text" id="updater"/></li>
 	            <li>
 	                <input id="searchBtn" type="button" class="btn" value="查询" />
 	                <input type="reset" class="btn" value="重置" />
@@ -40,9 +35,9 @@
     	<div class="tools">
 	       <ul class="toolbar">
 		       <li id="addBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>新增</li>
-		       <li id="editBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>修改</li>
-		       <li id="resetBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>重置密码</li>
-		       <li id="dropBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>删除</li>
+		       <li id="editBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>修改手机号</li>
+		       <li id="lockBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>锁定</li>
+		       <li id="unlockBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>解锁</li>
 		       <li id="changeRoleBtn"><span><img src="${resourceUrl}/resources/common/images/t01.png"/></span>设置角色</li>
 	       </ul>
 	    </div>
@@ -50,5 +45,4 @@
 	    <table id="tableList"></table>
     </div>
 </body>
-
 </html>

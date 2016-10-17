@@ -3,7 +3,7 @@ package com.baidu.ueditor.upload;
 import com.baidu.ueditor.define.AppInfo;
 import com.baidu.ueditor.define.BaseState;
 import com.baidu.ueditor.define.State;
-import com.xnjr.oss.util.UploadUtil;
+import com.xnjr.app.util.UploadUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

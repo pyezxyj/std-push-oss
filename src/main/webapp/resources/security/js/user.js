@@ -2,6 +2,104 @@ $(function() {
 	//按钮权限判断
 	showPermissionControl();
 	
+	var roleList = [];
+	
+	$('#status').renderDropdown(Dict.getName('user_status'));
+	
+	doGetAjaxIsAsync($("#basePath").val()+"/role/list", {}, false, function(res) {
+		roleList = res.data;
+		$('#roleCode').renderDropdown(res.data, 'code', 'name');
+	});
+	
+	function renderRole(value) {
+		var renderName = '-';
+		roleList.forEach(function(role) {
+			if (role.code == value) {
+				renderName = role.name;
+			}
+		});
+		return renderName;
+	}
+	// 列表查询
+	function queryTableData(){
+		var columns = [{
+			field : '',
+			title : '',
+			align : 'left',
+			valign : 'middle',
+			checkbox : true
+		}, {
+			field : 'loginName',
+			title : '用户名',
+			align : 'left',
+			valign : 'middle',
+			sortable : false
+		},  {
+			field : 'status',
+			title : '状态',
+			align : 'left',
+			valign : 'middle',
+			sortable : false,
+			formatter : Dict.getNameForList('user_status')
+		}, {
+			field : 'roleCode',
+			title : '角色',
+			align : 'left',
+			valign : 'middle',
+			sortable : false,
+			formatter: renderRole
+		}, {
+			field : 'remark',
+			title : '备注',
+			align : 'left',
+			valign : 'middle',
+			sortable : false
+		}];
+		
+		// 绑定列表
+		$('#tableList').bootstrapTable({
+			method : "get",
+			url : $("#basePath").val()+"/user/page",
+			 
+			striped : true,
+			clickToSelect : true,
+			singleSelect : true,
+			queryParams : function(params) {
+				return {
+					roleCode : $("#roleCode").val(),
+					loginName : $("#loginName").val(),
+					userReferee : $("#userReferee").val(),
+					status : $("#status").val(),
+					updater : $("#updater").val(),
+					start : params.offset / params.limit + 1,
+					limit : params.limit
+				};
+			},
+			queryParamsType : 'limit',
+			responseHandler : function(res) {
+				return {
+					rows : res.data.list,
+					total : res.data.totalCount
+				};
+			},
+			pagination : true,
+			sidePagination : 'server', // 服务端请求
+			totalRows : 0,
+			pageNumber : 1,
+			pageSize : 10,
+			pageList : [ 10, 20, 30, 40, 50 ],
+			columns : columns
+		});
+	}
+
+	function doSuccessDelBack(res) {
+		if (res.success == true) {
+			alert("操作成功");
+			$('#tableList').bootstrapTable('refresh');
+		}else{
+			alert(res.msg);
+		}
+	}
 	// 表格初始化
 	queryTableData();
 	
@@ -15,156 +113,76 @@ $(function() {
 		location.href = $("#basePath").val()+"/security/user_detail.htm";
 	});
 	
-	//编辑用户
+	$('#resetPwdBtn').click(function() {
+		var selRecords = $('#tableList').bootstrapTable('getSelections')
+		if(selRecords.length <= 0){
+			alert("请选择记录");
+			return;
+		}
+		location.href = $("#basePath").val()+"/security/user_pwd_reset.htm?userId=" + selRecords[0].userId + '&loginName=' + selRecords[0].loginName;
+	});
+	
+	//代注册
+	$('#replaceAddBtn').click(function() {
+		location.href = $("#basePath").val()+"/security/user_replaceadd.htm";
+	});
+	
+	//编辑用户手机
 	$('#editBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections')
 		if(selRecords.length <= 0){
 			alert("请选择记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+"/security/user_detail.htm?userCode="+selRecords[0].userCode;
+		window.location.href = $("#basePath").val()+"/security/change_mobile.htm?userId="+selRecords[0].userId;
 	});
 	
-	//重置密码
-	$('#resetBtn').click(function() {
+	//锁定
+	$('#cancelBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections')
 		if(selRecords.length <= 0){
 			alert("请选择记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+"/security/user_pwd_reset.htm?userCode="+selRecords[0].userCode+"&userName="+encodeURI(encodeURI(selRecords[0].userName));
-	});
-	
-	//删除
-	$('#dropBtn').click(function() {
-		var selRecords = $('#tableList').bootstrapTable('getSelections')
-		if(selRecords.length <= 0){
-			alert("请选择记录");
+		if(selRecords[0].status != 0){
+			alert("请选择正常记录");
 			return;
 		}
-		if(!confirm("确认删除用户["+selRecords[0].userCode+":"+selRecords[0].userName+"]?")){
+		if(!confirm("确认锁定用户["+selRecords[0].loginName+"]?")){
     		return false;
     	}
-		var data = {"userCode":selRecords[0].userCode};
+		var data = {"userId":selRecords[0].userId};
 		var url = $("#basePath").val()+"/user/drop";
 		doPostAjax(url, data, doSuccessDelBack);
 	});
 	
-	//更改角色
-	$('#changeRoleBtn').click(function() {
+	//解锁
+	$('#unlockBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections')
 		if(selRecords.length <= 0){
 			alert("请选择记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+"/security/user_role.htm?userCode="+selRecords[0].userCode+"&userName="+encodeURI(encodeURI(selRecords[0].userName));
+		if(selRecords[0].status != 1 && selRecords[0].status != 2){
+			alert("请选择锁定记录");
+			return;
+		}
+		if(!confirm("确认解锁用户["+selRecords[0].loginName+"]?")){
+    		return false;
+    	}
+		var data = {"userId":selRecords[0].userId};
+		var url = $("#basePath").val()+"/user/active";
+		doPostAjax(url, data, doSuccessDelBack);
+	});
+	
+	//更改角色
+	$('#setRoleBtn').click(function() {
+		var selRecords = $('#tableList').bootstrapTable('getSelections')
+		if(selRecords.length <= 0){
+			alert("请选择记录");
+			return;
+		}
+		window.location.href = $("#basePath").val()+"/security/user_role.htm?userId="+selRecords[0].userId+"&loginName="+encodeURI(encodeURI(selRecords[0].loginName))+"&kind="+selRecords[0].kind;
 	});
 });
 
-// 列表查询
-function queryTableData(){
-	// 绑定列表
-	$('#tableList').bootstrapTable({
-		method : "get",
-		url : $("#basePath").val()+"/user/page",
-		
-		striped : true,
-		clickToSelect : true,
-		singleSelect : true,
-		queryParams : function(params) {
-			return {
-				userCode : $("#userCodeSearch").val(),
-				userName : $("#userNameSearch").val(),
-				start : params.offset / params.limit + 1,
-				limit : params.limit
-			};
-		},
-		queryParamsType : 'limit',
-		responseHandler : function(res) {
-			return {
-				rows : res.data.list,
-				total : res.data.totalCount
-			};
-		},
-		pagination : true,
-		sidePagination : 'server', // 服务端请求
-		totalRows : 0,
-		pageNumber : 1,
-		pageSize : 10,
-		pageList : [ 10, 20, 30, 40, 50 ],
-		columns : [{
-			field : '',
-			title : '',
-			align : 'left',
-			valign : 'middle',
-			checkbox : true
-		}, {
-			field : 'userCode',
-			title : '用户编号',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'userName',
-			title : '用户名',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'status',
-			title : '状态',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter : statusFormatter
-		}, {
-			field : 'createDatetime',
-			title : '创建时间',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter : dateFormatter
-		}, {
-			field : 'creator',
-			title : '创建人',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'updateDatetime',
-			title : '更新时间',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter : dateFormatter
-		}, {
-			field : 'updater',
-			title : '更新人',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}]
-	});
-}
-
-function statusFormatter(value, row) {
-	var statusData =[{"key":"1","value":"正常"},{"key":"2","value":"锁定"}];
-	for(var i = 0;i < statusData.length;i++){
-		if(statusData[i].key == value){
-			return statusData[i].value;
-		}
-	}
-}
-
-function dateFormatter(value, row){
-	return dateFormat(value,'yyyy-MM-dd HH:mm:ss');
-}
-
-function doSuccessDelBack(res) {
-	if (res.success == true) {
-		alert("删除成功");
-		$('#tableList').bootstrapTable('refresh');
-	}else{
-		alert("删除失败");
-	}
-}

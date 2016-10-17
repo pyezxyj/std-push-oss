@@ -27,7 +27,7 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+"/security/role_detail.htm?roleCode="+selRecords[0].roleCode;
+		window.location.href = $("#basePath").val()+"/security/role_detail.htm?code="+selRecords[0].code;
 	});
 	
 	//删除
@@ -37,11 +37,11 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-		if(!confirm("确认删除角色["+selRecords[0].roleName+":"+selRecords[0].roleCode+"]?")){
+		if(!confirm("确认删除角色["+selRecords[0].name+"]?")){
     		return false;
     	}
     	var url = $("#basePath").val()+"/role/drop";
-    	var data = {roleCode:selRecords[0].roleCode};
+    	var data = {code:selRecords[0].code};
     	doPostAjax(url, data, doSucBackDrop);
 	});
 	
@@ -52,15 +52,14 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-      	window.location.href = $("#basePath").val()+"/security/role_menu.htm?roleCode="+selRecords[0].roleCode+"&roleName="+encodeURI(encodeURI(selRecords[0].roleName));
+      	window.location.href = $("#basePath").val()+"/security/role_menu.htm?code="+selRecords[0].code+"&name="+encodeURI(encodeURI(selRecords[0].name));
 	});
 });
 
 //数据字典初始化
 function initData(){
 	//获取数据字典
-	var data = {"key":"role_level"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data, false, doSucBackLevel);
+	$('#level').renderDropdown(Dict.getName('role_level'));
 }
 
 // 下拉框初始化数据
@@ -70,31 +69,70 @@ function doSucBackLevel(res){
 	var html = "<option value=''>请选择</option>";
 	if(typeof(data) != "undefined"){//判断undifined
 		for(var i = 0;i < data.length;i++){
-			if(data[i].key == $("#roleLevelSearch").val()){
+			if(data[i].key == $("#level").val()){
 				html += "<option selected='selected' value='"+data[i].value+"'>"+data[i].remark+"</option>";
 			}else{
 				html += "<option value='"+data[i].value+"'>"+data[i].remark+"</option>";
 			}
 		}
 	}
-	$("#roleLevelSearch").html(html);
+	$("#level").html(html);
 }
 
 //表格初始化
 function queryTableData(){
+	var columns = [{
+		field : '',
+		title : '',
+		align : 'left',
+		valign : 'middle',
+		checkbox : true
+	}, {
+		field : 'name',
+		title : '角色名称',
+		align : 'left',
+		valign : 'middle',
+		sortable : false
+	}, {
+		field : 'level',
+		title : '角色等级',
+		align : 'left',
+		valign : 'middle',
+		sortable : false,
+		formatter : Dict.getNameForList('role_level')
+	}, {
+		field : 'updater',
+		title : '更新人',
+		align : 'left',
+		valign : 'middle',
+		sortable : false
+	}, {
+		field : 'updateDatetime',
+		title : '更新时间',
+		align : 'left',
+		valign : 'middle',
+		sortable : false,
+		formatter : dateFormatter
+	}, {
+		field : 'remark',
+		title : '备注',
+		align : 'left',
+		valign : 'middle',
+		sortable : false
+	}];
+	
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/role/page",
-		
+		 
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
 		queryParams : function(params) {
 			return {
-				roleCode : $("#roleCodeSearch").val(),
-				roleLevel : $("#roleLevelSearch").val(),
-				createDatetimeStart : $("#createDatetimeStartSearch").val(),
-				createDatetimeEnd : $("#createDatetimeEndSearch").val(),
+				name : $("#name").val(),
+				level : $("#level").val(),
+				updater : $("#updater").val(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
 			};
@@ -112,63 +150,10 @@ function queryTableData(){
 		pageNumber : 1,
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		columns : [{
-			field : '',
-			title : '',
-			align : 'left',
-			valign : 'middle',
-			checkbox : true
-		}, {
-			field : 'roleCode',
-			title : '角色编号',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'roleName',
-			title : '角色名称',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'roleLevel',
-			title : '角色等级',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter : roleLevelFormatter
-		}, {
-			field : 'creator',
-			title : '创建人',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'createDatetime',
-			title : '创建时间',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter : dateFormatter
-		}, {
-			field : 'remark',
-			title : '备注',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}]
+		columns : columns
 	});
 }
 
-//表格数据字典转化
-function roleLevelFormatter(value, row) {
-	var dictLevel=["","管理员级别","运营级别","财务级别"]
-	for(var i = 1;i < dictLevel.length;i++){
-		if(i == value){
-			return dictLevel[i];
-		}
-	}
-}
 
 //表格时间格式转化
 function dateFormatter(value, row){
@@ -180,5 +165,7 @@ function doSucBackDrop(res) {
 	if (res.success == true) {
 		alert("删除成功");
 		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/role/page"});
+	}else{
+		alert("该角色已在使用，无法删除！");
 	}
 }

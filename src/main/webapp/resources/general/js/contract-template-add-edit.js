@@ -6,6 +6,8 @@ var dictContractType = null;
 $(function(){
 	//页面数据字典初始化
 	initData();
+	$('#type').renderDropdown(Dict.getName('contract_template_type'));
+	$('#status').renderDropdown(Dict.getName('contract_template_status'));
 	var id = getQueryString("id");
 	//新增修改判断
 	if(isBlank(id)){
@@ -13,8 +15,8 @@ $(function(){
 	}else{
 		$("#operate").val("edit");
 		$("#operContent").text("修改合同模板");
-		var data = {"id":id,"start":"0",limit:"10"};
-		var url = $("#basePath").val()+"/general/contractTemplate/page";
+		var data = {"id":id};
+		var url = $("#basePath").val()+"/general/contractTemplate/detail";
 		doGetAjax(url, data, doGetDetailBack);
 	}
 	
@@ -57,55 +59,41 @@ $(function(){
 				required: false,
 				maxlength: 255
 			}
+		},
+		messages: {
+			title: {
+				required: "请输入标题",
+				maxlength: jQuery.format("标题不能大于{0}个字符")
+			},
+			content: {
+				required: "请输入内容",
+			},
+			type: {
+				required: "请选择类型",
+			},
+			status: {
+				required: "请选择状态",
+			},
+			remark: {
+				maxlength: jQuery.format("备注不能大于{0}个字符")
+			}
 		}
 	});
 });
 function initData(){
-	//状态
-	var data= {"key":"contract_template_status"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data, false, doSucBackStatus);
-	//类型
-	var data= {"key":"contract_template_type"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data, false, doSucBackType);
-}
-
-//数据字典（合同状态）关联的回执方法
-function doSucBackStatus(res){
-	dictContractStatus = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictContractStatus) != "undefined"){//判断undifined
-		for(var i = 0;i < dictContractStatus.length;i++){
-			html += "<option value='"+dictContractStatus[i].value+"'>"+dictContractStatus[i].remark+"</option>";
-		}
-	}
-	$("#status").html(html);
-}//数据字典（合同类型）关联的回执方法
-function doSucBackType(res){
-	dictContractType = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictContractType) != "undefined"){//判断undifined
-		for(var i = 0;i < dictContractType.length;i++){
-			html += "<option value='"+dictContractType[i].value+"'>"+dictContractType[i].remark+"</option>";
-		}
-	}
-	$("#type").html(html);
 }
 
 function doGetDetailBack(res){
-	if (res.success == true) {
-		if(res.data.list != null){
-			var result = res.data.list[0];
-			$("#id").val(result.id);
-			$("#title").val(result.title);
-			ue.ready(function(){
-				ue.setContent(result.content);
-			});
-			$("#type").val(result.type);
-			$("#status").val(result.status);
-			$("#remark").val(result.remark);
-		}else{
-			alert("根据合同编号获取详情失败");
-		}
+	if (res.success) {
+		var result = res.data;
+		$("#id").val(result.id);
+		$("#title").val(result.title);
+		ue.ready(function(){
+			ue.setContent(result.content);
+		});
+		$("#type").val(result.type);
+		$("#status").val(result.status);
+		$("#remark").val(result.remark);
 	}else{
 		alert(res.msg);
 	}
@@ -117,22 +105,5 @@ function doSuccessBack(res) {
 		window.location.href = $("#basePath").val()+"/general/contract_template.htm";
 	}else{
 		alert(res.msg);
-	}
-}
-
-//状态列表格式化
-function statusFormatter(value, row) {
-	for(var i = 0;i < dictContractStatus.length;i++){
-		if(dictContractStatus[i].value == value){
-			return dictContractStatus[i].remark;
-		}
-	}
-}
-//类型列表格式化
-function typeFormatter(value, row) {
-	for(var i = 0;i < dictContractType.length;i++){
-		if(dictContractType[i].value == value){
-			return dictContractType[i].remark;
-		}
 	}
 }

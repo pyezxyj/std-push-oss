@@ -1,8 +1,8 @@
 SYJDictCache = {};
 Dict = {};
 Dict.findName = function(data, key, k, v) {
-	k = k || 'value';
-	v = v || 'remark';
+	k = k || 'dkey';
+	v = v || 'dvalue';
 	data = data || [];
 	var i = 0, len = data.length, res;
 	for (; i < len; i++) {
@@ -15,7 +15,7 @@ Dict.findName = function(data, key, k, v) {
 	return res;
 };
 Dict.findObj = function(data, key, k) {
-	k = k || 'value';
+	k = k || 'dkey';
 	data = data || [];
 	var i = 0, len = data.length, res;
 	for (; i < len; i++) {
@@ -30,7 +30,7 @@ Dict.findObj = function(data, key, k) {
 
 Dict.getName = function(type, key) {
 	if (!SYJDictCache[type]) {
-		doGetAjaxIsAsync($("#dictUrl").val(), {"key": type}, false, function(res) {
+		doGetAjaxIsAsync($("#dictUrl").val(), {"parentKey": type}, false, function(res) {
 			SYJDictCache[type] = res.data;
 		});
 	}
@@ -39,7 +39,7 @@ Dict.getName = function(type, key) {
 
 Dict.getNameForList = function(type) {
 	if (!SYJDictCache[type]) {
-		doGetAjaxIsAsync($("#dictUrl").val(), {"key": type}, false, function(res) {
+		doGetAjaxIsAsync($("#dictUrl").val(), {"parentKey": type}, false, function(res) {
 			SYJDictCache[type] = res.data;
 		});
 	}
@@ -47,15 +47,3 @@ Dict.getNameForList = function(type) {
 		return key ? Dict.findName(SYJDictCache[type], key) : '-';
 	}
 }
-
-$.fn.renderDropdown = function(data, keyName, valueName, defaultOption) {
-	data = data || [];
-	keyName = keyName || 'value';
-	valueName = valueName || 'remark';
-	var html = "<option value=''>请选择</option>" + (defaultOption || '');
-	for(var i = 0;i < data.length;i++){
-		html += "<option value='"+data[i][keyName]+"'>"+data[i][valueName]+"</option>";
-	}
-	this.html(html);
-	this.val('');
-};

@@ -11,8 +11,8 @@ $(function(){
 	}else{
 		$("#operate").val("edit");
 		$("#operContent").text("修改数据字典");
-		var data = {"id":id,"type":"1"};
-		var url = $("#basePath").val()+"/general/dict/list";
+		var data = {"id":id};
+		var url = $("#basePath").val()+"/general/dict/detail";
 		doGetAjax(url, data, doGetDetailBack);
 	}
 	
@@ -21,12 +21,7 @@ $(function(){
 	    if(!$("#jsForm").valid()){
 			return false;
 		}
-		var data = {};
-		var t = $('form').serializeArray();
-		$.each(t, function() {
-			data[this.name] = this.value;
-		});
-		data["type"]="1";
+		var data = $('form').serializeObject();
 		var url = $("#basePath").val()+"/general/dict/" + $("#operate").val();
 		doPostAjax(url, data, doSuccessBack);
 	});
@@ -39,46 +34,59 @@ $(function(){
 	//入参合法性校验
 	$("#jsForm").validate({
 		rules: {
-			pId: {
+			parentKey: {
 				required: true,
-				maxlength: 32
+				maxlength: 5
 			},
-			key: {
+			dkey: {
 				required: true,
-				maxlength: 32
+				maxlength: 15
 			},
-			value: {
+			dvalue: {
 				required: true,
-				maxlength: 64
+				maxlength: 15
+			},
+			remark: {
+				maxlength: 200
 			}
-			
+		},
+		messages: {
+			parentKey: {
+				required: "请选择种类",
+			},
+			dkey: {
+				required: "请输入字典键",
+				maxlength: jQuery.format("字典键不能大于{0}个字符")
+			},
+			dvalue: {
+				required: "请输入字典值",
+				maxlength:jQuery.format("字典值不能大于{0}个字符")
+			},
+			remark: {
+				maxlength: jQuery.format("备注不能大于{0}个字符")
+			}
 		}
 	});
 });
 function initData(){
 	//父编号
-	var data = {"pId":"0","type":"1"};
 	var url =$("#basePath").val()+"/general/dict/list";
-	doGetAjaxIsAsync(url, data,false, doSucBackPId);
-}
-function selectChange(value){
-	var id = value;
-	var data= {"id":id,"type":"1"};
-	var url =$("#basePath").val()+"/general/dict/list";
-	doGetAjaxIsAsync(url, data,false, doSucBackValue);
-
+	doGetAjaxIsAsync(url,{"type":"0"},false, function(res) {
+		$('#parentKey').renderDropdown(res.data, 'dkey', 'dvalue', '<option value="0">选此创建种类</option>');
+		$('#parentKey').on('change', function() {
+			$('#type').val(this.value == 0 ? '0' : '1');
+		});
+	});
 }
 function doGetDetailBack(res){
-	if (res.success == true) {
-		if(res.data.length > 0){
-			$("#id").val(res.data[0].id);
-			$("#pId").val(res.data[0].pId);
-			$("#key").val(res.data[0].key);
-			$("#value").val(res.data[0].value);
-			$("#remark").val(res.data[0].remark);
-		}else{
-			alert("根据数据字典编号获取详情失败");
-		}
+	if (res.success) {
+		$("#id").val(res.data.id);
+		$("#type").val(res.data.type);
+		$('#parentKey').replaceWith($('<span>'+(res.data.parentKey || '无')+'</span>'));
+		$('#parentKey_chosen').remove();
+		$('#dkey').replaceWith($('<span>'+res.data.dkey+'</span>'));
+		$("#dvalue").val(res.data.dvalue);
+		$("#remark").val(res.data.remark);
 	}else{
 		alert(res.msg);
 	}

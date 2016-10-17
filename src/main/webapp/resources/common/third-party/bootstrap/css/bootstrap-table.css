@@ -189,8 +189,8 @@
 .fixed-table-toolbar .search,
 .fixed-table-toolbar .columns {
     position: relative;
-    margin-bottom: 10px;
     margin-top: -10px;
+    margin-bottom: 10px;
     line-height: 34px;
 }
 
@@ -209,6 +209,7 @@
     z-index: 99;
     background-color: #fff;
     text-align: center;
+    line-height: 35px;
 }
 
 .fixed-table-body .card-view .title {

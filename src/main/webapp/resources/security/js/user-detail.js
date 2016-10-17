@@ -1,14 +1,18 @@
 $(function() {
-	var userCode = getQueryString("userCode");
+	var userId = getQueryString("userId");
+	$('#roleId').renderDropdown({
+		url: $("#basePath").val() + '/role/list',
+		keyName: 'code',
+		valueName: 'name'
+	});
 	//新增修改判断
-	if(isBlank(userCode)){
+	if(isBlank(userId)){
 		$("#operate").val("add");
 	}else{
-		$("#userCode").attr("readonly","readonly");
 		$("#operate").val("edit");
 		$("#operContent").text("修改用户");
-		var data = {"userCode":userCode};
-		var url = $("#basePath").val()+"/user/list";
+		var data = {"userId":userId};
+		var url = $("#basePath").val()+"/user/detail";
 		doGetAjax(url, data, doGetDetailBack);
 	}
 	
@@ -22,6 +26,7 @@ $(function() {
 		$.each(t, function() {
 			data[this.name] = this.value;
 		});
+		data['kind'] = '01';
 		var url = $("#basePath").val()+"/user/"+$("#operate").val();
 		doPostAjax(url, data, doSaveSuccessBack);
 	});
@@ -34,35 +39,21 @@ $(function() {
 	//入参合法性校验
 	$("#jsForm").validate({
 		rules: {
-			userCode: {
+			loginName: {
 				required: true,
-				number:true,
-				maxlength: 32
-			},
-			userName: {
-				required: true,
-				maxlength: 32
+				maxlength: 16
 			},
 			remark: {
-				required: false,
-				maxlength: 64
-			},
-			
+				maxlength: 200
+			}
 		}
 	});
 });
 
 function doGetDetailBack(res){
-	if (res.success == true) {
-		if(res.data.length > 0){
-			$("#userCode").attr("readonly","readonly");
-			$("#userCode").val(res.data[0].userCode);
-			$("#userName").val(res.data[0].userName);
-			$("#status").val(res.data[0].status);
-			$("#remark").val(res.data[0].remark);
-		}else{
-			alert("根据用户编号获取详情失败");
-		}
+	if (res.success) {
+		$("#userId").val(res.data.userId);	
+		$("#remark").val(res.data.remark);
 	}else{
 		alert(res.msg);
 	}

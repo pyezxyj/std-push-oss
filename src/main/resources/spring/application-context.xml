@@ -24,6 +24,6 @@
        	<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"></context:exclude-filter>
 	</context:component-scan>
 	
-	<bean id="applicationProperties" class="com.xnjr.oss.base.ApplicationProperties" />
+	<bean id="applicationProperties" class="com.xnjr.app.base.ApplicationProperties" />
 	
 </beans>

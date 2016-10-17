@@ -1,10 +1,10 @@
 $(function() {
-	$("#roleCode").val(getQueryString("roleCode"));
-	$("#roleName").val(decodeURI(getQueryString("roleName")));
+	$("#code").val(getQueryString("code"));
+	$("#name").val(decodeURI(getQueryString("name")));
 	
 	//下拉菜单
-	var data = {roleCode:$("#roleCode").val()};
-	doGetAjaxIsAsync($("#basePath").val()+"/role/checkedlist", data, false, doMenuNode);
+	var data = {roleCode:$("#code").val(),kind:"1"};
+	doGetAjaxIsAsync($("#basePath").val()+"/role/checkedList", data, false, doMenuNode);
 	
 	$("#subBtn").click(function() {
 		var menuList = new Array();
@@ -13,7 +13,7 @@ $(function() {
 			menuList[i] = menuData[i]['data']['id'];
 		}
 		var url = $("#basePath").val()+"/role/menuRole/change";
-    	var data = {roleCode:$("#roleCode").val(),menuList:menuList};
+    	var data = {roleCode:$("#code").val(),menuList:menuList};
 		doPostAjax(url, data, doSuccessBack);
 	});
 	

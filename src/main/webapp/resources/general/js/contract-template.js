@@ -5,7 +5,8 @@ var dictContractType = null;
 $(function(){
 	//按钮权限判断
 	showPermissionControl();
-	
+	$("#typeSearch").renderDropdown(Dict.getName("contract_template_type"));
+	$("#statusSearch").renderDropdown(Dict.getName("contract_template_status"));
 	//页面数据字典初始化
 	initData();
 	
@@ -42,7 +43,7 @@ $(function(){
 			alert("请选择记录");
 			return;
 		}
-		if(!confirm("确认删除案例["+selRecords[0].id+":"+selRecords[0].title+"]?")){
+		if(!confirm("确认删除模版编号["+selRecords[0].id+"]?")){
     		return false;
     	}
     	var url = $("#basePath").val()+"/general/contractTemplate/drop";
@@ -52,11 +53,11 @@ $(function(){
 })
 function initData(){
 	//状态
-	var data= {"key":"contract_template_status"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackStatus);
+//	var data= {"key":"contract_template_status"};
+//	doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackStatus);
 	//类型
-	var data= {"key":"contract_template_type"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackType);
+//	var data= {"key":"contract_template_type"};
+//	doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackType);
 }
 //表格初始化
 function queryTableData(){
@@ -64,13 +65,13 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/general/contractTemplate/page",
-		
+		 
 		striped : true,
 		singleSelect : true,
 		clickToSelect : true,
 		queryParams : function(params) {
 			return {
-				id : $("#idSearch").val(),
+//				id : $("#idSearch").val(),
 				title : $("#titleSearch").val(),
 				type : $("#typeSearch").val(),
 				status : $("#statusSearch").val(),
@@ -116,23 +117,23 @@ function queryTableData(){
 			title : '类型',
 			align : 'left',
 			valign : 'middle',
-			formatter : typeFormatter,
+			formatter: Dict.getNameForList("contract_template_type"),
 			sortable : false
 		},{
 			field : 'status',
 			title : '状态',
 			align : 'left',
 			valign : 'middle',
-			formatter : statusFormatter,
+			formatter: Dict.getNameForList("contract_template_status"),
 			sortable : false
 		}, {
-			field : 'creator',
+			field : 'updater',
 			title : '创建者',
 			align : 'left',
 			valign : 'middle',
 			sortable : false
 		}, {
-			field : 'createDatetime',
+			field : 'updateDatetime',
 			title : '创建时间',
 			align : 'left',
 			valign : 'middle',
@@ -153,43 +154,7 @@ function queryTableData(){
 function dateFormatter(value, row){
 	return dateFormat(value,'yyyy-MM-dd HH:mm:ss');
 }
-//数据字典（合同状态）关联的回执方法
-function doSucBackStatus(res){
-	dictContractStatus = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictContractStatus) != "undefined"){//判断undifined
-		for(var i = 0;i < dictContractStatus.length;i++){
-			html += "<option value='"+dictContractStatus[i].value+"'>"+dictContractStatus[i].remark+"</option>";
-		}
-	}
-	$("#statusSearch").html(html);
-}//数据字典（合同类型）关联的回执方法
-function doSucBackType(res){
-	dictContractType = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictContractType) != "undefined"){//判断undifined
-		for(var i = 0;i < dictContractType.length;i++){
-			html += "<option value='"+dictContractType[i].value+"'>"+dictContractType[i].remark+"</option>";
-		}
-	}
-	$("#typeSearch").html(html);
-}
-//状态列表格式化
-function statusFormatter(value, row) {
-	for(var i = 0;i < dictContractStatus.length;i++){
-		if(dictContractStatus[i].value == value){
-			return dictContractStatus[i].remark;
-		}
-	}
-}
-//类型列表格式化
-function typeFormatter(value, row) {
-	for(var i = 0;i < dictContractType.length;i++){
-		if(dictContractType[i].value == value){
-			return dictContractType[i].remark;
-		}
-	}
-}
+
 //删除事件回执方法
 function doSuccessDelBack(res) {
 	if (res.success == true) {

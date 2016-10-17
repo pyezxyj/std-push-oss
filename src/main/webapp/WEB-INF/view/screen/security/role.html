@@ -1,3 +1,4 @@
+<#include 'layout/config.html' />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -14,20 +15,19 @@
 	    <span>位置：</span>
 	    <ul>
 		    <li>权限管理</li>
-		    <li>角色设置</li>
+		    <li>角色管理</li>
 	    </ul>
     </div>
     <div class="right-info">
          <!-- 搜索表单 -->
     	 <form class="search-form">
         	<ul>
-	            <li><label>角色编号</label><input type="text" id="roleCodeSearch"/></li>
+	            <li><label>角色名称</label><input type="text" id="name"/></li>
 	            <li><label>角色等级</label>
-	            	<select id="roleLevelSearch">
+	            	<select id="level">
 	            	</select>
 	            </li>
-	            <li><label>创建时间起</label><input id="createDatetimeStartSearch" class="lay-input" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"/></li>
-	            <li><label>创建时间止</label><input id="createDatetimeEndSearch" class="lay-input" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"/></li>
+	            <li style="display: none;"><label>更新人</label><input type="text" id="updater"/></li>
 	            <li>
 	                <input id="searchBtn" type="button" class="btn" value="查询" />
 	                <input type="reset" class="btn" value="重置" />

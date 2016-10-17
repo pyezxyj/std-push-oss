@@ -2,6 +2,7 @@
 $(function(){
 	//按钮权限判断
 	showPermissionControl();
+	$('#level').renderDropdown(Dict.getName('operator_level'));
 	
 	//数据字典初始化
 	initData();
@@ -22,20 +23,20 @@ $(function(){
 		}
 		window.location.href = $("#basePath").val()+"/general/operator_add_edit.htm?userId="+selRecords[0].userId;
 	});
-	// 删除菜单绑定事件
-	$('#dropBtn').click(function() {
-		var selRecords = $('#tableList').bootstrapTable('getSelections');
-		if(selRecords.length <= 0){
-			alert("请选择记录");
-			return;
-		}
-		if(!confirm("确认删除操盘手["+selRecords[0].userId+":"+selRecords[0].realName+"]?")){
-    		return false;
-    	}
-    	var url = $("#basePath").val()+"/general/operator/drop";
-    	var data = {userId:selRecords[0].userId};
-		doPostAjax(url, data, doSuccessDelBack);
-	});
+//	// 删除菜单绑定事件
+//	$('#dropBtn').click(function() {
+//		var selRecords = $('#tableList').bootstrapTable('getSelections');
+//		if(selRecords.length <= 0){
+//			alert("请选择记录");
+//			return;
+//		}
+//		if(!confirm("确认删除操盘手["+selRecords[0].realName+"]?")){
+//    		return false;
+//    	}
+//    	var url = $("#basePath").val()+"/general/operator/drop";
+//    	var data = {userId:selRecords[0].userId};
+//		doPostAjax(url, data, doSuccessDelBack);
+//	});
 
 	// 查询事件绑定
 	$('#searchBtn').click(function() {
@@ -47,12 +48,9 @@ function initData(){
 	//公司
 	//var data= {"key":"operator_company"};
 	//doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackCompany);
-	//等级
-	var data= {"key":"operator_level"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackLevel);
+	
 	//状态
-	var data= {"key":"operator_status"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data,false, doSucBackStatus);
+	
 }
 
 function doSucBackCompany(res){
@@ -66,37 +64,18 @@ function doSucBackCompany(res){
 	$("#companyId").html(html);
 }
 
-function doSucBackLevel(res){
-	dictLevel = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictLevel) != "undefined"){//判断undifined
-		for(var i = 0;i < dictLevel.length;i++){
-			html += "<option value='"+dictLevel[i].value+"'>"+dictLevel[i].remark+"</option>";
-		}
-	}
-	$("#level").html(html);
-}
 
-function doSucBackStatus(res){
-	dictStatus = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictStatus) != "undefined"){//判断undifined
-		for(var i = 0;i < dictStatus.length;i++){
-			html += "<option value='"+dictStatus[i].value+"'>"+dictStatus[i].remark+"</option>";
-		}
-	}
-	$("#status").html(html);
-}
 
-//删除事件回执方法
-function doSuccessDelBack(res) {
-	if (res.data == true) {
-		alert("删除成功");
-		$('#tableList').bootstrapTable('refresh');
-	}else{
-		alert(res.msg);
-	}
-}
+
+////删除事件回执方法
+//function doSuccessDelBack(res) {
+//	if (res.data == true) {
+//		alert("删除成功");
+//		$('#tableList').bootstrapTable('refresh');
+//	}else{
+//		alert(res.msg);
+//	}
+//}
 
 //表格初始化
 function queryTableData(){
@@ -104,18 +83,15 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/general/operator/page",
-		
+		 
 		striped : true,
 		singleSelect : true,
 		clickToSelect : true,
 		queryParams : function(params) {
 			return {
-			    companyId:$("#companyId").val(),
 			    mobile:$("#mobile").val(),
 			    realName:$("#realName").val(),
 			    level:$("#level").val(),
-			    status:$("#status").val(),
-			    remark:$("#remark").val(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
 			};
@@ -146,12 +122,6 @@ function queryTableData(){
 				valign : 'middle',
 				sortable : false
 			},{
-				field :  'companyId',
-				title : '公司名称',
-				align : 'left',
-				valign : 'middle',
-				sortable : false
-			},{
 				field :  'mobile',
 				title : '手机号',
 				align : 'left',
@@ -168,15 +138,21 @@ function queryTableData(){
 				title : '操盘手等级',
 				align : 'left',
 				valign : 'middle',
-				sortable : false,
-				formatter : levelFormatter
+				formatter:Dict.getNameForList('operator_level'),
+				sortable : false
 			},{
-				field :  'status',
-				title : '状态',
+				field :  'updater',
+				title : '更新人',
 				align : 'left',
 				valign : 'middle',
 				sortable : false,
-				formatter : statusFormatter
+			},{
+				field :  'updateDatetime',
+				title : '更新时间',
+				align : 'left',
+				valign : 'middle',
+				formatter : dateTimeFormat,
+				sortable : false,
 			},{
 				field :  'remark',
 				title : '备注',
@@ -196,23 +172,23 @@ function companyFormatter(value, row) {
 	}
 }
 
-//表格数据字典转化
-function levelFormatter(value, row) {
-	for(var i = 0;i < dictLevel.length;i++){
-		if(dictLevel[i].value == value){
-			return dictLevel[i].remark;
-		}
-	}
-}
+////表格数据字典转化
+//function levelFormatter(value, row) {
+//	for(var i = 0;i < dictLevel.length;i++){
+//		if(dictLevel[i].value == value){
+//			return dictLevel[i].remark;
+//		}
+//	}
+//}
 
-//表格数据字典转化
-function statusFormatter(value, row) {
-	for(var i = 0;i < dictStatus.length;i++){
-		if(dictStatus[i].value == value){
-			return dictStatus[i].remark;
-		}
-	}
-}
+////表格数据字典转化
+//function statusFormatter(value, row) {
+//	for(var i = 0;i < dictStatus.length;i++){
+//		if(dictStatus[i].value == value){
+//			return dictStatus[i].remark;
+//		}
+//	}
+//}
 
 //时间格式化
 function dateFormatter(value, row){

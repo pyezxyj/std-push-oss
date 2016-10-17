@@ -7,11 +7,9 @@ $(function(){
 	}else{
 		$("#operate").val("edit");
 		$("#operContent").text("修改系统参数");
-
-		var data = {"id":id,"type":"2"};
-		var url = $("#basePath").val()+"/general/dict/list";
+		var data = {"id":id};
+		var url = $("#basePath").val()+"/general/system/param/detail";
 		doGetAjax(url, data, doGetDetailBack);
-		document.getElementById("key").setAttribute("readOnly",'true');  
 	}
 	
 	//提交
@@ -19,14 +17,8 @@ $(function(){
 	    if(!$("#jsForm").valid()){
 			return false;
 		}
-		var data = {};
-		var t = $('form').serializeArray();
-		$.each(t, function() {
-			data[this.name] = this.value;
-		});
-		data["type"]="2";
-		data["pId"]="-1";
-		var url = $("#basePath").val()+"/general/dict/" + $("#operate").val();
+		var data = $('#jsForm').serializeObject();
+		var url = $("#basePath").val()+"/general/system/param/" + $("#operate").val();
 		doPostAjax(url, data, doSuccessBack);
 	});
 	
@@ -40,33 +32,50 @@ $(function(){
 		rules: {
 			key: {
 				required: true,
-				maxlength: 32
+				maxlength: 20
 			},
 			value: {
 				required: true,
-				maxlength: 32
+				maxlength: 255
+			},
+			note: {
+				required: true,
+				maxlength: 30
 			},
 			remark: {
-				required: true,
-				maxlength: 64
+				required: false,
+				maxlength: 200
+			}
+		},
+		messages: {
+			key: {
+				required: "请输入参数键",
+				maxlength: jQuery.format("参数键不能大于{0}个字符")
+			},
+			value: {
+				required: "请输入参数值",
+				maxlength:jQuery.format("参数值不能大于{0}个字符")
+			},
+			note: {
+				required: "请输入参数说明",
+				maxlength:jQuery.format("参数说明不能大于{0}个字符")
+			},
+			remark: {
+				required: "请输入备注",
+				maxlength:jQuery.format("备注不能大于{0}个字符")
 			}
 		}
 	});
 });
 
 function doGetDetailBack(res){
-	
-	if (res.success == true) {
-		if(res.data.length > 0){
-			var result = res.data[0];
-			$("#id").val(result.id);
-			$("#pId").val(result.pId);
-			$("#key").val(result.key);
-			$("#value").val(result.value);
-			$("#remark").val(result.remark);
-		}else{
-			alert("根据编号获取详情失败");
-		}
+	if (res.success) {
+		result = res.data;
+		$("#id").val(result.id);
+		$('#key').replaceWith($('<span>'+result.ckey+'</span>'));
+		$("#value").val(result.cvalue);
+		$("#note").val(result.note);
+		$("#remark").val(result.remark);
 	}else{
 		alert(res.msg);
 	}

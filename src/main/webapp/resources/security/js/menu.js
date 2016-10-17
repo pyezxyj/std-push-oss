@@ -27,7 +27,7 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+"/security/menu_detail.htm?menuCode="+selRecords[0].menuCode;
+		window.location.href = $("#basePath").val()+"/security/menu_detail.htm?code="+selRecords[0].code;
 	});
 	
 	// 删除菜单绑定事件
@@ -38,11 +38,11 @@ $(function() {
 			return;
 		}
 		
-		if(!confirm("确认删除菜单["+selRecords[0].menuName+":"+selRecords[0].menuCode+"]?")){
+		if(!confirm("确认删除菜单["+selRecords[0].name+"]?")){
     		return false;
     	}
     	var url = $("#basePath").val()+"/menu/drop";
-    	var data = {menuCode:selRecords[0].menuCode};
+    	var data = {code:selRecords[0].code};
 		doPostAjax(url, data, doSuccessDelBack);
 	});
 });
@@ -54,14 +54,10 @@ function doSuccessPCodeBack(res){
 		var html = "<option value=''>请选择</option>";
 		if(typeof(data) != "undefined"){//判断undifined
 			for(var i = 0;i < data.length;i++){
-				if(data[i].menuCode == $("#parentCodeVal").val()){
-					html += "<option selected='selected' value='"+data[i].menuCode+"'>"+data[i].menuCode +" " +data[i].menuName +"</option>";
-				}else{
-					html += "<option value='"+data[i].menuCode+"'>"+data[i].menuCode +" " +data[i].menuName +"</option>";
-				}
+				html += "<option value='"+data[i].code+"'>"+data[i].code + "   " + data[i].name+"</option>";
 			}
 		}
-		$("#parentCodeSearch").html(html);
+		$("#parentCode").html(html);
 	}else{
 		alert(res.msg);
 	}
@@ -73,15 +69,15 @@ function queryTableData(){
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val()+"/menu/page",
-		
+		 
 		striped : true,
 		clickToSelect : true,
 		singleSelect : true,
 		queryParams : function(params) {
 			return {
-				menuCode : $("#menuCodeSearch").val(),
-				parentCode : $("#parentCodeSearch").val(),
-				type : $("#typeSearch").val(),
+				name : $("#name").val(),
+				parentCode : $("#parentCode").val(),
+				type : $("#type").val(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
 			};
@@ -105,20 +101,14 @@ function queryTableData(){
 			align : 'left',
 			valign : 'middle',
 			checkbox : true
-		}, {
-			field : 'menuCode',
-			title : '菜单编号',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}, {
-			field : 'menuName',
+		},{
+			field : 'name',
 			title : '菜单名称',
 			align : 'left',
 			valign : 'middle',
 			sortable : false
 		}, {
-			field : 'menuUrl',
+			field : 'url',
 			title : '菜单url',
 			align : 'left',
 			valign : 'middle',

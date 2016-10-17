@@ -13,23 +13,24 @@
 	<div class="place">
     	<span>位置：</span>
 	    <ul>
-	    	<li>系统管理</li>
-		    <li>运营管理</li>
+		    <li>日常管理</li>
+		    <li>数据字典管理</li>
 		    <li>数据字典</li>
    		</ul>
    </div>
    <form id="jsForm" >
         <input type="hidden" id="id" name="id"/> 
     	<div class="form-body">
-    		<div class="form-title"><span>数据字典信息</span></div>
+    		<div class="form-title"><span>新增数据字典</span></div>
 		    <ul class="form-info">
-		         <li><label><b>*</b>父编号:</label>
-		         <select id="pId" name="pId" class="control-def" onchange="selectChange(this.value)">
+		         <li><label><b>*</b>种类:</label>
+		         <select id="parentKey" name="parentKey" class="control-def">
 		            </select>
 		         </li> 
-			     <li><label><b>*</b>字典键:</label><input type="text" id="key" name="key" class="control-def"/></li> 
-			     <li><label><b>*</b>字典值:</label><input type="text" id="value" name="value" class="control-def" /></li>
-			     <li><label><b>*</b>备注:</label><input type="text" id="remark" name="remark" class="control-def" /></li>
+		         <li><input type="hidden" id="type" name="type"/></li>
+			     <li><label><b>*</b>字典键:</label><input type="text" id="dkey" name="dkey" class="control-def"/></li> 
+			     <li><label><b>*</b>字典值:</label><input type="text" id="dvalue" name="dvalue" class="control-def" /></li>
+			     <li><label><b></b>备注:</label><input type="text" id="remark" name="remark" class="control-def" /></li>
 			     <li><input id="subBtn" type="button" class="btn margin-left-100" value="保存"/><input id="backBtn" type="button" class="btn margin-left-20" value="返回"/></li>
 			</ul>
     	</div>

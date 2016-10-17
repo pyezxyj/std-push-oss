@@ -6,6 +6,7 @@ var dictLevel = null;
 var dictStatus = null;
 $(function(){
 	//页面数据字典初始化
+	$('#level').renderDropdown(Dict.getName('operator_level'));
 	initData();
 	var userId = getQueryString("userId");
 	//新增修改判断
@@ -13,16 +14,16 @@ $(function(){
 		$(".editShow").hide();
 		$("#operate").val("add");
 		$("#img").hide();
+		
 	}else{
+		$("#userId").attr("disabled", 'disabled');
 		$("#editHide ").hide();
-		$("#idKind").attr("disabled","disabled");
-		$("#idNo").attr("disabled","disabled");
 		$("#realName").attr("disabled","disabled");
 		$("#operate").val("edit");
 		$("#operContent").text("修改操盘手");
 		var data = {"userId":userId};
-		var url = $("#basePath").val()+"/general/operator/list";
-		doGetAjax(url, data, doGetDetailBack);
+		var url = $("#basePath").val()+"/general/operator/detail";
+		doGetAjax(url, data, doSucBackGetDetail);
 	}
 	
 	//提交
@@ -58,28 +59,15 @@ $(function(){
 				isZipCode:true,
 				maxlength: 32
 			},
-			companyId: {
-				required: true,
-				maxlength: 32
-			},
 			mobile: {
 				required: true,
 				mobile: true,
 				maxlength: 16
 			},
-			idKind: {
-				required: true,
-			},
-			idNo: {
-				required: true,
-				idCard: true,
-				maxlength: 32
-			},
 			realName: {
 				required: true,
 				maxlength: 16
-			},
-			tradePwd: {
+			},level: {
 				required: true,
 				maxlength: 32
 			},
@@ -91,21 +79,39 @@ $(function(){
 				required: false,
 				maxlength: 255
 			}
+		},
+		messages: {
+			userId: {
+				required: "请选择用户编号",
+				maxlength: jQuery.format("用户编号不能大于{0}个字符")
+			},
+			mobile: {
+				required: "请输入手机号",
+				mobile: "手机号格式有误",
+				maxlength: jQuery.format("手机号不能大于{0}个字符")
+			},
+			realName: {
+				required: "请输入真实姓名",
+				maxlength: jQuery.format("真实姓名不能大于{0}个字符")
+			},
+			level: {
+				required: "请选择等级",
+			},
+			introduction: {
+				required: "请输入简介",
+				maxlength: jQuery.format("简介不能大于{0}个字符")
+			},
+			remark: {
+				maxlength: jQuery.format("备注不能大于{0}个字符")
+			}
 		}
 	});
 });
+
 function initData(){
-	//证件类型
-	var data= {"key":"id_kind"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data, false, doSucBackKind);
-	
-	var data= {"key":"operator_level"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data, false, doSucBackLevel);
-	
-	var data= {"key":"operator_status"};
-	doGetAjaxIsAsync($("#dictUrl").val(), data, false, doSucBackStatus);
-	
-	doGetAjaxIsAsync($("#basePath").val()+"/user/list", null, false, doSucBackUser);
+	doGetAjaxIsAsync($("#basePath").val()+"/user/list", {
+		'kind': 3,
+	}, false, doSucBackUser);
 }
 
 //数据字典（用户）关联的回执方法
@@ -114,71 +120,25 @@ function doSucBackUser(res){
 	var html = "<option value=''>请选择</option>";
 	if(typeof(secUser) != "undefined"){//判断undifined
 		for(var i = 0;i < secUser.length;i++){
-			html += "<option value='"+secUser[i].userCode+"'>"+secUser[i].userCode+" "+secUser[i].userName+"</option>";
+			html += "<option value='"+secUser[i].userId+"'>"+secUser[i].userId+" "+secUser[i].realName+"</option>";
 		}
 	}
 	$("#userId").html(html);
 }
 
 
-//数据字典（合同状态）关联的回执方法
-function doSucBackKind(res){
-	dictIdKind = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictIdKind) != "undefined"){//判断undifined
-		for(var i = 0;i < dictIdKind.length;i++){
-			html += "<option value='"+dictIdKind[i].value+"'>"+dictIdKind[i].remark+"</option>";
-		}
-	}
-	$("#idKind").html(html);
-}
-//数据字典（合同状态）关联的回执方法
-function doSucBackLevel(res){
-	dictLevel = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictLevel) != "undefined"){//判断undifined
-		for(var i = 0;i < dictLevel.length;i++){
-			html += "<option value='"+dictLevel[i].value+"'>"+dictLevel[i].remark+"</option>";
-		}
-	}
-	$("#level").html(html);
-}
-//数据字典（合同状态）关联的回执方法
-function doSucBackStatus(res){
-	dictStatus = res.data;
-	var html = "<option value=''>请选择</option>";
-	if(typeof(dictStatus) != "undefined"){//判断undifined
-		for(var i = 0;i < dictStatus.length;i++){
-			html += "<option value='"+dictStatus[i].value+"'>"+dictStatus[i].remark+"</option>";
-		}
-	}
-	$("#status").html(html);
-}
-function doGetDetailBack(res){
-	if (res.success == true) {
-		if(res.data.length > 0){
-			var result = res.data[0];
-			$("#userId").val(result.userId);
-			$("#userId").attr("disabled","disabled");
-			$("#companyId").val(result.companyId);
-			$("#mobile").val(result.mobile);
-			$("#level").val(result.level);
-			$("#status").val(result.status);
-			$("#idKind").val(result.idKind);
-			$("#idNo").val(result.idNo);
-			$("#realName").val(result.realName);
-			image = result.photo;
-			$("#tradePwd").val(result.tradePwd);
-			$("#remark").val(result.remark);
-			$("#img").attr('src',result.photo);
-			
-			introduction.ready(function(){
-			    //需要ready后执行，否则可能报错
-				introduction.setContent(result.introduction);
-		    });
-		}else{
-			alert("根据编号获取详情失败");
-		}
+function doSucBackGetDetail(res){
+	if (res.success) {
+		$("#userId").val(res.data.userId);
+		$("#mobile").val(res.data.mobile);
+		$("#level").val(res.data.level);
+		introduction.ready(function(){
+		    //需要ready后执行，否则可能报错
+			introduction.setContent(res.data.introduction);
+		});
+		image = res.data.photo;
+		$("#remark").val(res.data.remark);
+		$("#img").attr('src',res.data.photo);
 	}else{
 		alert(res.msg);
 	}

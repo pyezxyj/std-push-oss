@@ -1,3 +1,4 @@
+var dataCache = {};
 /**
  * ajax 请求
  * @param url 请求地址
@@ -24,6 +25,28 @@ function doPostAjax(url, data, successfn) {
         }
     });
 };
+
+//function doPostAjax(url, data, successfn) {
+//	//请求前显示遮罩
+//	maskPop();
+//    $.ajax({
+//        type: "post",
+//        url: url,
+//        data: JSON.stringify(data),
+//        dataType: 'json',
+//        contentType: "application/json; charset=utf-8",
+//        success: function (data) {
+//        	//请求成功之后隐藏遮罩
+//        	unMaskPop();
+//        	successfn(data);
+//        },
+//        error: function () {
+//            jQuery.fn.mBox({
+//                message: '系统异常,请联系管理员'
+//            });
+//        }
+//    });
+//};
 
 /**
  * ajax 请求
@@ -136,4 +159,72 @@ function doAjax(url, data, async, type, dataType, successfn, errorfn) {
             errorfn(e);
         }
     });
+};
+
+function ajaxPost(url, param) {
+	var promise = $.ajax({
+		url: url,
+		type: 'POST',
+		contentType: "application/json",  
+	    dataType: "json",  
+		data: JSON.stringify(param)
+	});
+	promise.then(function(res) {
+		if (!res.success) {
+			alert(res.msg);
+		}
+	}, function(obj, error, msg) {
+		alert(msg);
+	});
+	return promise;
+}
+
+function ajaxPost(url, param) {
+	var promise = $.ajax({
+		url: url,
+		type: 'POST',
+		contentType: "application/json",  
+	    dataType: "json",  
+		data: JSON.stringify(param)
+	});
+	promise.then(function(res) {
+		if (!res.success) {
+			alert(res.msg);
+		}
+	}, function(obj, error, msg) {
+		alert(msg);
+	});
+	return promise;
+}
+
+function ajaxGet(url, param, reload, sync) {
+	if (typeof param == 'boolean' || typeof param == 'undefined') {
+		reload = param;
+		param = {};
+	}
+	var tokenStr = '_=' + new Date().valueOf(),
+		symbol = (url.indexOf('?') === -1 ? '?' : '&');
+	if (url && !/_=.*/.test(url)) {
+		var send_url = url + symbol + tokenStr;
+	}
+	var cache_url = url + JSON.stringify(param);
+	if (reload) {
+		delete dataCache[cache_url];
+	}
+	if (!dataCache[cache_url]) {
+		dataCache[cache_url] = $.ajax({
+			async: !sync,
+			type: 'get',
+			url: send_url,
+			data: param
+		});
+		dataCache[cache_url].then(function(res) {
+			if (!res.success) {
+				alert(res.msg);
+			}
+		}, function() {
+			alert(res.msg);
+		});
+	}
+	return dataCache[cache_url];
 };

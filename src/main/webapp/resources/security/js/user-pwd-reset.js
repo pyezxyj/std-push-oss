@@ -1,6 +1,6 @@
 $(function() {
-	$("#userCode").html(getQueryString("userCode"));
-	$("#userName").html(decodeURI(getQueryString("userName")));
+	$("#userId").html(getQueryString("userId"));
+	$("#loginName").html(decodeURI(getQueryString("loginName")));
 	//提交
 	$('#subBtn').click(function() {
 	    if(!$("#jsForm").valid()){
@@ -11,7 +11,7 @@ $(function() {
 		$.each(t, function() {
 			data[this.name] = this.value;
 		});
-		data["userCode"] = $("#userCode").html();
+		data["userId"] = $("#userId").html();
 		var url = $("#basePath").val()+"/user/pwd/reset";
 		doPostAjax(url, data, doSuccessBack);
 	});

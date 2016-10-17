@@ -22,7 +22,7 @@
 	</context:component-scan>
 	
 	<!-- 对静态资源文件的访问  start-->
-	<mvc:resources mapping="/xn-home-oss/resources/**" location="/resources/**" />
+	<mvc:resources mapping="/xn-tastetime-oss/resources/**" location="/resources/**" />
 		
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven validator="validator">
@@ -37,7 +37,7 @@
 	</bean>
 	<!-- 转json所支持的头信息类型  -->
    	<bean id="messageConverter"
-		class="com.xnjr.oss.json.JsonConverter">
+		class="com.xnjr.app.json.JsonConverter">
 		<property name="supportedMediaTypes">
 			<list>
 				<value>application/json;charset=UTF-8</value>
@@ -57,12 +57,12 @@
 	<!-- 配置 文件上传的支持 -->
 	<bean  id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="104857600" />
+		<!--  指定所上传文件的总大小不能超过1M -->
+		<property name="maxUploadSize" value="10485760" />
 		<property name="resolveLazily" value="true" />
 		<property name="maxInMemorySize" value="1048" />
 		<property name="uploadTempDir" value = "/upload/temp"></property>
 	</bean>
-
 	
 	<!-- 视图配置 -->
 	<bean id="viewResolver"
@@ -95,7 +95,7 @@
 		</property>
 	</bean>
 	<!-- 视图找不到不会有异常信息 -->
-	<bean id="handlerExceptionResolver" class="com.xnjr.oss.exception.ExceptionResolver">
+	<bean id="handlerExceptionResolver" class="com.xnjr.app.exception.ExceptionResolver">
 		<property name="warnLogCategory" value="INFO" />
 		<property name="defaultStatusCode" value="500" />
 		<property name="defaultErrorView" value="error/error" />
@@ -123,26 +123,50 @@
 	</bean>
 
 	<!-- 会话管理器 -->
-	<bean id="sessionInterceptor" class="com.xnjr.oss.session.SessionContextInterceptor">
+	<bean id="sessionInterceptor" class="com.xnjr.app.session.SessionContextInterceptor">
 		<property name="sessionProvider" ref="sessionProvider" />
 	</bean>
-	<bean id="sessionProvider" class="com.xnjr.oss.session.HttpSessionProvider" />
+	<bean id="sessionProvider" class="com.xnjr.app.session.HttpSessionProvider" />
 	
 	<mvc:interceptors>
 		 <!-- 拦截HttpServletRequest、 HttpServletResponse -->
-		<bean class="com.xnjr.oss.base.ContextInterceptor"/>
+		<bean class="com.xnjr.app.base.ContextInterceptor"/>
 		
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 			<!-- //改变语言时所用的参数名称 -->
 			<property name="paramName" value="lang" />
 		</bean>
 		<mvc:interceptor>
-		     <!-- 权限相关 start -->
+		    <!-- 权限相关 start -->
 		    <mvc:mapping path="/menu/**"/>
 		    <mvc:mapping path="/role/**"/>
 		    <mvc:mapping path="/user/**"/>
 		    <mvc:mapping path="/account/**"/>
 		    <!-- 权限相关 end -->
+		    
+		    <!-- 客户相关start -->
+		    <mvc:mapping path="/customer/**"/>
+		    <!-- 客户相关end -->
+		    
+		    <!-- 客户相关start -->
+		    <mvc:mapping path="/product/**"/>
+		    <!-- 客户相关end -->
+		    
+		    <!-- 型号相关start -->
+		    <mvc:mapping path="/model/**"/>
+		    <!-- 客户相关end -->
+		    
+		    <!-- 物流相关start -->
+		    <mvc:mapping path="/logistics/**"/>
+		    <!-- 物流相关end -->
+		    
+		    <!-- 售后服务start -->
+		    <mvc:mapping path="/repair/**"/>
+		    <!-- 售后服务end -->
+		    
+		    <!-- 取现相关start -->
+		    <mvc:mapping path="/withdraw/**"/>
+		    <!-- 取现相关end -->
 		    
 		    <!-- 基础数据相关start -->
 		    <mvc:mapping path="/general/**"/>
@@ -152,18 +176,44 @@
 		    <mvc:mapping path="/operator/**"/>
 		    <!-- 操盘手相关end -->
 		    
-		    <!-- 官网 start -->
-		    <mvc:mapping path="/web/**"/>
-		    <!-- 官网 end -->
-		    
-		    <!-- 增值服务 start -->
-		    <mvc:mapping path="/attach/**"/>
-		    <!-- 增值服务 end -->
-		    
-		     <!-- 平台相关start -->
+		    <!-- 平台相关start -->
 		    <mvc:mapping path="/plat/**"/>
 		    <!-- 平台相关end -->
 		    
+		    <!-- 商家相关start -->
+		    <mvc:mapping path="/vendor/**"/>
+		    <!-- 商家相关end -->
+		    
+		    <!-- 视图相关start -->
+		    <mvc:mapping path="/view/**"/>
+		    <!-- 视图相关end -->
+		    
+		    <!-- 视图相关start -->
+		    <mvc:mapping path="/score/**"/>
+		    <!-- 视图相关end -->
+		    
+		    <!-- 论坛相关start -->
+		    <mvc:mapping path="/forum/**"/>
+		    <!-- 论坛相关end -->
+		    
+		    <!-- 规则相关start -->
+		    <mvc:mapping path="/rule/**"/>
+		    <!-- 规则相关end -->
+		    
+		    <!-- 城市相关start -->
+		    <mvc:mapping path="/city/**"/>
+		    <!-- 城市相关end -->
+		    
+		    <!-- 城市相关start -->
+		    <mvc:mapping path="/city/**"/>
+		    <!-- 城市相关end -->
+		    
+		    <!-- 消息相关start -->
+		    <mvc:mapping path="/message/**"/>
+		    <!-- 消息相关end -->
+		    
+		    <mvc:mapping path="/bank/**"/>
+		    <mvc:mapping path="/subbank/**"/>
 			<mvc:mapping path="/gene/smscaptcha/send" />
 			<mvc:mapping path="/user/**" />
 			<mvc:mapping path="/account/**" />
@@ -183,13 +233,19 @@
 		 	<mvc:exclude-mapping path="/user/login"/>
 		 	<mvc:exclude-mapping path="/user/logout"/>
 		 	<!--登录登出相关 end  -->
-		 	
+		 	<!-- 入驻相关 -->
+		 	<mvc:exclude-mapping path="/customer/jifen_replaceadd.htm" />
+		 	<mvc:exclude-mapping path="/customer/channel_add.htm" />
 		 	<!--找回登录密码相关 start  -->
 		 	<mvc:exclude-mapping path="/user/find_psd*.htm" />
 		 	<mvc:exclude-mapping path="/gene/findloginpwd/send" />
 		 	<mvc:exclude-mapping path="/user/loginpwd/find"/>
+		 	<mvc:exclude-mapping path="/user/pwd/find/sms"/>
+		 	<mvc:exclude-mapping path="/user/pwd/find"/>
+		 	<mvc:exclude-mapping path="/user/pwd/reset" />
 		 	<!--找回登录密码相关 end  -->
 		 	<mvc:exclude-mapping path="/index*" />
+		 	<mvc:exclude-mapping path="/system/version.htm" />
 			<ref bean="sessionInterceptor" />
 			
 		</mvc:interceptor>

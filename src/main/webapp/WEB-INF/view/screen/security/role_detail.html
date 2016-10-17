@@ -1,3 +1,4 @@
+<#include 'layout/config.html' />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -14,8 +15,8 @@
 	<div class="place">
     	<span>位置：</span>
 	    <ul>
+	    	<li>权限管理</li>
 	    	<li>角色管理</li>
-	    	<li>角色设置</li>
 	    	<li id="operContent">新增角色</li>
    		</ul>
     </div>
@@ -23,11 +24,11 @@
     <form id="jsForm">
 	    <div class="form-body">
 	    <div class="form-title"><span>角色信息</span></div>
+	    	<li><input type="hidden" name="code" id="code"/></li>
 		    <ul class="form-info">
-			    <li><label><b>*</b>角色编号:</label><input type="text" id="roleCode" name="roleCode" class="control-def"/></li>
-			    <li><label><b>*</b>角色名称:</label><input type="text" id="roleName" name="roleName" class="control-def"/></li>
+ 		    	<li><label><b>*</b>角色名称:</label><input type="text" id="name" name="name" class="control-def"/></li>
 			    <li><label><b>*</b>角色等级:</label>
-				    <select id="roleLevel" name="roleLevel" class="control-def">
+				    <select id="level" name="level" class="control-def">
 					</select>
 				</li>
 			    <li><label>备注:</label><input type="text" id="remark" name="remark" class="control-def"/></li>

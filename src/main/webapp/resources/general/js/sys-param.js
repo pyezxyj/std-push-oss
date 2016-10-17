@@ -12,7 +12,7 @@ $(function() {
 	
 	//查询
 	$('#searchBtn').click(function() {
-		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/general/dict/page"});
+		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/general/system/param/page"});
 	});
 	
 	//新增
@@ -37,7 +37,7 @@ $(function() {
 			alert("请选择记录");
 			return;
 		}
-		if(!confirm("确认删除系统参数["+selRecords[0].key+":"+selRecords[0].value+"]?")){
+		if(!confirm("确认删除系统参数建["+selRecords[0].ckey+"]?")){
     		return false;
     	}
     	var url = $("#basePath").val()+"/general/dict/drop";
@@ -45,22 +45,19 @@ $(function() {
 		doPostAjax(url, data, doSuccessDelBack);
     
     });
-	//详情
 });
 //表格初始化
 function queryTableData(){
 	// 绑定列表
 	$('#tableList').bootstrapTable({
 		method : "get",
-		url : $("#basePath").val()+"/general/dict/page",
-		
+		url : $("#basePath").val()+"/general/system/param/page",
+		 
 		striped : true,
 		singleSelect : true,
 		clickToSelect : true,
 		queryParams : function(params) {
 			return {
-				type: 2,
-				pId : -1,
 				key : $("#keySearch").val(),
 				start : params.offset / params.limit + 1,
 				limit : params.limit
@@ -82,61 +79,23 @@ function queryTableData(){
 		columns : [{
 			field : '',
 			title : '',
-			align : 'left',
-			valign : 'middle',
 			checkbox : true
 		},{
-			field : 'id',
-			title : '编号',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		},{
-			field : 'key',
+			field : 'ckey',
 			title : '参数键',
-			align : 'left',
-			valign : 'middle',
 			sortable : false
 		},{
-			field : 'value',
+			field : 'cvalue',
 			title : '参数值',
-			align : 'left',
-			valign : 'middle',
+			sortable : false
+		},{
+			field : 'note',
+			title : '参数说明',
 			sortable : false
 		},{
 			field : 'remark',
-			title : '参数说明',
-			align : 'left',
-			valign : 'middle',
+			title : '备注',
 			sortable : false
-		},{
-			field : 'creator',
-			title : '创建人',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		},{
-			field : 'createDatetime',
-			title : '创建时间',
-			align : 'left',
-			formatter : dateFormatter,
-			valign : 'middle',
-			sortable : false
-		},{
-			field : 'updater',
-			title : '更改人',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			visible : false
-		},{
-			field : 'updateDatetime',
-			title : '更改时间',
-			align : 'left',
-			formatter : dateFormatter,
-			valign : 'middle',
-			sortable : false,
-			visible : false
 		}]
 	});
 }
@@ -146,7 +105,7 @@ function doSuccessBackKeyList(res){
 	var html = "<option value=''>请选择</option>";
 	if(typeof(data) != "undefined"){//判断undifined
 		for(var i = 0;i < data.length;i++){
-			html += "<option value='"+data[i].key+"'>"+data[i].key+"</option>";
+			html += "<option value='"+data[i].key+"'>"+data[i].key+" "+data[i].remark+"</option>";
 		}
 	}
 	$("#keySearch").html(html);

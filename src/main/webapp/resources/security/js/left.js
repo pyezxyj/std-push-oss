@@ -15,20 +15,25 @@ function doSuccessMenuBack(res) {
 		$.each(res.data, function(i, item) {
 			// 根据父节点获取一级菜单
 			if(item.parentCode == $("#parentCode").val()){
-				$('.left-menu').eq(0).append("<dd><div class=\"title\"><span><img src=\""+$("#basePath").val()+"/resources/security/images/leftico01.png\" /></span>"+item.menuName+"</div><ul id=\""+item.menuCode+"\" class=\"menuson\"></ul>")
+				$('.left-menu').eq(0).append("<dd><div class=\"title\"><span><img src=\""+$("#basePath").val()+"/resources/security/images/leftico01.png\" /></span>"+item.name+"</div><ul id=\""+item.code+"\" class=\"menuson\"></ul>")
 	        	// 二级菜单
 				$.each(res.data, function(j, nextItem) {
-					if(item.menuCode == nextItem.parentCode){
-		            	$("#"+item.menuCode).append("<li><cite></cite><a id=\"child_menu_"+i+"\" href=\""+$("#basePath").val()+nextItem.menuUrl+"\" target=\"rightFrame\">"+nextItem.menuName+"</a><i></i></li>");
+					if(item.code == nextItem.parentCode){
+		            	$("#"+item.code).append("<li class='"+(nextItem.url.indexOf('*') > -1 && 'disabled')+"' id=\""+nextItem.code+"\"><cite></cite><a id=\"child_menu_"+i+"\" href=\""+$("#basePath").val()+nextItem.url + "\" target=\"rightFrame\">"+nextItem.name+"</a><i></i></li>");
 		            }
 		        });
 			}
         });
 		
 		//导航切换
-		$(".menuson li").click(function(){
-			$(".menuson li.active").removeClass("active")
+		$(".menuson li").click(function(e){
+			if ($(this).find('a').attr('href').indexOf('*') > -1) {
+				e.preventDefault();
+				return;
+			}
+			$(".menuson li.active").removeClass("active");
 			$(this).addClass("active");
+			
 		});
 		$('.title').click(function(){
 			var $ul = $(this).next('ul');
@@ -39,9 +44,15 @@ function doSuccessMenuBack(res) {
 				$(this).next('ul').slideDown();
 			}
 		});
+		if (sessionStorage.getItem('activeMenu')) {
+			var activeMenu = sessionStorage.getItem('activeMenu');
+			$("#child_menu_0")[0].click();
+			sessionStorage.setItem('activeMenu', '');
+		} else {
+			//获取第一个菜单链接，显示左边属性
+			$("#child_menu_0")[0].click();
+		}
 		
-		//获取第一个菜单链接，显示左边属性
-		$("#child_menu_0")[0].click();
 	}else{
 		dealErrorMsg(res.msg);
 	}

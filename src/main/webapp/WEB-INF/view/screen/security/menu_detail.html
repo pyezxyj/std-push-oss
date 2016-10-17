@@ -1,3 +1,4 @@
+<#include 'layout/config.html' />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -13,8 +14,8 @@
 	<div class="place">
     	<span>位置：</span>
 	    <ul>
-	    	<li>权限管理</li>
-	    	<li>菜单管理</li>
+	    	<li>系统参数</li>
+	    	<li>菜单设置</li>
 	    	<li id="operContent">新增菜单</li>
    		</ul>
     </div>
@@ -22,12 +23,13 @@
 	    <div class="form-body">
 	    <div class="form-title"><span>菜单信息</span></div>
 		    <ul class="form-info">
-			    <li><label><b>*</b>菜单编号:</label><input type="text" id="menuCode" name="menuCode" class="control-def"/></li>
-			    <li><label><b>*</b>菜单名称:</label><input type="text" id="menuName" name="menuName" class="control-def"/></li>
-			    <li><label><b>*</b>菜单地址:</label><input type="text" id="menuUrl" name="menuUrl" class="control-def"/></li>
-			    <li><label>父菜单编号:</label>
+		    	<li><input type="hidden" id="code" name="code"/></li>
+		    	<li><label><b>*</b>父菜单编号:</label>
 			    	<select id="parentCode" name="parentCode" class="control-def"></select>
 			    </li>
+			    <li><label><b>*</b>菜单名称:</label><input type="text" id="name" name="name" class="control-def"/></li>
+			    <li><label><b>*</b>菜单地址:</label><input type="text" id="url" name="url" class="control-def"/></li>
+			    
 			    <li><label><b>*</b>类型:</label>
 			    	<select id="type" name="type" class="control-def">
 			    		<option value ="" selected="selected">请选择</option>

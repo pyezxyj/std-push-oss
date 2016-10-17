@@ -4,7 +4,6 @@ $.validator.setDefaults({
 });
 
 //配置通用的默认提示语
-
 $.extend($.validator.messages, {
     equalTo: "与密码输入不一致",
     required: "必填字段",
@@ -25,7 +24,6 @@ $.extend($.validator.messages, {
     max: jQuery.validator.format("请输入一个最大为 {0} 的值"),
     min: jQuery.validator.format("请输入一个最小为 {0} 的值")
 });
-
 
 /*-------------扩展验证规则-------------*/
 //邮箱 
@@ -54,13 +52,13 @@ jQuery.validator.addMethod("noactel", function (value, element) {
 
 //手机验证规则  
 jQuery.validator.addMethod("mobile", function (value, element) {
-    var mobile = /^1[3|4|5|7|8]\d{9}$/;
+    var mobile = /^.*$/;
 	return this.optional(element) || (mobile.test(value));
 }, "手机格式不对");
 
 //邮箱或手机验证规则  
 jQuery.validator.addMethod("mm", function (value, element) {
-    var mm = /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$|^1[3|4|5|7|8]\d{9}$/;
+    var mm = /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$|^.*$/;
 	return this.optional(element) || (mm.test(value));
 }, "邮箱或手机格式不对");
 
@@ -104,6 +102,20 @@ jQuery.validator.addMethod("gt",function(value, element){
     return returnVal;
 },"不能小于0 或空");
 
+$.validator.addMethod("isPositive",function(value,element){
+	var aint=parseFloat(value);
+    return this.optional(element) || aint > 0;
+}, '请输入大于0的数字');
+
+$.validator.addMethod("Z+",function(value,element){
+    return this.optional(element) || /^[1-9]\d*$/.test(value);
+}, '请输入正整数');
+
+$.validator.addMethod("amount",function(value,element){
+	var aint = '' + parseInt(value.replace(/[\,]/g, ''));
+    return /^\d+$/.test(aint) && aint.length <= 13;
+}, '金额必须>=0，且小于13位');
+
 //汉字
 jQuery.validator.addMethod("chinese", function (value, element) {
     var chinese = /^[\u4E00-\u9FFF]+$/;
@@ -128,6 +140,11 @@ jQuery.validator.addMethod("idCard", function (value, element) {
     return this.optional(element) || (isIDCard1.test(value)) || (isIDCard2.test(value));
 }, "身份证格式不对");
 
+jQuery.validator.addMethod("isNotFace", function(value, element) {
+    //var idCard = /^(\d{6})()?(\d{4})(\d{2})(\d{2})(\d{3})(\w)$/;
+    return this.optional(element) || /^[\s0-9a-zA-Z\u4e00-\u9fa5\u00d7\u300a\u2014\u2018\u2019\u201c\u201d\u2026\u3001\u3002\u300b\u300e\u300f\u3010\u3011\uff01\uff08\uff09\uff0c\uff1a\uff1b\uff1f\uff0d\uff03\uffe5\x21-\x7e]*$/.test(value);
+}, "请输入合法字符");
+
 //ie6兼容after
 var $beforeAfter = function(dom) {
     if (document.querySelector || !dom && dom.nodeType !== 1) return;
@@ -148,8 +165,39 @@ $beforeAfter($('.error'));
 
 $.validator.setDefaults({ ignore: ":hidden:not(textarea)" });
 $('form').validate({
+	highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+    },
+	unhighlight: function(element) {
+	    $(element).closest('.form-group').removeClass('has-error');
+	},
+	errorElement: 'span',
+	errorClass: 'help-block',
 	errorPlacement: function(error, element) {
-		label.insertAfter((element.is("textarea") && element.prev('.edui-default')) ? element.prev() : element);
+		if(element.parent('.input-group').length) {
+	        error.insertAfter(element.parent());
+	    } else {
+	        label.insertAfter((element.is("textarea") && element.prev('.edui-default')) ? element.prev() : element);
+	    }
 	}
 });
+
+setTimeout(function() {
+	$('form').on('reset', function() {
+		$(this).find('select').val('');
+	});
+}, 100);
+
+setTimeout(function() {
+	$('form').find('textarea').on('input propertychange', function() {
+		$(this).valid();
+	});
+}, 1000);
+
+
+
+
+
+
+
 
