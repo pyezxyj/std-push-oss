@@ -1,7 +1,10 @@
 package com.xnjr.app.general.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xnjr.app.controller.BaseController;
 import com.xnjr.app.general.ao.ISystemAO;
+import com.xnjr.app.http.BizConnecter;
+import com.xnjr.app.http.JsonUtils;
+import com.xnjr.app.util.UploadUtil;
 
 @Controller
 @RequestMapping(value = "general/system")
@@ -45,31 +51,25 @@ public class SystemController extends BaseController {
 
     @RequestMapping(value = "param/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Object editSystemParam(@RequestParam("id") String id,
-            @RequestParam("value") String value,
-            @RequestParam("note") String note,
-            @RequestParam(value = "remark", required = false) String remark) {
-        return systemAo.editSystemParam(id, value, note, this.getSessionUser()
-            .getUserName(), remark);
+    public Object editSystemParam(@RequestBody Map map) {
+    	map.put("updater", this.getSessionUser().getUserName());
+    	return BizConnecter.getBizData("809011", JsonUtils.mapToJson(map),
+                Object.class);
     }
 
     @RequestMapping(value = "param/page", method = RequestMethod.GET)
     @ResponseBody
-    public Object querySystemParamPage(
-            // notIn 查询不包括汇率的 in 查询只有汇率 什么都不传查所有
-            @RequestParam(value = "dhhlFlag", required = false) String dhhlFlag,
-            @RequestParam(value = "key", required = false) String key,
-            @RequestParam("start") String start,
-            @RequestParam("limit") String limit,
-            @RequestParam(value = "orderColumn", required = false) String orderColumn,
-            @RequestParam(value = "orderDir", required = false) String orderDir) {
-        return systemAo.querySystemParamPage(dhhlFlag, key, start, limit,
-            orderColumn, orderDir);
+    public Object querySystemParamPage(@RequestParam Map<String,String> map) {
+    	//map.put("key", map.get("ckey"));
+  	    return BizConnecter.getBizData("809015", JsonUtils.mapToJson(map),
+              Object.class);
     }
 
     @RequestMapping(value = "param/detail", method = RequestMethod.GET)
     @ResponseBody
-    public Object querySystemParamDetail(@RequestParam("id") String id) {
-        return systemAo.querySystemParamDetail(id);
+    public Object querySystemParamDetail(@RequestParam Map<String,String> map) {
+    	map.put("id", map.get("code"));
+  	    return BizConnecter.getBizData("809016", JsonUtils.mapToJson(map),
+              Object.class);
     }
 }

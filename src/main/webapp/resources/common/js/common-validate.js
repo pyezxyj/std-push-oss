@@ -164,23 +164,27 @@ var $beforeAfter = function(dom) {
 $beforeAfter($('.error'));
 
 $.validator.setDefaults({ ignore: ":hidden:not(textarea)" });
-$('form').validate({
-	highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
-    },
-	unhighlight: function(element) {
-	    $(element).closest('.form-group').removeClass('has-error');
-	},
-	errorElement: 'span',
-	errorClass: 'help-block',
+$.validator.setDefaults({ 
 	errorPlacement: function(error, element) {
 		if(element.parent('.input-group').length) {
 	        error.insertAfter(element.parent());
+	    } else if (element.is('input[type=radio]')) {
+	    	error.insertAfter(element.parent().children('label').last());
 	    } else {
-	        label.insertAfter((element.is("textarea") && element.prev('.edui-default')) ? element.prev() : element);
+	    	error.insertAfter((element.is("textarea") && element.prev('.edui-default')) ? element.prev() : element);
 	    }
 	}
-});
+ });
+//$('form').validate({
+//	highlight: function(element) {
+//        $(element).closest('.form-group').addClass('has-error');
+//    },
+//	unhighlight: function(element) {
+//	    $(element).closest('.form-group').removeClass('has-error');
+//	},
+//	errorElement: 'span',
+//	errorClass: 'help-block'
+//});
 
 setTimeout(function() {
 	$('form').on('reset', function() {

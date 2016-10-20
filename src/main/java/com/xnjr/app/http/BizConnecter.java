@@ -23,6 +23,7 @@ public class BizConnecter {
     public static final String YES = "0";
     
     public static final String MAIN_URL = PropertiesUtil.Config.MAIN_URL;
+    public static final String BASE_URL = PropertiesUtil.Config.BASE_URL;
 
     public static <T> T getBizData(String code, String json, Class<T> clazz) {
         String data = getBizData(code, json);
@@ -56,8 +57,10 @@ public class BizConnecter {
 
     public static String getPostUrl(String code) {
         String postUrl = null;
-        if (code.startsWith("805")) {
+        if (code.startsWith("805") || code.startsWith("806")) {
             postUrl = MAIN_URL;
+        } else {
+        	postUrl = BASE_URL;
         }
         return postUrl;
     }

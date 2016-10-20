@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonObject;
 import com.xnjr.app.controller.BaseController;
 import com.xnjr.app.enums.EUserKind;
+import com.xnjr.app.enums.EUserStatus;
 import com.xnjr.app.exception.BizException;
 import com.xnjr.app.http.BizConnecter;
 import com.xnjr.app.http.JsonUtils;
@@ -83,10 +84,9 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/pwd/reset", method = RequestMethod.POST)
     @ResponseBody
-    public Object resetPwd(@RequestParam("mobile") String mobile,
-            @RequestParam("smsCaptcha") String smsCaptcha,
-            @RequestParam("newLoginPwd") String newLoginPwd) {
-        return userAO.resetLoginPwd(mobile, smsCaptcha, newLoginPwd);
+    public Map resetPwd(@RequestBody Map map) {
+    	return BizConnecter.getBizData("805078", JsonUtils.mapToJson(map),
+                Map.class);
     }
 
     @RequestMapping(value = "/tradePwd/change", method = RequestMethod.POST)
@@ -134,30 +134,23 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Map addUser(@RequestParam("loginName") String loginName,
-    		@RequestParam("roleId") String roleId,
-            @RequestParam(value = "mobile", required = false) String mobile,
-            @RequestParam(value = "idKind", required = false) String idKind,
-            @RequestParam(value = "idNo", required = false) String idNo,
-            @RequestParam(value = "realName", required = false) String realName,
-            @RequestParam(value = "userReferee", required = false) String userReferee,
-            @RequestParam(value = "remark", required = false) String remark,
-            // @RequestParam(value = "kind", required = false) String kind,
-            @RequestParam(value = "pdf", required = false) String pdf) {
-        Map user = userAO.addUser(loginName, mobile, idKind, idNo, realName,
-            userReferee, this.getSessionUser().getUserName(), remark,
-            EUserKind.Operator.getCode(), pdf);
-        userAO.allotRole((String)user.get("userId"), roleId,
-                this.getSessionUser().getUserName(), remark);
+    public Map addUser(@RequestBody Map map) {
+    	map.put("kind", EUserKind.Operator.getCode());
+    	map.put("updater", this.getSessionUser().getUserName());
+    	Map user = BizConnecter.getBizData("805042", JsonUtils.mapToJson(map),
+                Map.class);
+        userAO.allotRole((String)user.get("userId"), (String)map.get("roleId"),
+                this.getSessionUser().getUserId(), (String)map.get("remark"));
         return user;
     }
 
-    @RequestMapping(value = "/drop", method = RequestMethod.POST)
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Object dropUser(@RequestParam("userId") String userId,
-            @RequestParam(value = "remark", required = false) String remark) {
-        return userAO.cancelUser(userId, this.getSessionUser().getUserName(),
-            remark);
+    public Map cancelUser(@RequestBody Map map) {
+    	map.put("toStatus", "2");
+    	map.put("updater", this.getSessionUser().getUserName());
+    	return BizConnecter.getBizData("805052", JsonUtils.mapToJson(map),
+                Map.class);
     }
 
     @RequestMapping(value = "/active", method = RequestMethod.POST)

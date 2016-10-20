@@ -1,119 +1,48 @@
-$(function() {
-	//按钮权限判断
+$(function(){
 	showPermissionControl();
 	
-	var roleList = [];
+	var router = '/user';
 	
-	$('#status').renderDropdown(Dict.getName('user_status'));
-	
-	doGetAjaxIsAsync($("#basePath").val()+"/role/list", {}, false, function(res) {
-		roleList = res.data;
-		$('#roleCode').renderDropdown(res.data, 'code', 'name');
+	var columns = [{
+		field : '',
+		title : '',
+		checkbox : true
+	}, {
+		field : 'loginName',
+		title : '用户名',
+		search: true
+	}, {
+		field: 'status',
+		title: '状态',
+		formatter : Dict.getNameForList('user_status'),
+		type: 'select',
+		key: 'user_status'
+	}, {
+		field: 'roleCode',
+		title: '角色',
+		type: 'select',
+		url: $('#basePath').val() + '/role/list',
+		keyName: 'code',
+		valueName: 'name',
+		search: true
+	}, {
+    	field: 'remark',
+    	title: '备注'
+    }];
+	buildList(router, columns, {
+		pageRouter: '/security/user'
 	});
 	
-	function renderRole(value) {
-		var renderName = '-';
-		roleList.forEach(function(role) {
-			if (role.code == value) {
-				renderName = role.name;
-			}
-		});
-		return renderName;
-	}
-	// 列表查询
-	function queryTableData(){
-		var columns = [{
-			field : '',
-			title : '',
-			align : 'left',
-			valign : 'middle',
-			checkbox : true
-		}, {
-			field : 'loginName',
-			title : '用户名',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		},  {
-			field : 'status',
-			title : '状态',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter : Dict.getNameForList('user_status')
-		}, {
-			field : 'roleCode',
-			title : '角色',
-			align : 'left',
-			valign : 'middle',
-			sortable : false,
-			formatter: renderRole
-		}, {
-			field : 'remark',
-			title : '备注',
-			align : 'left',
-			valign : 'middle',
-			sortable : false
-		}];
-		
-		// 绑定列表
-		$('#tableList').bootstrapTable({
-			method : "get",
-			url : $("#basePath").val()+"/user/page",
-			 
-			striped : true,
-			clickToSelect : true,
-			singleSelect : true,
-			queryParams : function(params) {
-				return {
-					roleCode : $("#roleCode").val(),
-					loginName : $("#loginName").val(),
-					userReferee : $("#userReferee").val(),
-					status : $("#status").val(),
-					updater : $("#updater").val(),
-					start : params.offset / params.limit + 1,
-					limit : params.limit
-				};
-			},
-			queryParamsType : 'limit',
-			responseHandler : function(res) {
-				return {
-					rows : res.data.list,
-					total : res.data.totalCount
-				};
-			},
-			pagination : true,
-			sidePagination : 'server', // 服务端请求
-			totalRows : 0,
-			pageNumber : 1,
-			pageSize : 10,
-			pageList : [ 10, 20, 30, 40, 50 ],
-			columns : columns
-		});
-	}
-
-	function doSuccessDelBack(res) {
-		if (res.success == true) {
-			alert("操作成功");
-			$('#tableList').bootstrapTable('refresh');
-		}else{
-			alert(res.msg);
+	$('#assignBtn').click(function() {
+		var selRecords = $('#tableList').bootstrapTable('getSelections')
+		if(selRecords.length <= 0){
+			alert("请选择记录");
+			return;
 		}
-	}
-	// 表格初始化
-	queryTableData();
-	
-	// 查询
-	$('#searchBtn').click(function() {
-		$('#tableList').bootstrapTable('refresh',{url: $("#basePath").val()+"/user/page"});
+		window.location.href = $("#basePath").val()+"/security/user_role.htm?userId="+selRecords[0].userId+"&loginName="+encodeURI(encodeURI(selRecords[0].loginName))+"&kind="+selRecords[0].kind;
 	});
 	
-	//添加用户
-	$('#addBtn').click(function() {
-		location.href = $("#basePath").val()+"/security/user_detail.htm";
-	});
-	
-	$('#resetPwdBtn').click(function() {
+	$('#resetBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections')
 		if(selRecords.length <= 0){
 			alert("请选择记录");
@@ -122,67 +51,22 @@ $(function() {
 		location.href = $("#basePath").val()+"/security/user_pwd_reset.htm?userId=" + selRecords[0].userId + '&loginName=' + selRecords[0].loginName;
 	});
 	
-	//代注册
-	$('#replaceAddBtn').click(function() {
-		location.href = $("#basePath").val()+"/security/user_replaceadd.htm";
-	});
-	
-	//编辑用户手机
-	$('#editBtn').click(function() {
-		var selRecords = $('#tableList').bootstrapTable('getSelections')
+	$('#rockBtn').click(function() {
+		var selRecords = $('#tableList').bootstrapTable('getSelections');
 		if(selRecords.length <= 0){
 			alert("请选择记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+"/security/change_mobile.htm?userId="+selRecords[0].userId;
+    	var url = $("#basePath").val()+ router + '/cancel';
+    	var data = {userId:selRecords[0].userId};
+		ajaxPost(url, data).then(function(res) {
+			if (res.success) {
+				alert('操作成功');
+				$('#tableList').bootstrapTable('refresh',{url: $('#tableList').bootstrapTable('getOptions').url});
+			} else {
+				alert(res.msg);
+			}
+		});
 	});
-	
-	//锁定
-	$('#cancelBtn').click(function() {
-		var selRecords = $('#tableList').bootstrapTable('getSelections')
-		if(selRecords.length <= 0){
-			alert("请选择记录");
-			return;
-		}
-		if(selRecords[0].status != 0){
-			alert("请选择正常记录");
-			return;
-		}
-		if(!confirm("确认锁定用户["+selRecords[0].loginName+"]?")){
-    		return false;
-    	}
-		var data = {"userId":selRecords[0].userId};
-		var url = $("#basePath").val()+"/user/drop";
-		doPostAjax(url, data, doSuccessDelBack);
-	});
-	
-	//解锁
-	$('#unlockBtn').click(function() {
-		var selRecords = $('#tableList').bootstrapTable('getSelections')
-		if(selRecords.length <= 0){
-			alert("请选择记录");
-			return;
-		}
-		if(selRecords[0].status != 1 && selRecords[0].status != 2){
-			alert("请选择锁定记录");
-			return;
-		}
-		if(!confirm("确认解锁用户["+selRecords[0].loginName+"]?")){
-    		return false;
-    	}
-		var data = {"userId":selRecords[0].userId};
-		var url = $("#basePath").val()+"/user/active";
-		doPostAjax(url, data, doSuccessDelBack);
-	});
-	
-	//更改角色
-	$('#setRoleBtn').click(function() {
-		var selRecords = $('#tableList').bootstrapTable('getSelections')
-		if(selRecords.length <= 0){
-			alert("请选择记录");
-			return;
-		}
-		window.location.href = $("#basePath").val()+"/security/user_role.htm?userId="+selRecords[0].userId+"&loginName="+encodeURI(encodeURI(selRecords[0].loginName))+"&kind="+selRecords[0].kind;
-	});
-});
+})
 

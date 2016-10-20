@@ -112,30 +112,27 @@ public class RoleController extends BaseController {
     // 角色本身增删改查
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Object addRole(
-            @RequestParam(value = "kind", required = false) String kind,
-            @RequestParam("name") String name,
-            @RequestParam("level") String level,
-            @RequestParam(value = "remark", required = false) String remark) {
-        return roleAO.addRole(kind, name, level, this.getSessionUser()
-            .getUserName(), remark);
+    public Object addRole(@RequestBody Map map) {
+    	map.put("kind", "1");
+        map.put("updater", this.getSessionUser().getUserName());
+    	return BizConnecter.getBizData("805023", JsonUtils.mapToJson(map),
+                Object.class);
     }
 
-    @RequestMapping(value = "/drop", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Object dropRole(@RequestParam("code") String code) {
-        return roleAO.dropRole(code);
+    public Object dropRole(@RequestBody Map map) {
+    	return BizConnecter.getBizData("805024", JsonUtils.mapToJson(map),
+                Object.class);
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Object editRole(@RequestParam("code") String code,
-            @RequestParam("kind") String kind,
-            @RequestParam("name") String name,
-            @RequestParam("level") String level,
-            @RequestParam(value = "remark", required = false) String remark) {
-        return roleAO.editRole(code, kind, name, level, this.getSessionUser()
-            .getUserName(), remark);
+    public Object editRole(@RequestBody Map map) {
+    	map.put("kind", "1");
+        map.put("updater", this.getSessionUser().getUserName());
+    	return BizConnecter.getBizData("805025", JsonUtils.mapToJson(map),
+                Object.class);
     }
 //    @RequestMapping(value = "/edit", method = RequestMethod.POST)
 //    @ResponseBody

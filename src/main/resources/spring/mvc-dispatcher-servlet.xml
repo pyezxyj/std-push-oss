@@ -212,6 +212,10 @@
 		    <mvc:mapping path="/message/**"/>
 		    <!-- 消息相关end -->
 		    
+		    <!-- 标准相关start -->
+		    <mvc:mapping path="/std/**"/>
+		    <!-- 标准相关end -->
+		    
 		    <mvc:mapping path="/bank/**"/>
 		    <mvc:mapping path="/subbank/**"/>
 			<mvc:mapping path="/gene/smscaptcha/send" />

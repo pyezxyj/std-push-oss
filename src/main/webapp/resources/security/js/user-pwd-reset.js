@@ -13,7 +13,14 @@ $(function() {
 		});
 		data["userId"] = $("#userId").html();
 		var url = $("#basePath").val()+"/user/pwd/reset";
-		doPostAjax(url, data, doSuccessBack);
+		ajaxPost(url, data).then(function(res) {
+			if (res.success == true) {
+				alert("操作成功");
+				window.location.href = $("#basePath").val()+"/security/user.htm";
+			}else{
+				alert(res.msg);
+			}
+		});
 	});
 	
 	//返回
@@ -32,12 +39,3 @@ $(function() {
 		}
 	});
 });
-
-function doSuccessBack(res) {
-	if (res.success == true) {
-		alert("操作成功");
-		window.location.href = $("#basePath").val()+"/security/user.htm";
-	}else{
-		alert(res.msg);
-	}
-}

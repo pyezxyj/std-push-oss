@@ -69,8 +69,8 @@ textarea.error{background: none;margin: 0; width: 504px;}
 /*操作按钮*/
 .tools{clear:both; height:0px; margin-bottom:8px;}
 .toolbar{float:left;}
-.toolbar li{line-height:33px; height:33px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-right:5px;border-radius: 3px; behavior:url(js/pie.htc); cursor:pointer; display:none;}
-.toolbar li span{float:left; margin-left:10px; margin-right:5px; margin-top:5px;}
+.toolbar li{line-height:33px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-right:5px;border-radius: 3px; behavior:url(js/pie.htc); cursor:pointer; display:none;}
+.toolbar li span{float:left; margin-left:5px; margin-right:5px;}
 
 /*操作按钮-二级页面*/
 .toolbar_children{float:left;}
@@ -322,4 +322,26 @@ input[type=file] {
 
 .btn-file.error {
 	border: 1px solid red;
+}
+
+li input[type="radio"] {
+	vertical-align: top;
+    margin-top: 10px;
+}
+
+.form-info li label.radio-text {
+	display: inline-block;
+	margin-top: 10px;
+	margin-right: 50px;
+	width: auto;
+    line-height: initial;
+    font-weight: normal;
+    padding-right: 0;
+    max-width: none;
+    float: initial;
+    margin-left: 5px;
+}
+
+.form-info li label i {
+	padding-left: 0px;
 }

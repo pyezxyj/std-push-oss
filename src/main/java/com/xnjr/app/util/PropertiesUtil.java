@@ -30,6 +30,8 @@ public class PropertiesUtil {
         // .getProperty("ACCOUNT_SERVER");
 
         public static String MAIN_URL = props.getProperty("MAIN_URL");
+        
+        public static String BASE_URL = props.getProperty("BASE_URL");
 
         public static String URL_PREFIX = props.getProperty("URL_PREFIX");
 
