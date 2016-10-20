@@ -78,12 +78,12 @@ $(function() {
 		hidden: isBranch
 	}, {
 		title: '联系电话',
-		field: 'email',
+		field: 'mobile',
 		maxlength: 30,
 		readonly: !!view
 	}, {
 		title: '邮箱',
-		field: 'mobile',
+		field: 'email',
 		maxlength: 30,
 		readonly: !!view
 	}, {

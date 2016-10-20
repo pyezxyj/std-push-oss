@@ -139,7 +139,7 @@ public class UserController extends BaseController {
     	map.put("updater", this.getSessionUser().getUserName());
     	Map user = BizConnecter.getBizData("805042", JsonUtils.mapToJson(map),
                 Map.class);
-        userAO.allotRole((String)user.get("userId"), (String)map.get("roleId"),
+        userAO.allotRole((String)user.get("userId"), (String)map.get("roleCode"),
                 this.getSessionUser().getUserId(), (String)map.get("remark"));
         return user;
     }

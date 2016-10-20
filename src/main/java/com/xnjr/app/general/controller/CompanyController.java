@@ -28,7 +28,7 @@ public class CompanyController extends BaseController {
     	map.put("logo", UploadUtil.uploadPicture((String) map.get("logo")));
     	map.put("qrCode", UploadUtil.uploadPicture((String) map.get("qrCode")));
     	map.put("updater", this.getSessionUser().getUserName());
-    	return BizConnecter.getBizData("806000", JsonUtils.mapToJson(map),
+    	return BizConnecter.getBizData("806005", JsonUtils.mapToJson(map),
                 Object.class);
     }
     
