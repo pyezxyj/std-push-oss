@@ -7,7 +7,7 @@ var dataCache = {};
  */
 function doPostAjax(url, data, successfn) {
 	//请求前显示遮罩
-	maskPop();
+	//maskPop();
     $.ajax({
         type: "post",
         url: url,
@@ -15,7 +15,7 @@ function doPostAjax(url, data, successfn) {
         dataType: 'json',
         success: function (data) {
         	//请求成功之后隐藏遮罩
-        	unMaskPop();
+        	//unMaskPop();
         	successfn(data);
         },
         error: function () {

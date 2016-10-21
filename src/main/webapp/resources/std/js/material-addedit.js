@@ -35,7 +35,28 @@ $(function() {
 		required: true,
 		type: 'select',
 		key: 'material_kind',
-		readonly: view
+		readonly: view,
+		onChange: function(v) {
+			if (v == 1) {
+				$('#endNoteType').parent().show();
+				$('#type').parent().show();
+				$('#pic2').parent().show();
+				$('#description').parent().show();
+				$('#url').parent().hide();
+			} else if (v == 2) {
+				$('#endNoteType').parent().hide();
+				$('#type').parent().hide();
+				$('#pic2').parent().hide();
+				$('#description').parent().hide();
+				$('#url').parent().show();
+			} else {
+				$('#endNoteType').parent().hide();
+				$('#type').parent().hide();
+				$('#pic2').parent().hide();
+				$('#description').parent().hide();
+				$('#url').parent().hide();
+			}
+		}
 	}, {
 		title: '尾注类型',
 		field: 'endNoteType',
@@ -43,7 +64,11 @@ $(function() {
 		type: 'select',
 		key: 'endnote_type',
 		readonly: view,
+		hidden: true,
 		value: function(r) {
+			if (!r.endNote) {
+				return '0';
+			}
 			if (r.endNote.indexOf('http://') > -1) {
 				return '2';
 			} else {
@@ -84,6 +109,7 @@ $(function() {
 		title: '详情类型',
 		field: 'type',
 		required: true,
+		hidden: true,
 		type: 'select',
 		key: 'material_type',
 		readonly: view,
@@ -97,6 +123,9 @@ $(function() {
 			} else {
 				$('#pic2').parent().hide();
 				$('#url').parent().hide();
+				if ($('#kind').val() == 2) {
+					$('#url').parent().show();
+				}
 			}
 		}
 	}, {
@@ -118,6 +147,7 @@ $(function() {
 		field: 'description',
 		required: true,
 		type: 'textarea',
+		hidden: true,
 		readonly: view
 	}, {
 		title: '备注',

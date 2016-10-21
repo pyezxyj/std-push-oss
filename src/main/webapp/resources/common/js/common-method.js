@@ -829,6 +829,10 @@ function buildDetail(router, fields, code, options) {
 			rules[item.field].max = item.max;
 		}
 		
+		if (item.tm) {
+			rules[item.field].tm = item.tm;
+		}
+		
 		if (item['Z+']) {
 			rules[item.field]['Z+'] = item['Z+'];
 		}
@@ -838,7 +842,7 @@ function buildDetail(router, fields, code, options) {
 		}
 		
 		if (code && item.readonly) {
-			html += '<li type="'+(item.amount ? 'amount' : '')+'"><label>'+item.title+':</label><span id="'+item.field+'" name="'+item.field+'"></span></li>';
+			html += '<li type="'+(item.amount ? 'amount' : '')+'" style="'+(item.hidden ? 'display: none' : '')+'"><label>'+item.title+':</label><span id="'+item.field+'" name="'+item.field+'"></span></li>';
 		} else {
 			html += '<li type="'+(item.amount ? 'amount' : '')+'" style="'+(item.hidden ? 'display: none' : '')+'"><label>'+(item.title ? ('<b>'+ ((item.required && '*') || '') +'</b>'+item.title+':') : '')+'</label>';
 			if (item.type == 'hidden') {
@@ -1137,3 +1141,10 @@ function buildDetail(router, fields, code, options) {
 		});
 	}
 }
+
+$(document).ajaxStart(function() {
+	$.blockUI({
+		overlayCSS: {backgroundColor: '#fff', opacity: 0.5},
+		message: null
+	});
+}).ajaxStop($.unblockUI);

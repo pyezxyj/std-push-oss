@@ -22,7 +22,11 @@ $(function() {
 		title : '法人'
 	}, {
 		field: 'userId',
-		title: '实际控制人'
+		title: '实际控制人',
+		type: 'select',
+		url: $('#basePath').val() + '/user/list',
+		keyName: 'userId',
+		valueName: 'loginName'
 	}, {
 		field: 'location',
 		title: 'UI位置',

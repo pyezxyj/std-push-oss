@@ -61,7 +61,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/add", method = RequestMethod.POST)
     @ResponseBody
     public Object bannerAdd(@RequestBody Map map) {
-    	map.put("type", map.get("2"));
+    	map.put("type", "2");
   		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
   		return BizConnecter.getBizData("806040", JsonUtils.mapToJson(map),
               Object.class);
@@ -79,7 +79,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/edit", method = RequestMethod.POST)
     @ResponseBody
     public Object bannerEdit(@RequestBody Map map) {
-    	map.put("type", map.get("2"));
+    	map.put("type", "2");
     	map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
   		return BizConnecter.getBizData("806042", JsonUtils.mapToJson(map),
               Object.class);
@@ -115,7 +115,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/add", method = RequestMethod.POST)
     @ResponseBody
     public Object menuAdd(@RequestBody Map map) {
-    	map.put("type", map.get("1"));
+    	map.put("type", "1");
   		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
   		return BizConnecter.getBizData("806040", JsonUtils.mapToJson(map),
               Object.class);
@@ -133,7 +133,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/edit", method = RequestMethod.POST)
     @ResponseBody
     public Object menuEdit(@RequestBody Map map) {
-    	map.put("type", map.get("1"));
+    	map.put("type", "1");
   		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
   		return BizConnecter.getBizData("806042", JsonUtils.mapToJson(map),
               Object.class);

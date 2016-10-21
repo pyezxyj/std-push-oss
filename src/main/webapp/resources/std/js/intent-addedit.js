@@ -42,7 +42,7 @@ $(function() {
 		readonly: true
 	}, {
 		title: '备注',
-		field: 'remark2',
+		field: 'remark',
 		value: '',
 		maxlength: 250,
 		hidden: !!view

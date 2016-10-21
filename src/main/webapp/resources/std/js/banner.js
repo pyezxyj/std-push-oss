@@ -11,11 +11,12 @@ $(function() {
 		field : 'name',
 		title : '名字'
 	},{
-		field : 'location',
+		field : 'parentCode',
 		title : '位置',
 		type: 'select',
-		formatter: Dict.getNameForList('banner_location'),
-		key: 'banner_location',
+		url: $('#basePath').val() + '/std/menu/list?parentCode=0&companyCode=' + getCompanyId(getUserId()),
+		keyName: 'code',
+		valueName: 'name',
 		search: true
 	},{
     	field : 'orderNo',
@@ -27,10 +28,6 @@ $(function() {
     	formatter: Dict.getNameForList('active_status'),
     	search: true,
     	key: 'active_status'
-    }, {
-    	field: 'updateDatetime',
-    	title: '上传时间',
-    	formatter: dateTimeFormat
     }, {
 		field : 'remark',
 		title : '备注'

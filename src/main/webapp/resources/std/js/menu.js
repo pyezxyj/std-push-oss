@@ -12,12 +12,13 @@ $(function() {
 		title : '名称',
 		search: true
 	},{
-    	field: 'location',
-    	title: '位置',
-    	type: 'select',
-    	formatter: Dict.getNameForList('menu_location'),
-    	search: true,
-    	key: 'menu_location'
+		field : 'parentCode',
+		title : '位置',
+		type: 'select',
+		url: $('#basePath').val() + '/std/menu/list?parentCode=0&companyCode=' + getCompanyId(getUserId()),
+		keyName: 'code',
+		valueName: 'name',
+		search: true
     }, {
 		field : 'orderNo',
 		title : '顺序'
@@ -38,7 +39,11 @@ $(function() {
     	formatter: Dict.getNameForList('menu_updown'),
     	key: 'menu_updown'
     }];
-	buildList(router, columns);
+	buildList(router, columns, {
+		searchParams: {
+			companyCode: getCompanyId(getUserId())
+		}
+	});
 	$('#updownBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');
 		if(selRecords.length <= 0){

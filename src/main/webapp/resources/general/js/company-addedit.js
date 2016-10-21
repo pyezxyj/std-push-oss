@@ -11,6 +11,10 @@ $(function() {
 	var router = '/general/company';
 	
 	var fields = [{
+		field: 'location',
+		defaultValue: '1',
+		hidden: true
+	}, {
 		title: '全称',
 		field: 'name',
 		required: true,
@@ -71,7 +75,7 @@ $(function() {
 		field: 'userId',
 		required: true,
 		type: 'select',
-		url: $('#basePath').val() + '/user/list',
+		url: $('#basePath').val() + '/user/'+(view ? 'detail' : 'list'),
 		keyName: 'userId',
 		valueName: 'loginName',
 		readonly: !!view,
@@ -80,11 +84,13 @@ $(function() {
 		title: '联系电话',
 		field: 'mobile',
 		maxlength: 30,
+		tm: true,
 		readonly: !!view
 	}, {
 		title: '邮箱',
 		field: 'email',
 		maxlength: 30,
+		email: true,
 		readonly: !!view
 	}, {
 		title: '传真',
@@ -95,6 +101,12 @@ $(function() {
 		title: 'qq',
 		field: 'qq',
 		maxlength: 30,
+		readonly: !!view
+	}, {
+		title: 'copyright',
+		field: 'copyright',
+		maxlength: 30,
+		required: true,
 		readonly: !!view
 	}, {
 		title: '微信号',

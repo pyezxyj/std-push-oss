@@ -15,10 +15,12 @@ $(function() {
 		readonly: view
 	}, {
 		title: '位置',
-		field: 'location',
+		field: 'parentCode',
 		required: true,
 		type: 'select',
-		key: 'menu_location',
+		url: $('#basePath').val() + '/std/menu/'+(view ? 'detail' : 'list')+'?parentCode=0&companyCode=' + getCompanyId(getUserId()),
+		keyName: 'code',
+		valueName: 'name',
 		readonly: view
 	}, {
 		title: '顺序',

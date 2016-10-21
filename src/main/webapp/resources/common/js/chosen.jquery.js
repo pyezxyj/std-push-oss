@@ -483,7 +483,7 @@
       } else if (this.form_field.offsetWidth) {
         return "" + this.form_field.offsetWidth + "px";
       } else {
-    	  return 345 + 'px';
+    	  return 320 + 'px';
       }
     };
 
