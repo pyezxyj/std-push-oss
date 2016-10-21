@@ -52,8 +52,9 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "param/edit", method = RequestMethod.POST)
     @ResponseBody
     public Object editSystemParam(@RequestBody Map map) {
+    	map.put("id", map.get("code"));
     	map.put("updater", this.getSessionUser().getUserName());
-    	return BizConnecter.getBizData("809011", JsonUtils.mapToJson(map),
+    	return BizConnecter.getBizData("807711", JsonUtils.mapToJson(map),
                 Object.class);
     }
 
@@ -61,7 +62,7 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Object querySystemParamPage(@RequestParam Map<String,String> map) {
     	//map.put("key", map.get("ckey"));
-  	    return BizConnecter.getBizData("809015", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("807715", JsonUtils.mapToJson(map),
               Object.class);
     }
 
@@ -69,7 +70,7 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Object querySystemParamDetail(@RequestParam Map<String,String> map) {
     	map.put("id", map.get("code"));
-  	    return BizConnecter.getBizData("809016", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("807716", JsonUtils.mapToJson(map),
               Object.class);
     }
 }

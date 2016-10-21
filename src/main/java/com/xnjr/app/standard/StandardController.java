@@ -61,7 +61,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/add", method = RequestMethod.POST)
     @ResponseBody
     public Object bannerAdd(@RequestBody Map map) {
-  		map.put("updater", this.getSessionUser().getUserName());
+    	map.put("type", map.get("2"));
   		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
   		return BizConnecter.getBizData("806040", JsonUtils.mapToJson(map),
               Object.class);
@@ -79,7 +79,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/edit", method = RequestMethod.POST)
     @ResponseBody
     public Object bannerEdit(@RequestBody Map map) {
-    	map.put("updater", this.getSessionUser().getUserName());
+    	map.put("type", map.get("2"));
     	map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
   		return BizConnecter.getBizData("806042", JsonUtils.mapToJson(map),
               Object.class);
@@ -89,7 +89,8 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/page", method = RequestMethod.GET)
     @ResponseBody
     public Object bannerPage(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806050", JsonUtils.mapToJson(map),
+    	map.put("type", "2");
+  	    return BizConnecter.getBizData("806051", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -97,7 +98,8 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/list", method = RequestMethod.GET)
     @ResponseBody
     public Object bannerList(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806051", JsonUtils.mapToJson(map),
+    	map.put("type", "2");
+  	    return BizConnecter.getBizData("806053", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -105,7 +107,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/detail", method = RequestMethod.GET)
     @ResponseBody
     public Object bannerDetail(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806052", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806054", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -113,7 +115,9 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/add", method = RequestMethod.POST)
     @ResponseBody
     public Object menuAdd(@RequestBody Map map) {
-  		return BizConnecter.getBizData("806080", JsonUtils.mapToJson(map),
+    	map.put("type", map.get("1"));
+  		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
+  		return BizConnecter.getBizData("806040", JsonUtils.mapToJson(map),
               Object.class);
 	}
     
@@ -121,7 +125,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/delete", method = RequestMethod.POST)
     @ResponseBody
     public Object menuDelete(@RequestBody Map map) {
-  		return BizConnecter.getBizData("806081", JsonUtils.mapToJson(map),
+  		return BizConnecter.getBizData("806041", JsonUtils.mapToJson(map),
               Object.class);
 	}
     
@@ -129,7 +133,9 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/edit", method = RequestMethod.POST)
     @ResponseBody
     public Object menuEdit(@RequestBody Map map) {
-  		return BizConnecter.getBizData("806082", JsonUtils.mapToJson(map),
+    	map.put("type", map.get("1"));
+  		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
+  		return BizConnecter.getBizData("806042", JsonUtils.mapToJson(map),
               Object.class);
 	}
     
@@ -137,7 +143,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/updown", method = RequestMethod.POST)
     @ResponseBody
     public Object menuUpdown(@RequestBody Map map) {
-  		return BizConnecter.getBizData("806083", JsonUtils.mapToJson(map),
+  		return BizConnecter.getBizData("806044", JsonUtils.mapToJson(map),
               Object.class);
 	}
     
@@ -145,7 +151,8 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/page", method = RequestMethod.GET)
     @ResponseBody
     public Object menuPage(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806090", JsonUtils.mapToJson(map),
+    	map.put("type", "1");
+  	    return BizConnecter.getBizData("806051", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -153,7 +160,8 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/list", method = RequestMethod.GET)
     @ResponseBody
     public Object menuList(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806091", JsonUtils.mapToJson(map),
+    	map.put("type", "1");
+  	    return BizConnecter.getBizData("806053", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -161,7 +169,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/detail", method = RequestMethod.GET)
     @ResponseBody
     public Object menuDetail(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806092", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806054", JsonUtils.mapToJson(map),
               Object.class);
     }
     

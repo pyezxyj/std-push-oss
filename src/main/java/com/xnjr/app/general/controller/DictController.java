@@ -25,14 +25,14 @@ public class DictController extends BaseController {
     @ResponseBody
     public Object addDict(@RequestBody Map map) {
     	map.put("updater", this.getSessionUser().getUserName());
-  		return BizConnecter.getBizData("809000", JsonUtils.mapToJson(map),
+  		return BizConnecter.getBizData("807700", JsonUtils.mapToJson(map),
               Object.class);
 	}
 
-    @RequestMapping(value = "/drop", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public Object dropDict(@RequestBody Map map) {
-  		return BizConnecter.getBizData("809001", JsonUtils.mapToJson(map),
+  		return BizConnecter.getBizData("807701", JsonUtils.mapToJson(map),
               Object.class);
 	}
 
@@ -41,21 +41,21 @@ public class DictController extends BaseController {
     public Object editDict(@RequestBody Map map) {
     	map.put("id", map.get("code"));
     	map.put("updater", this.getSessionUser().getUserName());
-  		return BizConnecter.getBizData("809002", JsonUtils.mapToJson(map),
+  		return BizConnecter.getBizData("807702", JsonUtils.mapToJson(map),
               Object.class);
 	}
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
     public Object queryDictPage(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("809005", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("807705", JsonUtils.mapToJson(map),
               Object.class);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object queryDictList(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("809006", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("807706", JsonUtils.mapToJson(map),
               Object.class);
     }
 
@@ -63,7 +63,7 @@ public class DictController extends BaseController {
     @ResponseBody
     public Object queryDictDetail(@RequestParam Map<String,String> map) {
     	map.put("id", map.get("code"));
-  	    return BizConnecter.getBizData("809007", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("807707", JsonUtils.mapToJson(map),
               Object.class);
     }
 }
