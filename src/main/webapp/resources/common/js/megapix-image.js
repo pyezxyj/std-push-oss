@@ -64,7 +64,7 @@
   function renderImageToDataURL(img, options, doSquash) {
     var canvas = document.createElement('canvas');
     renderImageToCanvas(img, canvas, options, doSquash);
-    return canvas.toDataURL("image/jpeg", options.quality || 0.8);
+    return canvas.toDataURL("image/webp", options.quality || 0.8);
   }
 
   /**

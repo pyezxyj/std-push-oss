@@ -424,6 +424,14 @@ $.fn.renderDropdown = function(data, keyName, valueName, defaultOption) {
 	return data;
 };
 
+$.fn.renderDropdown2 = function(data, defaultOption) {
+	var html = "<option value=''>请选择</option>" + (defaultOption || '');
+	for (var k in data) {
+		html += "<option value='"+k+"'>"+data[k]+"</option>";
+	}
+	this.html(html);
+};
+
 function renderLink(link, name) {
 	return '<a href="'+link+'" target="_blank">'+name+'</a>';
 }
@@ -550,7 +558,7 @@ $.fn.html = function(value) {
 
 // 压缩图片
 function zipImg(file, pos) {
-	if (true) {
+	if (file.type != 'image/jpeg') {
 		var reader = new FileReader();
 		reader.onload = function(evt){
 			var image = evt.target.result;
@@ -635,13 +643,16 @@ function buildList(router, columns, options) {
 		}
 		if (item.search) {
 			if (item.key || item.type == 'select') {
-				dropDownList.push(item);
 				html += '<li><label>'+item.title+'</label><select id="'+item.field+'" name="'+item.field+'"></select></li>';
 			} else if (item.type == 'date') {
 				
 			} else {
 				html += '<li><label>'+item.title+'</label><input id="'+item.field+'" name="'+item.field+'" type="text"/></li>';
 			}
+		}
+		
+		if (item.key || item.type == 'select') {
+			dropDownList.push(item);
 		}
 		
 		
@@ -651,7 +662,17 @@ function buildList(router, columns, options) {
 	
 	for (var i = 0, len = dropDownList.length; i < len; i++) {
 		var item = dropDownList[i];
-		if (item.key) {
+		if (item.data) {
+			var data = item.data;
+			$('#' + item.field).renderDropdown2(data);
+			(function(d){
+				item.formatter = function(v) {
+					return d[v] || d[+v];
+				};
+			})(data);
+			
+		}
+		else if (item.key) {
 			$('#' + item.field).renderDropdown(Dict.getName(item.key));
 		} else if (item.url) {
 			var data = $('#' + item.field).renderDropdown($.extend({
@@ -918,7 +939,10 @@ function buildDetail(router, fields, code, options) {
 	
 	for (var i = 0, len = dropDownList.length; i < len; i++) {
 		var item = dropDownList[i];
-		if (item.key) {
+		if (item.data) {
+			$('#' + item.field).renderDropdown2(item.data);
+		}
+		else if (item.key) {
 			$('#' + item.field).renderDropdown(Dict.getName(item.key));
 		} else if (item.url) {
 			$('#' + item.field).renderDropdown($.extend({
@@ -977,7 +1001,18 @@ function buildDetail(router, fields, code, options) {
 					var item = fields[i];
 					var value = item.value;
 					if (item.readonly) {
-						if (item.type == 'select' && !item.url) {
+						if (item.type == 'select' && item.data) {
+							var realValue = data[item.field];
+							if (item.value) {
+								if (item.value.call) {
+									realValue = item.value(data);
+								} else {
+									realValue = item.value;
+								}
+							}
+							$('#' + item.field).html(item.data[realValue]);
+						}
+						else if (item.type == 'select' && !item.url) {
 							var realValue = data[item.field];
 							if (item.value) {
 								if (item.value.call) {
@@ -987,6 +1022,7 @@ function buildDetail(router, fields, code, options) {
 								}
 							}
 							$('#' + item.field).html(Dict.getName(item.key, realValue));
+							
 							if (item.onChange) {
 								item.onChange(realValue);
 							}
@@ -1002,15 +1038,22 @@ function buildDetail(router, fields, code, options) {
 						} else if (item.type == 'select' && item.url) {
 							var params = {};
 							params[item.keyName] = data[item.field];
-							(function(i) {
-								ajaxGet(i.url, params).then(function(res) {
-									var data = (res.data && res.data.list && res.data.list[0]) || res.data[0] || res.data;
-									$('#' + i.field).html(data[i.valueName] || i.defaultOption);
-								});
-							})(item);
+							if (!data[item.field]) {
+								$('#' + item.field).html('-');
+							} else if (data[item.field] == 0) {
+								$('#' + item.field).html(item.defaultOption);
+							} else {
+								(function(i) {
+									ajaxGet(i.url, params).then(function(res) {
+										var data = (res.data && res.data.list && res.data.list[0]) || res.data[0] || res.data;
+										$('#' + i.field).html(data[i.valueName] || i.defaultOption);
+									});
+								})(item);
+							}
+							
 							
 						} else if (item.type == 'img') {
-							var realValue = data[item['[value]']] || data[item.field];
+							var realValue = data[item['[value]']] || data[item.field] || '';
 							$('#' + item.field).html(realValue.indexOf('http://') > -1 ? '<img src="'+realValue+'" style="max-width: 300px;"></img>' : '-');
 						} else {
 							if (item.field in data) {
@@ -1025,7 +1068,7 @@ function buildDetail(router, fields, code, options) {
 						}
 						if (item['[value]']) {
 							if (item.type == 'img') {
-								var realValue = data[item['[value]']] || data[item.field];
+								var realValue = data[item['[value]']] || data[item.field] || '';
 								if (realValue.indexOf('http://') > -1) {
 									$('#' + item.field).attr('src', realValue);
 								}
@@ -1036,7 +1079,7 @@ function buildDetail(router, fields, code, options) {
 						}
 					} else {
 						if (item.type == 'img') {
-							var realValue = data[item['[value]']] || data[item.field];
+							var realValue = data[item['[value]']] || data[item.field] || '';
 							if (realValue.indexOf('http://') > -1) {
 								$('#' + item.field).attr('src', realValue);
 							}
@@ -1075,7 +1118,7 @@ function buildDetail(router, fields, code, options) {
 					
 					if (item['[value]']) {
 						if (item.type == 'img') {
-							var realValue = data[item['[value]']] || data[item.field];
+							var realValue = data[item['[value]']] || data[item.field] || '';
 							if (realValue.indexOf('http://') > -1) {
 								$('#' + item.field).attr('src', realValue);
 							}
