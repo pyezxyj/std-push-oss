@@ -359,3 +359,7 @@ li input[type="radio"] {
     border: 1px solid transparent;
     border-radius: 4px;
 }
+
+.pop-form .form-info li label {
+	width: 70px;
+}

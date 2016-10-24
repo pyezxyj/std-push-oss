@@ -22,7 +22,7 @@ $(function() {
     	field: 'menuCode',
     	title: '隶属',
     	type: 'select',
-    	url: $('#basePath').val() + '/std/menu/list',
+    	url: $('#basePath').val() + '/std/menu/list?companyCode=' + getCompanyId(getUserId()),
     	search: true,
     	keyName: 'code',
     	valueName: 'name'
@@ -34,10 +34,17 @@ $(function() {
 		field : 'remark',
 		title : '备注'
 	}];
-	buildList(router, columns, {
-		searchParams: {
-			companyCode: getCompanyId(getUserId())
-		}
-	});
+	
+	var options = {
+			searchParams: {
+				companyCode: getCompanyId(getUserId())
+			}
+	};
+	
+	if (getCompanyId(getUserId()) == 0) {
+		options.searchParams.menuCode = 0;
+	}
+	
+	buildList(router, columns, options);
 });
 

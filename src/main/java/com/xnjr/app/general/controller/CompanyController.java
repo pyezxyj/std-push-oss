@@ -26,6 +26,7 @@ public class CompanyController extends BaseController {
     	map.put("type", "1");
     	map.put("location", "1");
     	map.put("logo", UploadUtil.uploadPicture((String) map.get("logo")));
+    	map.put("icon", UploadUtil.uploadPicture((String) map.get("icon")));
     	map.put("qrCode", UploadUtil.uploadPicture((String) map.get("qrCode")));
     	map.put("updater", this.getSessionUser().getUserName());
     	return BizConnecter.getBizData("806005", JsonUtils.mapToJson(map),
@@ -55,6 +56,7 @@ public class CompanyController extends BaseController {
     public Object cityEdit(@RequestBody Map map) {
     	map.put("type", "1");
     	map.put("logo", UploadUtil.uploadPicture((String) map.get("logo")));
+    	map.put("icon", UploadUtil.uploadPicture((String) map.get("icon")));
     	map.put("qrCode", UploadUtil.uploadPicture((String) map.get("qrCode")));
     	map.put("updater", this.getSessionUser().getUserName());
   		return BizConnecter.getBizData("806004", JsonUtils.mapToJson(map),

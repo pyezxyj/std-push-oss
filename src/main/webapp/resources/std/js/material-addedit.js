@@ -12,7 +12,7 @@ $(function() {
 		field: 'menuCode',
 		required: true,
 		type: 'select',
-		url: $('#basePath').val() + '/std/menu/list',
+		url: $('#basePath').val() + '/std/menu/'+(view ? 'detail' : 'list')+'?companyCode=' + getCompanyId(getUserId()),
     	search: true,
     	keyName: 'code',
     	valueName: 'name',
@@ -38,19 +38,19 @@ $(function() {
 		readonly: view,
 		onChange: function(v) {
 			if (v == 1) {
-				$('#endNoteType').parent().show();
+				$('#endNote').parent().show();
 				$('#type').parent().show();
 				$('#pic2').parent().show();
 				$('#description').parent().show();
 				$('#url').parent().hide();
 			} else if (v == 2) {
-				$('#endNoteType').parent().hide();
+				$('#endNote').parent().hide();
 				$('#type').parent().hide();
 				$('#pic2').parent().hide();
 				$('#description').parent().hide();
 				$('#url').parent().show();
 			} else {
-				$('#endNoteType').parent().hide();
+				$('#endNote').parent().hide();
 				$('#type').parent().hide();
 				$('#pic2').parent().hide();
 				$('#description').parent().hide();
@@ -58,53 +58,12 @@ $(function() {
 			}
 		}
 	}, {
-		title: '尾注类型',
-		field: 'endNoteType',
-		required: true,
-		type: 'select',
-		key: 'endnote_type',
-		readonly: view,
-		hidden: true,
-		value: function(r) {
-			if (!r.endNote) {
-				return '0';
-			}
-			if (r.endNote.indexOf('http://') > -1) {
-				return '2';
-			} else {
-				return '1';
-			}
-		},
-		onChange: function(v) {
-			if (v == 1) {
-				$('#endNote1').parent().show();
-				$('#endNote2').parent().hide();
-			} else if (v == 2) {
-				$('#endNote1').parent().hide();
-				$('#endNote2').parent().show();
-			} else {
-				$('#endNote1').parent().hide();
-				$('#endNote2').parent().hide();
-			}
-		}
-	}, {
 		title: '尾注',
-		field: 'endNote1',
+		field: 'endNote',
 		required: true,
 		maxlength: 100,
 		readonly: view,
-		equal: 'endNote',
-		'[value]': 'endNote',
 		hidden: true
-	}, {
-		title: '尾注',
-		field: 'endNote2',
-		required: true,
-		hidden: true,
-		readonly: view,
-		equal: 'endNote',
-		'[value]': 'endNote',
-		type: 'img'
 	}, {
 		title: '详情类型',
 		field: 'type',

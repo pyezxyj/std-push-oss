@@ -16,11 +16,11 @@ $(function() {
 	}, {
 		title: '位置',
 		field: 'parentCode',
-		required: true,
 		type: 'select',
 		url: $('#basePath').val() + '/std/menu/'+(view ? 'detail' : 'list')+'?parentCode=0&companyCode=' + getCompanyId(getUserId()),
 		keyName: 'code',
 		valueName: 'name',
+		emptyValue: '0',
 		readonly: view
 	}, {
 		title: '顺序',

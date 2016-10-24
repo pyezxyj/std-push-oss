@@ -63,7 +63,7 @@ $(function() {
 		field: 'slogan',
 		required: true,
 		readonly: !!view,
-		maxlength: 30
+		maxlength: 200
 	}, {
 		title: '法人',
 		field: 'corporation',
@@ -105,7 +105,8 @@ $(function() {
 	}, {
 		title: 'copyright',
 		field: 'copyright',
-		maxlength: 30,
+		maxlength: 200,
+		isNotFace: false,
 		required: true,
 		readonly: !!view
 	}, {
@@ -123,6 +124,11 @@ $(function() {
 	}, {
 		title: 'logo',
 		field: 'logo',
+		type: 'img',
+		readonly: !!view
+	}, {
+		title: '收藏夹图标',
+		field: 'icon',
 		type: 'img',
 		readonly: !!view
 	}, {

@@ -28,6 +28,10 @@ $(function() {
 		field : 'remark',
 		title : '备注'
 	}];
-	buildList(router, columns);
+	buildList(router, columns, {
+		searchParams: {
+			companyCode: getCompanyId(getUserId())
+		}
+	});
 });
 

@@ -597,7 +597,8 @@ function getAccountId(userId, currency) {
 function getCompany(userId) {
 	var res1;
 	ajaxGet($('#basePath').val() + '/general/company/list', {
-		userId: userId
+		userId: userId,
+		location: '1'
 	}, false, true).then(function(res) {
 		res1 = res.data.length > 0 ? res.data[0]: '';
 	});
@@ -607,9 +608,10 @@ function getCompany(userId) {
 function getCompanyId(userId) {
 	var res1;
 	ajaxGet($('#basePath').val() + '/general/company/list', {
-		userId: userId
+		userId: userId,
+		location: '1'
 	}, false, true).then(function(res) {
-		res1 = res.data.length > 0 ? res.data[0].code: '';
+		res1 = res.data.length > 0 ? res.data[0].code: '0';
 	});
 	return res1;
 }
@@ -803,6 +805,7 @@ function buildDetail(router, fields, code, options) {
 		if (item.type == 'img') {
 			rules[item.field + 'Img'] = {};
 			rules[item.field + 'Img'].required = item.required;
+			rules[item.field + 'Img'].isNotFace = false;
 		}
 		if (item.required) {
 			
@@ -831,6 +834,10 @@ function buildDetail(router, fields, code, options) {
 		
 		if (item.tm) {
 			rules[item.field].tm = item.tm;
+		}
+		
+		if ('isNotFace' in item) {
+			rules[item.field].isNotFace = item.isNotFace;
 		}
 		
 		if (item['Z+']) {
@@ -928,6 +935,8 @@ function buildDetail(router, fields, code, options) {
 				var item = fields[i];
 				if (item.equal && (!$('#' + item.field).is(':hidden') || !$('#' + item.field + 'Img').is(':hidden'))) {
 					data[item.equal] = $('#' + item.field).val() || $('#' + item.field).attr('src');
+				} else if (item.emptyValue && !data[item.field]) {
+					data[item.field] = item.emptyValue;
 				}
 			}
 			var url = $("#basePath").val()+ router + "/" + (code ? 'edit' : 'add');
