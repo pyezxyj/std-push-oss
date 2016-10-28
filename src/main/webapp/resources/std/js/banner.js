@@ -2,6 +2,8 @@ $(function() {
 	
 	showPermissionControl();
 	
+	var isBranch = getQueryString('b') || '';
+	
 	var router = '/std/banner';
 	var columns = [{
 		field : '',
@@ -9,32 +11,47 @@ $(function() {
 		checkbox : true
 	},{
 		field : 'name',
-		title : '名字'
+		title : '名字',
+		search: true
 	},{
-		field : 'parentCode',
+		field : 'location',
 		title : '位置',
 		type: 'select',
-		url: $('#basePath').val() + '/std/menu/list?parentCode=0&companyCode=' + getCompanyId(getUserId()),
-		keyName: 'code',
-		valueName: 'name',
+		key: 'banner_location',
+		formatter: Dict.getNameForList('banner_location'),
 		search: true
 	},{
     	field : 'orderNo',
 		title : '顺序'
     },{
-    	field: 'status',
-    	title: '状态',
-    	type: 'select',
-    	formatter: Dict.getNameForList('active_status'),
-    	search: true,
-    	key: 'active_status'
+    	field: 'belong',
+    	title: '属于',
+    	formatter: function(v, r) {
+    		if (v == 1) {
+    			return '全局';
+    		} else if (v == 2) {
+    			return '地方默认';
+    		} else {
+    			return '公司私有';
+    		}
+    	}
     }, {
+    	field : 'companyCode',
+		title : '所属公司',
+		type: 'select',
+		url: $('#basePath').val() + '/general/company/list',
+		keyName: 'code',
+		valueName: 'name'
+    },{
 		field : 'remark',
 		title : '备注'
 	}];
 	buildList(router, columns, {
 		searchParams: {
 			companyCode: getCompanyId(getUserId())
+		},
+		urlParams: {
+			b: isBranch
 		}
 	});
 });

@@ -9,20 +9,17 @@ $(function() {
 		checkbox : true
 	},{
 		field : 'name',
-		title : '名称',
+		title : '全名',
 		search: true
+	},{
+		field : 'abbrName',
+		title : '简称'
 	},{
 		field : 'domain',
 		title : '域名',
     },{
-    	field : 'slogan',
-		title : '广告语'
-    },{
-		field : 'corporation',
-		title : '法人'
-	}, {
 		field: 'userId',
-		title: '实际控制人',
+		title: '公司账号',
 		type: 'select',
 		url: $('#basePath').val() + '/user/list',
 		keyName: 'userId',

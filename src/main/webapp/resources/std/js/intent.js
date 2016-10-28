@@ -18,6 +18,9 @@ $(function() {
     	field : 'fromContact',
 		title : '联系方式'
     },{
+    	field : 'content',
+		title : '意向描述'
+    },{
     	field: 'status',
     	title: '状态',
     	type: 'select',

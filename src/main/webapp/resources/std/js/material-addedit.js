@@ -12,7 +12,8 @@ $(function() {
 		field: 'menuCode',
 		required: true,
 		type: 'select',
-		url: $('#basePath').val() + '/std/menu/'+(view ? 'detail' : 'list')+'?companyCode=' + getCompanyId(getUserId()),
+		url: view ? $('#basePath').val() + '/std/menu/detail?companyCode=' + getCompanyId(getUserId()) : 
+			$('#basePath').val() + '/std/menu/list/company?companyCode=' + getCompanyId(getUserId()),
     	search: true,
     	keyName: 'code',
     	valueName: 'name',

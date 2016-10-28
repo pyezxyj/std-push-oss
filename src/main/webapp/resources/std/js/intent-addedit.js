@@ -29,17 +29,20 @@ $(function() {
 	}, {
 		title: '最后操作人',
 		field: 'updater',
-		readonly: true
+		readonly: true,
+		hidden: !view
 	}, {
 		title: '最后操作时间',
 		field: 'updateDatetime',
 		readonly: true,
-		formatter: dateTimeFormat
+		formatter: dateTimeFormat,
+		hidden: !view
 	}, {
 		title: '最后操作备注',
 		field: 'remark1',
 		'[value]': 'remark',
-		readonly: true
+		readonly: true,
+		hidden: !view
 	}, {
 		title: '备注',
 		field: 'remark',

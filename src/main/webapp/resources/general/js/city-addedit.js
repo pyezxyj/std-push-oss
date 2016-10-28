@@ -16,7 +16,7 @@ $(function() {
 		field: 'userId',
 		required: true,
 		type: 'select',
-		url: $("#basePath").val() + '/user/list?roleCode=SR201600000000000002',
+		url: $("#basePath").val() + '/user/list',
 		keyName: 'userId',
 		valueName: 'loginName'
 	}, {

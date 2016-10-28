@@ -22,7 +22,7 @@ $(function() {
     	field: 'menuCode',
     	title: '隶属',
     	type: 'select',
-    	url: $('#basePath').val() + '/std/menu/list?companyCode=' + getCompanyId(getUserId()),
+    	url: $('#basePath').val() + '/std/menu/list/company?companyCode=' + getCompanyId(getUserId()),
     	search: true,
     	keyName: 'code',
     	valueName: 'name'

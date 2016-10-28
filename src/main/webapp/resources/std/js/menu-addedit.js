@@ -2,11 +2,65 @@ $(function() {
 	var code = getQueryString('code');
 	var view = !!getQueryString('v');
 	var router = '/std/menu';
+	var isBranch = getQueryString('b');
 	
 	var fields = [{
-		field: 'companyCode',
+		field: 'isCompanyEdit',
 		type: 'hidden',
-		value: getCompanyId(getUserId())
+		value: isBranch ? '1' : '0'
+	}, {
+		field: 'status',
+		type: 'hidden',
+		value: '1'
+	}, {
+		field: 'belong',
+		type: 'hidden',
+		defaultValue: '3',
+		afterSet: function(v) {
+			if (v == 1 || v == 2) {
+				$('#companyCode').parent().hide();
+				$('#parentCode').parent().hide();
+			}
+		}
+	}, {
+		title: '隶属',
+		field: 'companyCode',
+		type: 'select',
+		required: true,
+		url: $('#basePath').val() + '/general/company/'+(view ? 'detail' : 'list'),
+		keyName: 'code',
+		valueName: 'name',
+		readonly: view,
+		emptyValue: '0',
+		hidden: isBranch,
+		onChange: function(v) {
+			$('#parentCode').renderDropdown({
+				url: $('#basePath').val() + '/std/menu/list/company?parentCode=0&companyCode=' + (v || 0),
+				keyName: 'code',
+				valueName: 'name'
+			});
+		},
+		afterSet: function(v, r) {
+			if (isBranch) {
+				$('#companyCode').val(getCompanyId(getUserId()));
+			}
+		}
+	}, {
+		title: '父菜单',
+		field: 'parentCode',
+		type: 'select',
+		readonly: view,
+		hidden: isBranch,
+		emptyValue: '0',
+		onChange: function(v) {
+			if (v) {
+				$('#location').parent().hide();
+				$('#location').val('0');
+			} else {
+				!isBranch && $('#location').parent().show();
+			}
+			
+		}
 	}, {
 		title: '名称',
 		field: 'name',
@@ -15,12 +69,12 @@ $(function() {
 		readonly: view
 	}, {
 		title: '位置',
-		field: 'parentCode',
+		field: 'location',
 		type: 'select',
-		url: $('#basePath').val() + '/std/menu/'+(view ? 'detail' : 'list')+'?parentCode=0&companyCode=' + getCompanyId(getUserId()),
-		keyName: 'code',
-		valueName: 'name',
+		required: true,
+		key: 'menu_location',
 		emptyValue: '0',
+		hidden: isBranch,
 		readonly: view
 	}, {
 		title: '顺序',
@@ -28,14 +82,8 @@ $(function() {
 		required: true,
 		maxlength: 10,
 		number: true,
-		readonly: view
-	}, {
-		title: '状态',
-		field: 'status',
-		required: true,
-		type: 'select',
-		key: 'menu_updown',
-		readonly: view
+		readonly: view,
+		hidden: isBranch
 	}, {
 		title: '内容格式',
 		field: 'contentType',
@@ -51,6 +99,11 @@ $(function() {
 			icon: 'zmdi-apps',
 			value: '单条详情'
 		}]
+	}, {
+		title: '备注',
+		field: 'remark',
+		maxlength: 200,
+		readonly: view
 	}];
 	
 	var options = {};
@@ -64,4 +117,5 @@ $(function() {
 	}
 	
 	buildDetail(router, fields, code, options);
+	
 });

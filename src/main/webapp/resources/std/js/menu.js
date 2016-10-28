@@ -2,6 +2,8 @@ $(function() {
 	
 	showPermissionControl();
 	
+	var isBranch = getQueryString('b') || '';
+	
 	var router = '/std/menu';
 	var columns = [{
 		field : '',
@@ -12,13 +14,20 @@ $(function() {
 		title : '名称',
 		search: true
 	},{
-		field : 'parentCode',
+		field : 'location',
 		title : '位置',
 		type: 'select',
-		url: $('#basePath').val() + '/std/menu/list?parentCode=0&companyCode=' + getCompanyId(getUserId()),
-		keyName: 'code',
-		valueName: 'name',
+		key: 'menu_location',
+		formatter: Dict.getNameForList('menu_location'),
 		search: true
+    }, {
+		field : 'parentCode',
+		title : '父菜单',
+		type: 'select',
+		url: $('#basePath').val() + '/std/menu/list?parentCode=0',
+		keyName: 'code',
+		valueName: 'name'
+		
     }, {
 		field : 'orderNo',
 		title : '顺序'
@@ -33,15 +42,34 @@ $(function() {
 			}
 		}
     },{
-    	field: 'status',
-    	title: '状态',
-    	type: 'select',
-    	formatter: Dict.getNameForList('menu_updown'),
-    	key: 'menu_updown'
+    	field: 'belong',
+    	title: '属于',
+    	formatter: function(v, r) {
+    		if (v == 1) {
+    			return '全局';
+    		} else if (v == 2) {
+    			return '地方默认';
+    		} else {
+    			return '公司私有';
+    		}
+    	}
+    }, {
+    	field : 'companyCode',
+		title : '所属公司',
+		type: 'select',
+		url: $('#basePath').val() + '/general/company/list',
+		keyName: 'code',
+		valueName: 'name'
+    },{
+    	field: 'remark',
+    	title: '备注'
     }];
 	buildList(router, columns, {
 		searchParams: {
 			companyCode: getCompanyId(getUserId())
+		},
+		urlParams: {
+			b: isBranch
 		}
 	});
 	$('#updownBtn').click(function() {

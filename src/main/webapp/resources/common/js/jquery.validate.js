@@ -262,7 +262,7 @@ $.extend($.validator, {
 				this.findByName(element.name).addClass(errorClass).removeClass(validClass);
 			} else if (element.type === "file") {
 				$(element).parent('.btn-file').addClass(errorClass).removeClass(validClass);
-			} else if (element.type === "select-one") {
+			} else if (element.type === "select-one" || element.type === "select-multiple") {
 				$('#' + element.id + '_chosen').addClass(errorClass).removeClass(validClass);
 				$(element).addClass(errorClass).removeClass(validClass);
 			}else {
@@ -274,7 +274,7 @@ $.extend($.validator, {
 				this.findByName(element.name).removeClass(errorClass).addClass(validClass);
 			} else if (element.type === "file") {
 				$(element).parent('.btn-file').removeClass(errorClass).addClass(validClass);
-			} else if (element.type === "select-one") {
+			} else if (element.type === "select-one" || element.type === "select-multiple") {
 				$('#' + element.id + '_chosen').removeClass(errorClass).addClass(validClass);
 				$(element).addClass(errorClass).addClass(validClass);
 			} else {

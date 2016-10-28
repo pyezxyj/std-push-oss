@@ -15,6 +15,16 @@ $(function() {
 		defaultValue: '1',
 		hidden: true
 	}, {
+		title: '公司账号',
+		field: 'userId',
+		required: true,
+		type: 'select',
+		url: $('#basePath').val() + '/user/'+(view ? 'detail' : 'list'),
+		keyName: 'userId',
+		valueName: 'loginName',
+		readonly: !!view,
+		hidden: isBranch
+	}, {
 		title: '全称',
 		field: 'name',
 		required: true,
@@ -27,17 +37,38 @@ $(function() {
 		readonly: !!view,
 		maxlength: 30
 	}, {
-		title: '工商营业执照号',
-		field: 'gsyyzzh',
-		required: true,
-		readonly: !!view,
-		maxlength: 30
-	}, {
 		title: '域名',
 		field: 'domain',
 		required: true,
 		readonly: !!view,
 		maxlength: 30
+	}, {
+		title: '标语',
+		field: 'slogan',
+		required: true,
+		readonly: !!view,
+		maxlength: 200
+	}, {
+		title: '电话',
+		field: 'mobile',
+		maxlength: 30,
+		required: true,
+		tm: true,
+		readonly: !!view
+	}, {
+		title: '邮箱',
+		field: 'email',
+		maxlength: 30,
+		required: true,
+		email: true,
+		readonly: !!view
+	}, {
+		title: 'copyright',
+		field: 'copyright',
+		maxlength: 200,
+		isNotFace: false,
+		required: true,
+		readonly: !!view
 	}, {
 		title: '地址',
 		required: true,
@@ -59,63 +90,6 @@ $(function() {
 			return res.join(' ') + ' ' + r.address;
 		}
 	}, {
-		title: '文化标语',
-		field: 'slogan',
-		required: true,
-		readonly: !!view,
-		maxlength: 200
-	}, {
-		title: '法人',
-		field: 'corporation',
-		required: true,
-		readonly: !!view,
-		maxlength: 30
-	}, {
-		title: '实际控制人',
-		field: 'userId',
-		required: true,
-		type: 'select',
-		url: $('#basePath').val() + '/user/'+(view ? 'detail' : 'list'),
-		keyName: 'userId',
-		valueName: 'loginName',
-		readonly: !!view,
-		hidden: isBranch
-	}, {
-		title: '联系电话',
-		field: 'mobile',
-		maxlength: 30,
-		tm: true,
-		readonly: !!view
-	}, {
-		title: '邮箱',
-		field: 'email',
-		maxlength: 30,
-		email: true,
-		readonly: !!view
-	}, {
-		title: '传真',
-		field: 'fax',
-		maxlength: 30,
-		readonly: !!view
-	}, {
-		title: 'qq',
-		field: 'qq',
-		maxlength: 30,
-		readonly: !!view
-	}, {
-		title: 'copyright',
-		field: 'copyright',
-		maxlength: 200,
-		isNotFace: false,
-		required: true,
-		readonly: !!view
-	}, {
-		title: '微信号',
-		field: 'weChat',
-		required: true,
-		maxlength: 30,
-		readonly: !!view
-	}, {
 		title: '微信二维码',
 		field: 'qrCode',
 		required: true,
@@ -124,11 +98,19 @@ $(function() {
 	}, {
 		title: 'logo',
 		field: 'logo',
+		required: true,
 		type: 'img',
 		readonly: !!view
 	}, {
-		title: '收藏夹图标',
+		title: 'icon',
 		field: 'icon',
+		required: true,
+		type: 'img',
+		readonly: !!view
+	}, {
+		title: '工商执照',
+		field: 'gsyyzzh',
+		required: true,
 		type: 'img',
 		readonly: !!view
 	}, {

@@ -537,7 +537,7 @@ $.fn.val = function(value) {
 	if ($(this).is('select')) {
 		$(this).trigger('chosen:updated');
 	}
-	return res;
+	return res || '';
 }
 
 $(document).on('click', 'input[type=reset]', function() {
@@ -690,9 +690,11 @@ function buildList(router, columns, options) {
 				dataDict[data[j][item.keyName]] = data[j][item.valueName];
 			}
 			
-			item.formatter = function(v) {
-				return dataDict[v];
-			};
+			item.formatter = (function(d) {
+				return function(v) {
+					return d[v];
+				};
+			})(dataDict);
 		}
 	}
 	
@@ -710,6 +712,10 @@ function buildList(router, columns, options) {
 			alert("请选择记录");
 			return;
 		}
+		else if(selRecords.length >= 2){
+			alert("请选择一条记录");
+			return;
+		}
 		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_addedit.htm?code="+(selRecords[0].code || selRecords[0].id) + urlParamsStr;
 	});
 	
@@ -717,6 +723,11 @@ function buildList(router, columns, options) {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');
 		if(selRecords.length <= 0){
 			alert("请选择记录");
+			return;
+		}
+		
+		else if(selRecords.length >= 2){
+			alert("请选择一条记录");
 			return;
 		}
 		
@@ -729,8 +740,6 @@ function buildList(router, columns, options) {
 			if (res.success) {
 				alert('操作成功');
 				$('#tableList').bootstrapTable('refresh',{url: $('#tableList').bootstrapTable('getOptions').url});
-			} else {
-				alert(res.msg);
 			}
 		});
 	});
@@ -739,6 +748,10 @@ function buildList(router, columns, options) {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');
 		if(selRecords.length <= 0){
 			alert("请选择记录");
+			return;
+		}
+		else if(selRecords.length >= 2){
+			alert("请选择一条记录");
 			return;
 		}
 		location.href = $("#basePath").val() + (options.pageRouter || router) + "_addedit.htm?v=1&code=" + (selRecords[0].code || selRecords[0].id) + urlParamsStr;
@@ -750,15 +763,24 @@ function buildList(router, columns, options) {
 			alert("请选择记录");
 			return;
 		}
+		else if(selRecords.length >= 2){
+			alert("请选择一条记录");
+			return;
+		}
 		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_check.htm?code="+ (selRecords[0].code || selRecords[0].id) + urlParamsStr;
 	});
+	
+	var singleSelect = true;
+	if ('singleSelect' in options) {
+		singleSelect = options['singleSelect'];
+	}
 
 	$('#tableList').bootstrapTable({
 		method : "get",
 		url : $("#basePath").val() + router + '/page',
 		striped : true,
 		clickToSelect : true,
-		singleSelect : true,
+		singleSelect : singleSelect,
 		queryParams : function(params) {
 			return $.extend({
 				start : params.offset / params.limit + 1,
@@ -799,6 +821,7 @@ function buildDetail(router, fields, code, options) {
 	$('#page-title').html(title);
 	var html = '<input type="hidden" id="code" name="code" class="control-def" />';
 	var dropDownList = [], rules = {}, textareaList = [];
+	var dateTimeList = [];
 	for (var i = 0, len = fields.length; i < len; i++) {
 		var item = fields[i];
 		rules[item.field] = {};
@@ -880,6 +903,9 @@ function buildDetail(router, fields, code, options) {
 					rules.area = {required: true};
 				}
 				
+			} else if (item.type == 'datetime') {
+				dateTimeList.push(item);
+				html += '<input id="'+item.field+'" name="'+item.field+'" class="lay-input"/></li>';
 			} else {
 				html += '<input id="'+item.field+'" name="'+item.field+'" class="control-def" '+(item.placeholder ? ('placeholder="'+item.placeholder+'"') : '')+'/></li>';
 			}
@@ -979,6 +1005,14 @@ function buildDetail(router, fields, code, options) {
 		UE.getEditor(item.field);
 	}
 	
+	for (var i = 0, len = dateTimeList.length; i < len; i++) {
+		var item = dateTimeList[i];
+		laydate({
+			elem: '#' + item.field,
+			min: item.minDate ? item.minDate : ''
+		});
+	}
+	
 	$("#city-group").citySelect && $("#city-group").citySelect({
 		required:false
 	}); 
@@ -1024,6 +1058,10 @@ function buildDetail(router, fields, code, options) {
 								}
 							}
 							$('#' + item.field).html(item.data[realValue]);
+							
+							if (item.onChange) {
+								item.onChange(realValue);
+							}
 						}
 						else if (item.type == 'select' && !item.url) {
 							var realValue = data[item.field];
@@ -1050,10 +1088,11 @@ function buildDetail(router, fields, code, options) {
 							$('#' + item.field).html('<div class="zmdi '+selectOne.icon+' zmdi-hc-5x" title="'+selectOne.value+'"></div>');
 						} else if (item.type == 'select' && item.url) {
 							var params = {};
-							params[item.keyName] = data[item.field];
-							if (!data[item.field]) {
+							var realValue = data[item['[value]']] || data[item.field] || '';
+							params[item.keyName] = realValue;
+							if (!realValue) {
 								$('#' + item.field).html('-');
-							} else if (data[item.field] == 0) {
+							} else if (realValue == 0) {
 								$('#' + item.field).html(item.defaultOption);
 							} else {
 								(function(i) {
@@ -1067,7 +1106,15 @@ function buildDetail(router, fields, code, options) {
 							
 						} else if (item.type == 'img') {
 							var realValue = data[item['[value]']] || data[item.field] || '';
-							$('#' + item.field).html(realValue.indexOf('http://') > -1 ? '<img src="'+realValue+'" style="max-width: 300px;"></img>' : '-');
+							if ($.isArray(realValue)) {
+								var imgHtml = '';
+								realValue.forEach(function(img) {
+									imgHtml += '<img src="'+img+'" style="max-width: 300px;"/>';
+								});
+								$('#' + item.field).html(imgHtml);
+							} else {
+								$('#' + item.field).html(realValue.indexOf('http://') > -1 ? '<img src="'+realValue+'" style="max-width: 300px;"></img>' : '-');
+							}
 						} else {
 							if (item.field in data) {
 								$('#' + item.field).html((item.amount ? moneyFormat(data[item.field]) : data[item.field]));
@@ -1145,6 +1192,10 @@ function buildDetail(router, fields, code, options) {
 						$('#' + item.field).trigger('change');
 					}
 					
+					if (item.afterSet) {
+						item.afterSet(data[item.field], data);
+					}
+					
 				}
 			}
 		});
@@ -1157,3 +1208,12 @@ $(document).ajaxStart(function() {
 		message: null
 	});
 }).ajaxStop($.unblockUI);
+
+function text3dot(text, count) {
+	if (text.length <= count) {
+		return text;
+	} else {
+		return text.slice(0, 10) + '...';
+	}
+	
+}

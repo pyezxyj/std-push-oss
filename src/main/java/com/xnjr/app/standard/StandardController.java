@@ -90,7 +90,7 @@ public class StandardController extends BaseController {
     @ResponseBody
     public Object bannerPage(@RequestParam Map<String,String> map) {
     	map.put("type", "2");
-  	    return BizConnecter.getBizData("806051", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806050", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -99,7 +99,7 @@ public class StandardController extends BaseController {
     @ResponseBody
     public Object bannerList(@RequestParam Map<String,String> map) {
     	map.put("type", "2");
-  	    return BizConnecter.getBizData("806053", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806052", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -107,7 +107,7 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/banner/detail", method = RequestMethod.GET)
     @ResponseBody
     public Object bannerDetail(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806054", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806053", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -152,7 +152,7 @@ public class StandardController extends BaseController {
     @ResponseBody
     public Object menuPage(@RequestParam Map<String,String> map) {
     	map.put("type", "1");
-  	    return BizConnecter.getBizData("806051", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806050", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -161,7 +161,7 @@ public class StandardController extends BaseController {
     @ResponseBody
     public Object menuList(@RequestParam Map<String,String> map) {
     	map.put("type", "1");
-  	    return BizConnecter.getBizData("806053", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806052", JsonUtils.mapToJson(map),
               Object.class);
     }
     
@@ -169,7 +169,16 @@ public class StandardController extends BaseController {
     @RequestMapping(value = "/menu/detail", method = RequestMethod.GET)
     @ResponseBody
     public Object menuDetail(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("806054", JsonUtils.mapToJson(map),
+  	    return BizConnecter.getBizData("806053", JsonUtils.mapToJson(map),
+              Object.class);
+    }
+    
+    // 公司菜单查询
+    @RequestMapping(value = "/menu/list/company", method = RequestMethod.GET)
+    @ResponseBody
+    public Object menuListCompany(@RequestParam Map<String,String> map) {
+    	map.put("type", "1");
+  	    return BizConnecter.getBizData("806051", JsonUtils.mapToJson(map),
               Object.class);
     }
     

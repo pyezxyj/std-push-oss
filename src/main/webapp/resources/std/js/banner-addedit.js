@@ -2,11 +2,45 @@ $(function() {
 	var code = getQueryString('code');
 	var view = !!getQueryString('v');
 	var router = '/std/banner';
+	var isBranch = getQueryString('b');
 	
 	var fields = [{
-		field: 'companyCode',
+		field: 'isCompanyEdit',
 		type: 'hidden',
-		value: getCompanyId(getUserId())
+		value: isBranch ? '1' : '0'
+	}, {
+		field: 'parentCode',
+		type: 'hidden',
+		value: '0'
+	}, {
+		field: 'status',
+		type: 'hidden',
+		value: '1'
+	}, {
+		field: 'belong',
+		type: 'hidden',
+		defaultValue: '3',
+		afterSet: function(v) {
+			if (v == 1 || v == 2) {
+				$('#companyCode').parent().hide();
+			}
+		}
+	}, {
+		title: '隶属',
+		field: 'companyCode',
+		type: 'select',
+		required: true,
+		url: $('#basePath').val() + '/general/company/'+(view ? 'detail' : 'list'),
+		keyName: 'code',
+		valueName: 'name',
+		emptyValue: '0',
+		readonly: view,
+		hidden: isBranch,
+		afterSet: function(v, r) {
+			if (isBranch) {
+				$('#companyCode').val(getCompanyId(getUserId()));
+			}
+		}
 	}, {
 		title: '名字',
 		field: 'name',
@@ -15,50 +49,26 @@ $(function() {
 		readonly: view
 	}, {
 		title: '位置',
-		field: 'parentCode',
+		field: 'location',
 		required: true,
 		type: 'select',
-		url: $('#basePath').val() + '/std/menu/'+(view ? 'detail' : 'list')+'?parentCode=0&companyCode=' + getCompanyId(getUserId()),
-		keyName: 'code',
-		valueName: 'name',
-		readonly: view
+		key: 'banner_location',
+		readonly: view,
+		hidden: isBranch
 	}, {
 		title: '顺序',
 		field: 'orderNo',
 		required: true,
 		maxlength: 10,
 		number: true,
-		readonly: view
-	}, {
-		title: '状态',
-		field: 'status',
-		required: true,
-		type: 'select',
-		key: 'active_status',
-		readonly: view
-	},  {
-		title: 'url',
-		field: 'url',
-		required: true,
-		maxlength: 30,
-		readonly: view
+		readonly: view,
+		hidden: isBranch
 	}, {
 		title: '图片',
 		field: 'pic',
 		required: true,
 		type: 'img',
 		readonly: view
-	}, {
-		title: '上传人',
-		field: 'updater',
-		readonly: view,
-		hidden: !view
-	}, {
-		title: '上传时间',
-		field: 'updateDatetime',
-		readonly: view,
-		formatter: dateTimeFormat,
-		hidden: !view
 	}, {
 		title: '备注',
 		field: 'remark',

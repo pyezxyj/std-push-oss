@@ -25,6 +25,7 @@ public class CompanyController extends BaseController {
     	map.put("isDefault", "0");
     	map.put("type", "1");
     	map.put("location", "1");
+    	map.put("gsyyzzh", UploadUtil.uploadPicture((String) map.get("gsyyzzh")));
     	map.put("logo", UploadUtil.uploadPicture((String) map.get("logo")));
     	map.put("icon", UploadUtil.uploadPicture((String) map.get("icon")));
     	map.put("qrCode", UploadUtil.uploadPicture((String) map.get("qrCode")));
@@ -55,6 +56,7 @@ public class CompanyController extends BaseController {
     @ResponseBody
     public Object cityEdit(@RequestBody Map map) {
     	map.put("type", "1");
+    	map.put("gsyyzzh", UploadUtil.uploadPicture((String) map.get("gsyyzzh")));
     	map.put("logo", UploadUtil.uploadPicture((String) map.get("logo")));
     	map.put("icon", UploadUtil.uploadPicture((String) map.get("icon")));
     	map.put("qrCode", UploadUtil.uploadPicture((String) map.get("qrCode")));
