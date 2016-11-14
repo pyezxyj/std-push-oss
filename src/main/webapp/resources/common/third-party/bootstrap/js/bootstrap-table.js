@@ -1989,7 +1989,7 @@
         var that = this;
 
         $.each(this.$header.find('th'), function (i, th) {
-            $(th).find('.sortable').removeClass('desc asc').addClass($(th).data('field') === that.options.sortName ? that.options.sortOrder : 'both');
+            $(th).find('.sortable').removeClass('desc asc').addClass((''+$(th).data('field')).replace(/[A-Z]/g, function(word){return '_' + word.toLowerCase()}) === (that.options.sortName || '').replace(/[A-Z]/g, function(word){return '_' + word.toLowerCase()}) ? that.options.sortOrder : 'both');
         });
     };
 
