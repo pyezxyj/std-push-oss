@@ -22,8 +22,8 @@ import com.xnjr.app.util.RegexUtils;
 public class BizConnecter {
     public static final String YES = "0";
     
-    public static final String MAIN_URL = PropertiesUtil.Config.MAIN_URL;
-    public static final String BASE_URL = PropertiesUtil.Config.BASE_URL;
+    public static final String USER_URL = PropertiesUtil.Config.USER_URL;
+    public static final String MALL_URL = PropertiesUtil.Config.MALL_URL;
 
     public static <T> T getBizData(String code, String json, Class<T> clazz) {
         String data = getBizData(code, json);
@@ -58,7 +58,9 @@ public class BizConnecter {
     public static String getPostUrl(String code) {
         String postUrl = null;
         if (code.startsWith("805") || code.startsWith("806") || code.startsWith("807")) {
-            postUrl = MAIN_URL;
+            postUrl = USER_URL;
+        }else if( code.startsWith("808")){
+        	postUrl = MALL_URL;
         }
         return postUrl;
     }

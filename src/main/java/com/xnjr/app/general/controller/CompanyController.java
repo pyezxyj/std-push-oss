@@ -78,7 +78,7 @@ public class CompanyController extends BaseController {
     @ResponseBody
     public Object cityPage(@RequestParam Map<String,String> allRequestParams) {
   	    return BizConnecter.getBizData("806014", JsonUtils.mapToJson(allRequestParams),
-              Object.class);
+              Object.class); 	
     }
     
     // 列表查询站点
