@@ -53,6 +53,18 @@ $(function() {
 		title: '收货地址',
 		field: 'reAddress',
 		readonly: !!view
+	}, {
+		title: '商品',
+		field: 'productOrderList',
+		type: 'o2m',
+		readonly: !!view,
+		columns: [{
+			title: '名称',
+			field: 'productName'
+		}, {
+			title: '数量',
+			field: 'quantity'
+		}]
 	}];
 	
 	var options = {};

@@ -1112,6 +1112,15 @@ function buildDetail(router, fields, code, options) {
 								$('#' + item.field).html(item.defaultValue);
 							}							
 							
+						} else if (item.type == 'o2m') {
+							$('#' + item.field).html('<table id="'+item.field+'List"></table>');
+							$('#'+item.field+'List').bootstrapTable({
+								striped : true,
+								clickToSelect : true,
+								singleSelect : true,
+								columns : item.columns,
+								data: displayValue
+							});
 						}
 						else if (item.type == 'select' && item.data) {
 							var realValue = displayValue;

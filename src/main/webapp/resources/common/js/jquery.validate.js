@@ -560,6 +560,10 @@ $.extend($.validator, {
 			if (element.nodeName != 'TEXTAREA' && element.style.display == 'none') {
 				return true;
 			}
+			
+			if (element.nodeName == 'TEXTAREA' && $('#' + element.name).is(':hidden')) {
+				return true;
+			}
 
 			for (var method in rules ) {
 				var rule = { method: method, parameters: rules[method] };

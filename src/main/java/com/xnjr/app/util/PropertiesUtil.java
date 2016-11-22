@@ -38,5 +38,7 @@ public class PropertiesUtil {
         public static String PASSWORD = props.getProperty("PASSWORD");
         
         public static String PRE_DIR = props.getProperty("PRE_DIR");
+        
+        public static String FILE_PRE_DIR = props.getProperty("FILE_PRE_DIR");
     }
 }
