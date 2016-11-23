@@ -10,18 +10,11 @@ $(function(){
 	}, {
 		field : 'name',
 		title : '商品名称',
-	}, {
-		field: 'type',
-		title: '小类',
-		url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode,
-		keyName: 'code',
-		valueName: 'name',
-		type: 'select',
 		search: true
 	}, {
-		field: 'category',
-		title: '大类',
-		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode,
+		field: 'type',
+		title: '类别',
+		url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode,
 		keyName: 'code',
 		valueName: 'name',
 		type: 'select',
@@ -44,6 +37,10 @@ $(function(){
     	field : 'originalPrice',
     	title : '售价',
     	formatter: moneyFormat
+    }, {
+    	field : 'discountPrice',
+    	title : '折扣价',
+    	formatter : moneyFormat
     }, {
     	field : 'location',
     	title : '位置',

@@ -54,7 +54,10 @@ $(function() {
 		field: 'reAddress',
 		readonly: !!view
 	}, {
-		title: '商品',
+		title: '商品信息',
+		type : 'title'
+	}, {
+		title: '商品列表',
 		field: 'productOrderList',
 		type: 'o2m',
 		readonly: !!view,
@@ -64,6 +67,10 @@ $(function() {
 		}, {
 			title: '数量',
 			field: 'quantity'
+		}, {
+			title: '零售价',
+			field: 'salePrice',
+			formatter: moneyFormat
 		}]
 	}];
 	

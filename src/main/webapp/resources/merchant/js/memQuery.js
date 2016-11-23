@@ -8,8 +8,8 @@ $(function(){
 		title : '',
 		checkbox : true
 	}, {
-		field : 'mobile',
-		title : '手机号',
+		field : 'realName',
+		title : '用户名',
 		serach: true
 	}, {
 		field: 'status',

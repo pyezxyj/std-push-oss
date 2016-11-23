@@ -66,6 +66,7 @@ $(function() {
 	}, {
 		title: '图文详情',
 		field: 'description',
+		type: 'textarea',
 		readonly: !!view,
 		required: true
 	}, {
@@ -74,17 +75,6 @@ $(function() {
 		readonly: !!view,
 		amount: true,
 		required: true
-	}, {
-		title: '售价',
-		field: 'originalPrice',
-		amount: true,
-		readonly: !!view
-	}, {
-		title: '位置',
-		field: 'location',
-		type : 'select',
-    	data: {'1':'普通','2':'热门','3':'新品'},
-		readonly: !!view
 	}, {
 		title: '库存数',
 		field: 'quantity',

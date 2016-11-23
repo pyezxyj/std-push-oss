@@ -13,7 +13,8 @@ $(function(){
 		search: true
 	}, {
 		field: 'cvalue',
-		title: '数值'
+		title: '数值',
+		formatter: moneyFormat
 	}, {
 		field: 'remark',
 		title: '备注',

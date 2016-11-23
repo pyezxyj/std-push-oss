@@ -9,12 +9,6 @@ $(function() {
 		'[value]': 'code',
 		readonly: true
 	}, {
-		title: '订单类型',
-		field: 'type',
-		type: 'select',
-		data: {'0':'散买','1':'批发'},
-		readonly: true
-	}, {
 		title: '订单总额',
 		field: 'amount',
 		amount: true,
@@ -35,6 +29,22 @@ $(function() {
 		formatter: Dict.getNameForList('order_status'),
 		key: 'order_status',
 		readonly: true
+	}, {
+		title: '商品列表',
+		field: 'productOrderList',
+		type: 'o2m',
+		readonly: true,
+		columns: [{
+			title: '名称',
+			field: 'productName'
+		}, {
+			title: '数量',
+			field: 'quantity'
+		}, {
+			title: '零售价',
+			field: 'salePrice',
+			formatter: moneyFormat
+		}]
 	}, {
 		title: '异常原因',
 		field: 'remark',
