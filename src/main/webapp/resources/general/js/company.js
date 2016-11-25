@@ -26,10 +26,11 @@ $(function() {
 		valueName: 'loginName'
 	}, {
 		field: 'location',
-		title: 'UI位置',
+		title: '状态',
 		formatter: Dict.getNameForList('cmp_location'),
 		key: 'cmp_location',
-		type: 'select'
+		type: 'select',
+		search: true
 	}];
 	buildList(router, columns);
 	

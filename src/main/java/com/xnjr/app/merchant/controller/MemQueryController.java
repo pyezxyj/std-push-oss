@@ -30,7 +30,7 @@ public class MemQueryController extends BaseController {
 	public Object freezeUpUser(@SuppressWarnings("rawtypes") @RequestBody Map map)
 	{
 		map.put("updater", this.getSessionUser().getUserName());
-		map.put("toStatus", "0");
+		map.put("toStatus", "2");
 		return BizConnecter.getBizData("805052", JsonUtils.mapToJson(map),Object.class);
 	}
 	
@@ -40,7 +40,7 @@ public class MemQueryController extends BaseController {
 	public Object freezeDownUser(@SuppressWarnings("rawtypes") @RequestBody Map map)
 	{
 		map.put("updater", this.getSessionUser().getUserName());
-		map.put("toStatus", "1");
+		map.put("toStatus", "0");
 		return BizConnecter.getBizData("805052", JsonUtils.mapToJson(map),Object.class);
 	}
 }

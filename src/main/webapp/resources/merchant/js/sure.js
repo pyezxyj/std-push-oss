@@ -11,11 +11,17 @@ $(function() {
 	}, {
 		title: '订单总额',
 		field: 'amount',
-		amount: true,
+		formatter: function(v, r) {
+			return moneyFormat(+v + +r.yunfei);
+		},
 		readonly: true
 	}, {
 		title: '下单用户',
-		field: 'applyUser',
+		field: 'mobile',
+		readonly: true
+	},  {
+		title: '下单说明',
+		field: 'applyNote',
 		readonly: true
 	}, {
 		title: '下单时间',

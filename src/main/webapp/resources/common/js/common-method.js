@@ -706,6 +706,10 @@ function buildList(router, columns, options) {
 		if (item.value) {
 			$('#' + item.field).val(item.value);
 		}
+		
+		if (item.noRender) {
+			$('#' + item.field).html('<option value=""></option>');
+		}
 	}
 	
 	$('#searchBtn').click(function() {

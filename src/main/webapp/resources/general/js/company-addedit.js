@@ -119,6 +119,12 @@ $(function() {
 		required: true,
 		type: 'textarea',
 		readonly: !!view
+	}, {
+		title: '服务时间',
+		field: 'remark',
+		maxlength: 100,
+		required: true,
+		readonly: !!view
 	}];
 	
 	var options = {};

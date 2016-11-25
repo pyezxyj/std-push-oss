@@ -13,11 +13,14 @@ $(function(){
 		search: true
 	}, {
 		field: 'cvalue',
-		title: '数值',
-		formatter: moneyFormat
+		title: '数值'
 	}, {
 		field: 'remark',
 		title: '备注',
 	}];
-	buildList(router, columns);
+	buildList(router, columns, {
+		searchParams: {
+			companyCode: getCompanyId(getUserId())
+		}
+	});
 })

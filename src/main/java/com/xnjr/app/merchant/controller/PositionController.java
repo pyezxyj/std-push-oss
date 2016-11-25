@@ -15,8 +15,8 @@ import com.xnjr.app.http.JsonUtils;
 import com.xnjr.app.util.UploadUtil;
 
 @Controller
-@RequestMapping(value = "/merchant/genre")
-public class GenreController extends BaseController {
+@RequestMapping(value = "/merchant/position")
+public class PositionController extends BaseController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -24,7 +24,7 @@ public class GenreController extends BaseController {
 	public Object addGenre(@SuppressWarnings("rawtypes") @RequestBody Map map)
 	{
 		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
-		map.put("type", "1");
+		map.put("type", "2");
 		return BizConnecter.getBizData("808000", JsonUtils.mapToJson(map),Object.class);
 	}
 	
@@ -42,7 +42,7 @@ public class GenreController extends BaseController {
 	public Object editGenre(@SuppressWarnings("rawtypes") @RequestBody Map map)
 	{	
 		map.put("pic", UploadUtil.uploadPicture((String) map.get("pic")));
-		map.put("type", "1");
+		map.put("type", "2");
 		return BizConnecter.getBizData("808002", JsonUtils.mapToJson(map),Object.class);
 	}
 	
@@ -50,7 +50,7 @@ public class GenreController extends BaseController {
 	@ResponseBody
 	public Object pageGenre(@RequestParam Map<String,String> map)
 	{
-		map.put("type", "1");
+		map.put("type", "2");
 		return BizConnecter.getBizData("808005", JsonUtils.mapToJson(map),Object.class);
 	}
 	
@@ -58,7 +58,7 @@ public class GenreController extends BaseController {
 	@ResponseBody
 	public Object listGenre(@RequestParam Map<String,String> map)
 	{
-		map.put("type", "1");
+		map.put("type", "2");
 		return BizConnecter.getBizData("808006", JsonUtils.mapToJson(map),Object.class);
 	}
 	

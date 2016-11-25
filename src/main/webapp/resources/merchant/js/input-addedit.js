@@ -7,18 +7,27 @@ $(function() {
 	var fields = [{
 		field: 'category',
 		title: '大类',
-		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode,
+		url: !!view ? ($('#basePath').val() + '/merchant/genre/detail') 
+				: ($('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode),
 		keyName: 'code',
 		valueName: 'name',
 		type: 'select',
-		readonly: !!view
+		required: true,
+		readonly: !!view,
+		onChange: function(v, r) {
+			$('#type').renderDropdown({
+				url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode + '&parentCode=' + v,
+				keyName: 'code',
+				valueName: 'name'
+			});
+		}
 	}, {
 		field: 'type',
 		title: '小类',
-		url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode,
+		type: 'select',
+		url: !!view ? ($('#basePath').val() + '/merchant/genre/detail') : '',
 		keyName: 'code',
 		valueName: 'name',
-		type: 'select',
 		readonly: !!view,
 		required: true
 	}, {

@@ -3,6 +3,10 @@ $(function() {
 	var router = '/merchant/configure';
 	
 	var fields = [{
+		field: 'companyCode',
+		type: 'hidden',
+		value: getCompanyId(getUserId())
+	}, {
 		title: '参数名',
 		field: 'cname',
 		readonly: true

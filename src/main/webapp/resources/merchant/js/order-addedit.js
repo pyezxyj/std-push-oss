@@ -13,7 +13,7 @@ $(function() {
 		readonly: !!view
 	}, {
 		title: '下单用户',
-		field: 'applyUser',
+		field: 'mobile',
 		readonly: !!view
 	}, {
 		title: '下单说明',
@@ -23,20 +23,6 @@ $(function() {
 		title: '下单时间',
 		field: 'applyDatetime',
 		formatter: dateTimeFormat,
-		readonly: !!view
-	}, {
-		title: '发票信息',
-		type: 'title'
-	}, {
-		title: '发票类型',
-		field: 'receiptType',
-		type: 'select',
-		formatter: Dict.getNameForList('receipt_type'),
-		key: 'receipt_type',
-		readonly: !!view
-	}, {
-		title: '发票抬头',
-		field: 'receiptTitle',
 		readonly: !!view
 	}, {
 		title: '收货信息',
@@ -72,6 +58,10 @@ $(function() {
 			field: 'salePrice',
 			formatter: moneyFormat
 		}]
+	}, {
+		title: '备注',
+		field: 'remark',
+		readonly: !!view
 	}];
 	
 	var options = {};

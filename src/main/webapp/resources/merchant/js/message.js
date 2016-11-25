@@ -15,7 +15,8 @@ $(function(){
 		field : 'type',
 		title : '类型',
 		type: 'select',
-		data: {'1':'公告'}
+		data: {'1':'公告', '4': '短信'},
+		search: true
 	},{
     	field: 'status',
     	title: '状态',
@@ -33,7 +34,11 @@ $(function(){
 		field: 'remark',
 		title: '备注'
 	}];
-	buildList(router, columns);
+	buildList(router, columns, {
+		searchParams: {
+			companyCode: getCompanyId(getUserId())
+		}
+	});
 	
 	$('#releaseBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');

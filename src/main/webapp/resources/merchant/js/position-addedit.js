@@ -2,20 +2,14 @@ $(function() {
 	var code = getQueryString('code');
 	var view = getQueryString('v');
 	var companyCode = getCompanyId(getUserId());
-	var router = '/merchant/genre';
+	var router = '/merchant/position';
 	
 	var fields = [{
-		title: '大类',
 		field: 'parentCode',
-		type: 'select',
-		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode,
-		keyName: 'code',
-		valueName: 'name',
-		readonly: !!view,
-		defaultOption: '选此创建大类',
-		required: true
+		type: 'hidden',
+		value: '0'
 	}, {
-		title: '类别名称',
+		title: '位置名称',
 		field: 'name',
 		readonly: !!view,
 		required: true

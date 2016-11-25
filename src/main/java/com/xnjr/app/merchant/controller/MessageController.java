@@ -21,7 +21,6 @@ public class MessageController extends BaseController {
     @ResponseBody
     public Object addMessage(@RequestBody Map<String, String> map) {
     	map.put("updater", this.getSessionUser().getUserName());
-    	map.put("companyCode","0");
   		return BizConnecter.getBizData("805120", JsonUtils.mapToJson(map),
               Object.class);
 	}
@@ -69,7 +68,7 @@ public class MessageController extends BaseController {
     @ResponseBody
     public Object releaseMessage(@RequestBody Map<String, String> map) {
     	map.put("updater", this.getSessionUser().getUserName());
-  		return BizConnecter.getBizData("805120", JsonUtils.mapToJson(map),
+  		return BizConnecter.getBizData("805123", JsonUtils.mapToJson(map),
               Object.class);
 	}
 }

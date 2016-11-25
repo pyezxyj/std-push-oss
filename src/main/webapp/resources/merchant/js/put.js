@@ -2,32 +2,46 @@ $(function() {
 	
 	var code = getQueryString('code');
 	var companyCode = getCompanyId(getUserId());
+	var view = true;
 	var router = '/merchant/input';
 	
 	var fields = [{
 		title: '商品名称',
 		field: 'name',
-		maxlength: 255
+		maxlength: 255,
+		readonly: true
 	}, {
 		field: 'category',
 		title: '大类',
-		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode,
+		url: !!view ? ($('#basePath').val() + '/merchant/genre/detail') 
+				: ($('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode),
 		keyName: 'code',
 		valueName: 'name',
 		type: 'select',
-		required: true
+		required: true,
+		readonly: !!view,
+		onChange: function(v, r) {
+			$('#type').renderDropdown({
+				url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode + '&parentCode=' + v,
+				keyName: 'code',
+				valueName: 'name'
+			});
+		}
 	}, {
 		field: 'type',
 		title: '小类',
-		url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode,
+		type: 'select',
+		url: !!view ? ($('#basePath').val() + '/merchant/genre/detail') : '',
 		keyName: 'code',
 		valueName: 'name',
-		type: 'select',
+		readonly: !!view,
 		required: true
 	}, {
 		title: '库存',
 		field: 'quantity',
-		maxlength: 11
+		'Z+': true,
+		maxlength: 11,
+		readonly: true
 	}, {
 		title: '原价',
 		field: 'originalPrice',
@@ -36,21 +50,27 @@ $(function() {
 	}, {
 		title: '折扣价',
 		amount: true,
-		field: 'discountPrice'
+		field: 'discountPrice',
+		required: true
 	}, {
 		title: '位置',
 		field: 'location',
 		type: 'select',
-		data: {'1':'普通','2':'热门'},
+		url: $('#basePath').val() + '/merchant/position/list?companyCode=' + companyCode,
+		keyName: 'code',
+		valueName: 'name',
+		defaultOption: '普通',
 		required: true
 	}, {
 		title: '顺序',
 		maxlength: 11,
-		field: 'orderNo'	
+		number: true,
+		field: 'orderNo',
+		required: true
 	}, {
 		title: '备注',
 		field: 'remark',
-		maxlength: 255,
+		maxlength: 255
 	}];
 	
 	buildDetail(router, fields, code, {

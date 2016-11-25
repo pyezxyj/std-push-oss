@@ -65,7 +65,7 @@ public class OrderController extends BaseController {
 	public Object siteOrder(@SuppressWarnings("rawtypes") @RequestBody Map map)
 	{
 		map.put("updater", this.getSessionUser().getUserName());
-		return BizConnecter.getBizData("808014", JsonUtils.mapToJson(map),Object.class);
+		return BizConnecter.getBizData("808055", JsonUtils.mapToJson(map),Object.class);
 	}
 	
 	@SuppressWarnings("unchecked")

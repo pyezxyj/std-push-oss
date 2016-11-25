@@ -12,12 +12,21 @@ $(function(){
 		title : '商品名称',
 		search: true
 	}, {
+		field: 'category',
+		title: '大类',
+		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + companyCode,
+		keyName: 'code',
+		valueName: 'name',
+		type: 'select',
+		search: true
+	}, {
 		field: 'type',
-		title: '类别',
+		title: '小类',
 		url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode,
 		keyName: 'code',
 		valueName: 'name',
 		type: 'select',
+		noRender: true,
 		search: true
 	}, {
 		field : 'quantity',
@@ -46,7 +55,10 @@ $(function(){
     	title : '位置',
     	search : true,
     	type : 'select',
-    	data: {'1':'普通','2':'热门','3':'新品'}
+    	url: $('#basePath').val() + '/merchant/position/list?companyCode=' + companyCode,
+		keyName: 'code',
+		valueName: 'name',
+		defaultOption: '普通'
     }, {
     	field: 'remark',
     	title: '备注'
@@ -54,6 +66,14 @@ $(function(){
 	buildList(router, columns, {
 		searchParams: {
 			companyCode: companyCode
+		},
+		beforeEdit: function(record) {
+			if (record.status == 1) {
+				alert("该产品已上架");
+				return false;
+			} else {
+				return true;
+			}
 		}
 	});
 	
@@ -89,7 +109,7 @@ $(function(){
 		});
 	});
 	
-	$('#deleteBtn').click(function() {
+	$('#delete1Btn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');
 		if(selRecords.length <= 0){
 			alert("请选择记录");
@@ -121,5 +141,19 @@ $(function(){
 				$('#tableList').bootstrapTable('refresh',{url: $('#tableList').bootstrapTable('getOptions').url});
 			}
 		});
+	});
+	
+	$('#category').on('change', function() {
+		var v = $(this).val();
+		if (v) {
+			$('#type').renderDropdown({
+				url: $('#basePath').val() + '/merchant/genre/list?companyCode=' + companyCode + '&parentCode=' + v,
+				keyName: 'code',
+				valueName: 'name'
+			});
+		} else {
+			$('#type').html('<option value=""></option>');
+		}
+		
 	});
 })

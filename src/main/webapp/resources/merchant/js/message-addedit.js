@@ -4,18 +4,25 @@ $(function() {
 	var router = '/merchant/message';
 	
 	var fields = [{
+		title: '类型',
+		field: 'type',
+		required: true,
+		type: 'select',
+		readonly: !!view,
+		data: {'1':'公告', '4': '短信'},
+		onChange: function(v) {
+			if (v == 4) {
+				$('#content').parent().hide();
+			} else {
+				$('#content').parent().show();
+			}
+		}
+	}, {
 		title: '标题',
 		field: 'title',
 		maxlength: 60,
 		required: true,
-		readonly: !!view,
-	}, {
-		title: '类型',
-		field: 'type',
-		type: 'select',
-		data: {'1':'公告'},
-		required: true,
-		readonly: !!view,
+		readonly: !!view
 	}, {
 		title: '内容',
 		field: 'content',
@@ -31,7 +38,7 @@ $(function() {
 		title: '',
 		field: 'companyCode',
 		type: 'hidden',
-		value: '1',
+		value: getCompanyId(getUserId())
 	}];
 	
 	var options = {};

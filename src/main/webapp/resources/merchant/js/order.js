@@ -21,9 +21,11 @@ $(function(){
 	}, {
 		field: 'amount',
 		title: '订单总额',
-		formatter: moneyFormat
+		formatter: function(v, r) {
+			return moneyFormat(+v + +r.yunfei);
+		}
 	}, {
-		field : 'applyUser',
+		field : 'mobile',
 		title : '下单用户',
 		search: true
     }, {

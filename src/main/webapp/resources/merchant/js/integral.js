@@ -11,7 +11,8 @@ $(function(){
 		field : 'bizType',
 		title : '业务类型',
 		type: 'select',
-		data : {'5':'收入','6':'支出'},
+		formatter: Dict.getNameForList('biz_type'),
+		type: 'biz_type',
 		search: true
 	}, {
 		field: 'refNo',

@@ -8,15 +8,19 @@ $(function(){
 		title : '',
 		checkbox : true
 	}, {
-		field : 'realName',
+		field : 'loginName',
 		title : '用户名',
-		serach: true
+		search: true
+	}, {
+		field : 'mobile',
+		title : '手机号',
+		search: true
 	}, {
 		field: 'status',
 		title: '状态',
 		search: true,
 		type : 'select',
-		data: {'0':'正常','1':'冻结'}
+		data: {'0':'正常','2':'冻结'}
 	}, {
 		field: 'updateDatetime',
 		title: '注册时间',
@@ -24,11 +28,16 @@ $(function(){
 	}, {
     	field : 'amount',
     	title : '积分余额',
+    	amount: true
     }, {
     	field: 'remark',
     	title: '备注'
     }];
-	buildList(router, columns);
+	buildList(router, columns, {
+		searchParams: {
+			companyCode: getCompanyId(getUserId())
+		}
+	});
 	
 	$('#freeze-upBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');

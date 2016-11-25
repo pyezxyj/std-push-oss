@@ -1,22 +1,20 @@
 $(function(){
 	showPermissionControl();
-	var router = '/merchant/genre';
+	var router = '/merchant/position';
 	
 	var columns = [{
 		field : '',
 		title : '',
 		checkbox : true
 	}, {
-		field : 'name',
-		title : '类别名称',
-		search: true
+		field: 'pic',
+		title: '图片',
+		formatter: function(v) {
+			return v ? '<img src="'+v+'" style="width: 60px;"/>' : '-';
+		}
 	}, {
-		field: 'parentCode',
-		title: '大类',
-		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0',
-		keyName: 'code',
-		valueName: 'name',
-		type: 'select',
+		field : 'name',
+		title : '位置名称',
 		search: true
 	}, {
 		field: 'orderNo',
@@ -27,7 +25,7 @@ $(function(){
 		sortName: 'orderNo',
 		sortOrder: 'asc',
 		searchParams: {
-			companyCode: getCompanyId(getUserId()),
+			companyCode: getCompanyId(getUserId())
 		}
 	});
 })
