@@ -12,7 +12,7 @@ $(function(){
 		title : '业务类型',
 		type: 'select',
 		formatter: Dict.getNameForList('biz_type'),
-		type: 'biz_type',
+		key: 'biz_type',
 		search: true
 	}, {
 		field: 'refNo',

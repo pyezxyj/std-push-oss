@@ -39,6 +39,10 @@ $(function() {
 		field: 'companyCode',
 		type: 'hidden',
 		value: getCompanyId(getUserId())
+	}, {
+		field: 'toCompany',
+		type: 'hidden',
+		value: getCompanyId(getUserId())
 	}];
 	
 	var options = {};

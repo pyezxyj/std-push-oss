@@ -69,7 +69,7 @@ $(function(){
 		}
 		var code = selRecords[0].code;
 		qrcode.clear();
-		qrcode.makeCode($('#frontBaseUrl').val() + '/m/operator/recharge.html?c=' + code);
+		qrcode.makeCode(selRecords[0].domain + '/m/operator/recharge.html?c=' + code);
 		setTimeout(function() {
 			savePic(code);
 		}, 1);

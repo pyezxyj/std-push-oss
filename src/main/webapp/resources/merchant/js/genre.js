@@ -13,7 +13,7 @@ $(function(){
 	}, {
 		field: 'parentCode',
 		title: '大类',
-		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0',
+		url: $('#basePath').val() + '/merchant/genre/list?parentCode=0&companyCode=' + getCompanyId(getUserId()),
 		keyName: 'code',
 		valueName: 'name',
 		type: 'select',
