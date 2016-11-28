@@ -21,7 +21,7 @@
     };
 
     $.extend($.fn.bootstrapTable.defaults, {
-        showExport: false,
+        showExport: true,
         exportDataType: 'all', // basic, all, selected
         // 'json', 'xml', 'png', 'csv', 'txt', 'sql', 'doc', 'excel', 'powerpoint', 'pdf'
         exportTypes: ['excel'],
@@ -49,7 +49,7 @@
             if (!$export.length) {
                 $export = $([
                     '<div class="export btn-group">',
-                        '<button class="btn' +
+                        '<button style="display:none;" class="btn' +
                             sprintf(' btn-%s', this.options.buttonsClass) +
                             sprintf(' btn-%s', this.options.iconSize) +
                             '" ' +

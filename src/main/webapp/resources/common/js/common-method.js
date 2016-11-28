@@ -623,6 +623,10 @@ function getCompanyId(userId) {
 	return res1;
 }
 
+function getSystemId() {
+	return '1';
+}
+
 function objectArrayFilter(arr, keys) {
 	keys = keys.split(',');
 	var newArr = [];
@@ -724,6 +728,10 @@ function buildList(router, columns, options) {
 		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_addedit.htm?-=-" + urlParamsStr;
 	});
 	
+	$('#exportBtn').click(function() {
+		$('.export .btn').click();
+	});
+	
 	$('#editBtn').click(function() {
 		var selRecords = $('#tableList').bootstrapTable('getSelections');
 		if(selRecords.length <= 0){
@@ -738,8 +746,15 @@ function buildList(router, columns, options) {
 			if (!options.beforeEdit(selRecords[0])) {
 				return;
 			}
-		} 
-		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_addedit.htm?code="+(selRecords[0].code || selRecords[0].id) + urlParamsStr;
+		}
+		var codeParams = '';
+		if (options.uid) {
+			
+			options.uid.forEach(function(i) {
+				codeParams += '&' + i + '=' + selRecords[0][i];
+			});
+		}
+		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_addedit.htm?code="+(selRecords[0].code || selRecords[0].id) + urlParamsStr + codeParams;
 	});
 	
 	$('#deleteBtn').click(function() {
@@ -757,8 +772,15 @@ function buildList(router, columns, options) {
 		if(!confirm("确认是否删除该记录？")){
     		return false;
     	}
+		var codeParams = {code:selRecords[0].code};
+		if (options.uid) {
+			codeParams = {};
+			options.uid.forEach(function(i) {
+				codeParams[i] = selRecords[0][i];
+			});
+		}
     	var url = $("#basePath").val()+ router + '/delete';
-    	var data = {code:selRecords[0].code};
+    	var data = codeParams;
 		ajaxPost(url, data).then(function(res) {
 			if (res.success) {
 				alert('操作成功');
@@ -777,7 +799,14 @@ function buildList(router, columns, options) {
 			alert("请选择一条记录");
 			return;
 		}
-		location.href = $("#basePath").val() + (options.pageRouter || router) + "_addedit.htm?v=1&code=" + (selRecords[0].code || selRecords[0].id || selRecords[0].userId) + urlParamsStr;
+		var codeParams = '';
+		if (options.uid) {
+			
+			options.uid.forEach(function(i) {
+				codeParams += '&' + i + '=' + selRecords[0][i];
+			});
+		}
+		location.href = $("#basePath").val() + (options.pageRouter || router) + "_addedit.htm?v=1&code=" + (selRecords[0].code || selRecords[0].id || selRecords[0].userId) + urlParamsStr + codeParams;
 	});
 	
 	$('#checkBtn').click(function() {
@@ -790,7 +819,14 @@ function buildList(router, columns, options) {
 			alert("请选择一条记录");
 			return;
 		}
-		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_check.htm?code="+ (selRecords[0].code || selRecords[0].id) + urlParamsStr;
+		var codeParams = '';
+		if (options.uid) {
+			
+			options.uid.forEach(function(i) {
+				codeParams += '&' + i + '=' + selRecords[0][i];
+			});
+		}
+		window.location.href = $("#basePath").val()+ (options.pageRouter || router) + "_check.htm?code="+ (selRecords[0].code || selRecords[0].id) + urlParamsStr + codeParams;
 	});
 	
 	var singleSelect = true;
@@ -1084,11 +1120,14 @@ function buildDetail(router, fields, code, options) {
 		}
 	}
 	
+	var detailParams = {code: code};
+	if (code && typeof code == 'object') {
+		detailParams = code;
+		code = true;
+	}
 	
 	if (code) {
-		doGetAjax($("#basePath").val()+ router + "/detail", {
-			code: code
-		}, function(res) {
+		doGetAjax($("#basePath").val()+ router + "/detail", detailParams, function(res) {
 			if (res.success) {
 				var data = res.data;
 				$('#code').val(data.code || data.id);
