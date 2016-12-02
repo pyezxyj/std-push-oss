@@ -21,20 +21,19 @@ $(function(){
 		});
 	})
 	function check() {
-		function getCompanyId(userId) {
-			var res1;
-			ajaxGet($('#basePath').val() + '/general/company/list', {
-				userId: userId,
-				location: '1'
+		function getSystemId(userId) {
+			var res1 = '';
+			ajaxGet($('#basePath').val() + '/employee/list', {
+				userId: userId
 			}, false, true).then(function(res) {
-				res1 = res.data.length > 0 ? res.data[0].code: '0';
+				res1 = res.data.length > 0 ? res.data[0]: {};
 			});
-			return res1;
+			return res1.systemCode;
 		}
 		var userId = $('#topUserId').val();
-		var companyId = getCompanyId(userId);
-		if (companyId == '0' && userId != 'U201600000000000000') {
-			alert('商户信息未初始化，请联系管理员');
+		var systemId = getSystemId(userId);
+		if (!systemId && userId != 'U201600000000000000') {
+			alert('办件员信息未初始化，请联系管理员');
 			$('body .nav').remove();
 			$('body', parent.frames["leftFrame"].document).html('');
 			$('body', parent.frames["rightFrame"].document).html('');

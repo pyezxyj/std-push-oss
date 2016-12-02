@@ -16,48 +16,50 @@ import com.xnjr.app.http.BizConnecter;
 import com.xnjr.app.http.JsonUtils;
 
 @Controller
-@RequestMapping(value = "/customer")
-public class CustomerController extends BaseController {
+@RequestMapping(value = "/employee")
+public class EmployeeController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Object addDict(@RequestBody Map map) {
-  		return BizConnecter.getBizData("804012", JsonUtils.mapToJson(map),
+    public Object add(@RequestBody Map map) {
+    	map.put("updater", this.getSessionUser().getUserName());
+  		return BizConnecter.getBizData("804050", JsonUtils.mapToJson(map),
+              Object.class);
+	}
+    
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delete(@RequestBody Map map) {
+    	map.put("updater", this.getSessionUser().getUserName());
+  		return BizConnecter.getBizData("804051", JsonUtils.mapToJson(map),
               Object.class);
 	}
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Object editDict(@RequestBody Map map) {
-  		return BizConnecter.getBizData("804013", JsonUtils.mapToJson(map),
+    public Object edit(@RequestBody Map map) {
+  		return BizConnecter.getBizData("804052", JsonUtils.mapToJson(map),
               Object.class);
 	}
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
-    public Object queryDictPage(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("804020", JsonUtils.mapToJson(map),
+    public Object page(@RequestParam Map<String,String> map) {
+  	    return BizConnecter.getBizData("804055", JsonUtils.mapToJson(map),
               Object.class);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object queryDictList(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("804021", JsonUtils.mapToJson(map),
+    public Object list(@RequestParam Map<String,String> map) {
+  	    return BizConnecter.getBizData("804056", JsonUtils.mapToJson(map),
               Object.class);
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
-    public Object queryDictDetail(@RequestParam Map<String,String> map) {
-  	    return BizConnecter.getBizData("804022", JsonUtils.mapToJson(map),
-              Object.class);
-    }
-    
-    @RequestMapping(value = "/import", method = RequestMethod.POST)
-    @ResponseBody
-    public Object queryDictImport(@RequestBody Map map) {
-  	    return BizConnecter.getBizData("804011", JsonUtils.mapToJson(map),
+    public Object detail(@RequestParam Map<String,String> map) {
+  	    return BizConnecter.getBizData("804057", JsonUtils.mapToJson(map),
               Object.class);
     }
 }

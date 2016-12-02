@@ -1,5 +1,6 @@
 $(function() {
 	var view = !!getQueryString('v');
+	var systemCode = getSystemId();
 	var router = '/customer';
 	
 	var fields = [{
@@ -8,7 +9,9 @@ $(function() {
 		key: 'system',
 		type: 'select',
 		required: true,
-		readonly: view
+		defaultValue: systemCode,
+		readonly: view,
+		hidden: !!systemCode
     }, {
 		title: '名称',
 		field: 'name',
@@ -21,7 +24,12 @@ $(function() {
 		maxlength: 30,
 		required: true,
 		readonly: view,
-		mobile: true
+		mobile: true,
+		afterSet: function(v) {
+			if (v && !view) {
+				$('#mobile').parent().hide();
+			}
+		}
 	}, {
 		title: '用户等级',
 		field: 'level',

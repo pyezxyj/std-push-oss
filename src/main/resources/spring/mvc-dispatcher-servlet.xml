@@ -220,6 +220,10 @@
 		    <mvc:mapping path="/merchant/**"/>
 		    <!-- 会员相关end -->
 		    
+		    <!-- 会员相关start -->
+		    <mvc:mapping path="/employee/**"/>
+		    <!-- 会员相关end -->
+		    
 		     <!-- 会员查询相关start -->
 		    <mvc:mapping path="/merchant/memQuery/**"/>
 		    <!-- 会员查询相关end -->

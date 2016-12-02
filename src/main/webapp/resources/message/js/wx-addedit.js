@@ -2,6 +2,7 @@ $(function() {
 	var code = getQueryString('code');
 	var view = !!getQueryString('v');
 	var router = '/message/wx';
+	var tpl = '', tpldata = {};
 	
 	var fields = [{
     	field : 'fromSystemCode',
@@ -16,35 +17,32 @@ $(function() {
 		type: 'select',
 		readonly: true
     }, {
-		title: '办理进度',
+		title: '接收者手机号',
+		field: 'toMobile',
+		required: true,
+		mobile: true,
+		readonly: view
+	}, {
+		title: '状态',
 		field: 'status',
 		type: 'select',
 		key: 'push_status',
 		required: true,
 		readonly: view
 	}, {
-		title: '接收者',
-		field: 'customerCode',
-		type: 'select',
-		url: $('#basePath').val() + '/customer/list?systemCode=' + getSystemId(),
-		required: true,
-		keyName: 'mobile',
-		valueName: 'name',
-		readonly: view,
+		title: '预览',
+		field: 'smsContent',
+		readonly: true,
 		hidden: true,
-		onChange: function(v) {
-			if (v) {
-				$('#toMobile').val(v);
-			} else {
-				$('#toMobile').val('');
-			}
+		value: function(data) {
+			ajaxGet($('#basePath').val() + '/message/wx/tpl', {
+				systemCode: getSystemId()
+			}).then(function(res) {
+				tpldata.title = res.data.title;
+				$('#smsContent').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + data.smsContent.replace(/\n/g,"<br/>"));
+				$('#smsContent').parent().show();
+			});
 		}
-	}, {
-		title: '接收者手机号',
-		field: 'toMobile',
-		required: true,
-		mobile: true,
-		readonly: view
 	}];
 	
 	buildDetail(router, fields, code, {

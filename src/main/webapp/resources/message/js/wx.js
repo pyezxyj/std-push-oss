@@ -17,7 +17,12 @@ $(function() {
     	field : 'pushType',
 		title : '发送渠道',
 		key: 'push_type',
-		formatter: Dict.getNameForList('push_type'),
+		formatter: Dict.getNameForList('push_type')
+    }, {
+    	field : 'toSystemCode',
+		title : '接收单位',
+		key: 'system',
+		formatter: Dict.getNameForList('system'),
 		search: true
     }, {
 		field : 'toMobile',
@@ -29,7 +34,11 @@ $(function() {
 		formatter: Dict.getNameForList('push_status'),
 		search: true
 	}];
-	buildList(router, columns);
+	buildList(router, columns, {
+		searchParams: {
+			pushType: '31'
+		}
+	});
 	$('#singleBtn').click(function() {
 		window.location.href = $("#basePath").val()+ "/message/wx_send.htm?-=-";
 	});

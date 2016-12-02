@@ -2,8 +2,27 @@ $(function() {
 	var code = getQueryString('code');
 	var group = !!getQueryString('g');
 	var router = '/message/wx';
+	var tpl = '', tpldata = {};
+	var emp = getEmployee() || {};
+	
+	ajaxGet($('#basePath').val() + '/message/wx/tpl', {
+		systemCode: getSystemId()
+	}).then(function(res) {
+		tpl = res.data.content;
+		tpldata.title = res.data.title;
+		$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+	});
+	tpldata.first = emp.first;
+	tpldata.keyword1 = emp.content;
+	tpldata.keyword2 = emp.department;
+	tpldata.keyword5 = dateTimeFormat(new Date());
+	tpldata.remark = emp.remark;
 	
 	var fields = [{
+		field: 'smsType',
+		hidden: true,
+		value: '1'
+	}, {
 		field: 'fromSystemCode',
 		type: 'hidden',
 		value: getSystemId()
@@ -15,30 +34,42 @@ $(function() {
 		title: '办理进度',
 		field: 'status',
 		type: 'select',
-		key: 'push_status',
-		required: true
+		data: {'正在办理中': '正在办理中', '办理完成': '办理完成'},
+		required: true,
+		onChange: function(v) {
+			tpldata.keyword3 = v;
+			$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+		}
 	}, {
-		title: '接收者',
-		field: 'customerCode',
+		title: '接收者姓名',
+		field: 'realName',
+		required: true,
+		hidden: group,
+		onBlur: function(v) {
+			tpldata.keyword4 = v;
+			$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+		}
+	}, {
+		title: '接收者手机号',
+		field: 'toMobile',
 		type: 'select',
 		url: $('#basePath').val() + '/customer/list?systemCode=' + getSystemId(),
 		required: true,
 		keyName: 'mobile',
-		valueName: 'name',
-		onChange: function(v) {
+		valueName: 'mobile',
+		onChange: function(v, r) {
+			//tpldata.keyword4 = r.name;
 			if (v) {
-				$('#toMobile').val(v);
 			} else {
-				$('#toMobile').val('');
+				tpldata.keyword4 = '';
 			}
 		},
 		hidden: group
 	}, {
-		title: '接收者手机号',
-		field: 'toMobile',
-		required: true,
-		mobile: true,
-		hidden: group
+		title: '预览',
+		field: 'content',
+		readonly: true,
+		value: ''
 	}];
 	
 	buildDetail(router, fields, code, {
@@ -47,6 +78,7 @@ $(function() {
 			handler: function() {
 				if ($('#jsForm').valid()) {
 					var data = $('#jsForm').serializeObject();
+					data.smsContent = tpldata;
 					var url = $("#basePath").val()+ "/message/wx/send";
 					ajaxPost(url, data).then(function(res) {
 						if (res.success) {
@@ -63,5 +95,5 @@ $(function() {
 			}
 		}]
 	});
-
+	group && (tpldata.keyword4 = '');
 });
