@@ -8,7 +8,7 @@ $(function() {
 	ajaxGet($('#basePath').val() + '/message/wx/tpl', {
 		systemCode: getSystemId()
 	}).then(function(res) {
-		tpl = res.data.content;
+		tpl = res.data.content || '';
 		tpldata.title = res.data.title;
 		$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
 	});

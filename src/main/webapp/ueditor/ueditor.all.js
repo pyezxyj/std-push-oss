@@ -24494,6 +24494,15 @@ UE.plugin.register('simpleupload', function (){
                         });
                     }
                 }
+                
+                function convertImageToCanvas(image) {
+                	var canvas = document.createElement("canvas");
+                	canvas.width = image.naturalWidth || image.width;
+                	canvas.height = image.naturalHeight || image.height;
+                	canvas.getContext("2d").drawImage(image, 0, 0);
+
+                	return canvas;
+                }
 
                 /* 判断后端配置是否没有加载成功 */
                 if (!me.getOpt('imageActionName')) {
@@ -24508,9 +24517,53 @@ UE.plugin.register('simpleupload', function (){
                     return;
                 }
 
-                domUtils.on(iframe, 'load', callback);
-                form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
-                form.submit();
+                //domUtils.on(iframe, 'load', callback);
+                //form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
+                //form.submit();
+                // luoqi add
+                // switch binary to base64
+                var imgType = input.files[0].type;
+                var reader = new FileReader();
+        		reader.onload = function(evt){
+        			var image = evt.target.result;
+        			var img = document.createElement("img");
+        			img.src = image;
+        			var canvas = convertImageToCanvas(img);
+        			var options = {
+    	                timeout:100000,
+    	                onsuccess:function (xhr) {
+    	                	var responseObj;
+	                        responseObj = eval("(" + xhr.responseText + ")");
+	                        if (responseObj.state == "SUCCESS") {
+	                        	loader = me.document.getElementById(loadingId);
+	                            loader.removeAttribute('id');
+	                            domUtils.removeClasses(loader, 'loadingclass');
+	                            var imgObj = {},
+	                                url = me.options.imageUrlPrefix + responseObj.url;
+	                            imgObj.src = url;
+	                            imgObj._src = url;
+	                            imgObj.alt = responseObj.original || '';
+	                            imgObj.title = responseObj.title || '';
+	                            me.execCommand("insertImage", imgObj);
+	                        } else {
+	                        	showErrorLoader && showErrorLoader(responseObj.state);
+	                        }
+    	                },
+    	                onerror:function () {
+    	                    alert(lang.imageError);
+    	                }
+    	            };
+        			if (imgType != 'image/jpeg') {
+        				options[me.getOpt('imageFieldName')] = image.substring(imgType.length + 13);
+        			} else {
+        				options[me.getOpt('imageFieldName')] = canvas.toDataURL("image/jpeg", 0.5).substring('23');
+        			}
+    	            
+
+    	            var url = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
+    	            UE.ajax.request(url, options);
+        		}
+        		reader.readAsDataURL(input.files[0]);               
             });
 
             var stateTimer;
