@@ -56,4 +56,8 @@ $(function() {
 		mobile: getQueryString('mobile'),
 		systemCode: getQueryString('systemCode')
 	});
+	
+	if (view) {
+		$('#subBtn').remove();
+	}
 });

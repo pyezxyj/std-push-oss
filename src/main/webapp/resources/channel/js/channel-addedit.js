@@ -39,17 +39,17 @@ $(function() {
 	}, {
 		title: '密钥1',
 		field: 'privateKey1',
-		maxlength: 60,
+		maxlength: 250,
 		readonly: view
 	}, {
 		title: '密钥2',
 		field: 'privateKey2',
-		maxlength: 60,
+		maxlength: 250,
 		readonly: view
 	}, {
 		title: '密钥3',
 		field: 'privateKey3',
-		maxlength: 60,
+		maxlength: 1000,
 		readonly: view
 	}, {
 		title: '备注',
