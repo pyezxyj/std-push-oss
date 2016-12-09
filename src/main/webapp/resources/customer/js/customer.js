@@ -23,7 +23,11 @@ $(function() {
 		search: true
 	}, {
 		field: 'level',
-		title: '用户等级'
+		title: '用户分组',
+		key: 'user_kind',
+		type: 'select',
+		formatter: Dict.getNameForList('user_kind'),
+		search: true
 	}, {
 		field: 'wechatId',
 		title: '微信id'

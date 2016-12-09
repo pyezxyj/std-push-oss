@@ -126,7 +126,7 @@ public final class ConfigManager {
 				conf.put( "maxSize", this.jsonConfig.getLong( "catcherMaxSize" ) );
 				conf.put( "allowFiles", this.getArray( "catcherAllowFiles" ) );
 				conf.put( "fieldName", this.jsonConfig.getString( "catcherFieldName" ) + "[]" );
-				savePath = this.jsonConfig.getString( "catcherPathFormat" );
+				savePath = this.jsonConfig.getString( "imagePathFormat" );
 				break;
 				
 			case ActionMap.LIST_IMAGE:

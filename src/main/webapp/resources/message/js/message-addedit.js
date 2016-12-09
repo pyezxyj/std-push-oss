@@ -31,6 +31,7 @@ $(function() {
 						}
 						$('#channelCode').empty();
 						$('#channelCode').html(html);
+						$('#channelCode').trigger('change');
 					}
 				});
 			}
@@ -45,9 +46,48 @@ $(function() {
     		$('#channelType').val(vs[0]);
     		$('#pushType').val(vs[1]);
     		$('#pushType').trigger('change');
+    		$('#kind').trigger('change');
     	},
     	hidden: view,
     	required: true
+    }, {
+    	field: 'templateId',
+    	title: '发送模板',
+    	type: 'select',
+    	url: $('#basePath').val() + '/tpl/list',
+		keyName: 'templateId',
+		valueName: 'title',
+		required: true,
+		hidden: true,
+		onChange: function(v, r) {
+			$('#first').parent().hide();
+			$('#keyword1').parent().hide();
+			$('#keyword2').parent().hide();
+			$('#keyword3').parent().hide();
+			$('#keyword4').parent().hide();
+			$('#keyword5').parent().hide();
+			$('#remark').parent().hide();
+			$('#dateT1').parent().hide();
+			$('#adChargeT1').parent().hide();
+			$('#typeT1').parent().hide();
+			$('#cashBalanceT1').parent().hide();
+			if (v == "E1KoO96UdD5-xAuUDhEIktkQBDarcsRJxhljsDEOk3M") {
+				$('#first').parent().show();
+				$('#keyword1').parent().show();
+				$('#keyword2').parent().show();
+				$('#keyword3').parent().show();
+				$('#keyword4').parent().show();
+				$('#keyword5').parent().show();
+				$('#remark').parent().show();
+			} else if (v == "2rB1FVWGvvqkL0uOnuTuMB2jhyn3e8sd_a2caRvXGyQ") {
+				$('#first').parent().show();
+				$('#dateT1').parent().show();
+				$('#adChargeT1').parent().show();
+				$('#typeT1').parent().show();
+				$('#cashBalanceT1').parent().show();
+				$('#remark').parent().show();
+			}
+		}
     }, {
     	field : 'channelType',
 		title : '渠道大类',
@@ -65,38 +105,45 @@ $(function() {
 				$('#smsContent').parent().hide();
 				$('#smsContent1').parent().hide();
 				$('#smsTitle').parent().hide();
-				$('#first').parent().show();
-				$('#keyword1').parent().show();
-				$('#keyword2').parent().show();
-				$('#keyword3').parent().show();
-				$('#keyword4').parent().show();
-				$('#keyword5').parent().show();
-				$('#remark').parent().show();
+//				$('#first').parent().show();
+//				$('#keyword1').parent().show();
+//				$('#keyword2').parent().show();
+//				$('#keyword3').parent().show();
+//				$('#keyword4').parent().show();
+//				$('#keyword5').parent().show();
+//				$('#remark').parent().show();
 				view && $('#smsContent').parent().show();
+				$('#templateId').parent().show();
 			} else if (v == '41') {
 				$('#smsContent').parent().show();
 				$('#smsContent1').parent().hide();
 				$('#smsTitle').parent().show();
-				$('#first').parent().hide();
-				$('#keyword1').parent().hide();
-				$('#keyword2').parent().hide();
-				$('#keyword3').parent().hide();
-				$('#keyword4').parent().hide();
-				$('#keyword5').parent().hide();
-				$('#remark').parent().hide();
+//				$('#first').parent().hide();
+//				$('#keyword1').parent().hide();
+//				$('#keyword2').parent().hide();
+//				$('#keyword3').parent().hide();
+//				$('#keyword4').parent().hide();
+//				$('#keyword5').parent().hide();
+//				$('#remark').parent().hide();
 				$('#kind').val('2');
 				$('#kind').trigger('change');
+				$('#templateId').parent().hide();
+				$('#templateId').val('');
+				$('#templateId').trigger('change');
 			} else {
 				$('#smsContent').parent().hide();
 				$('#smsContent1').parent().show();
 				$('#smsTitle').parent().hide();
-				$('#first').parent().hide();
-				$('#keyword1').parent().hide();
-				$('#keyword2').parent().hide();
-				$('#keyword3').parent().hide();
-				$('#keyword4').parent().hide();
-				$('#keyword5').parent().hide();
-				$('#remark').parent().hide();
+//				$('#first').parent().hide();
+//				$('#keyword1').parent().hide();
+//				$('#keyword2').parent().hide();
+//				$('#keyword3').parent().hide();
+//				$('#keyword4').parent().hide();
+//				$('#keyword5').parent().hide();
+//				$('#remark').parent().hide();
+				$('#templateId').parent().hide();
+				$('#templateId').val('');
+				$('#templateId').trigger('change');
 			}
 			if (view) {
 				$('#keyword2').parent().hide();
@@ -108,6 +155,7 @@ $(function() {
 				$('#remark').parent().hide();
 				$('#smsContent').parent().show();
 				$('#smsContent1').parent().hide();
+				$('#templateId').parent().hide();
 			}
 		},
 		readonly: view,
@@ -130,22 +178,38 @@ $(function() {
 			if (v == 2) {
 				$('#toMobile').parent().hide();
 				$('#toMobile').val('');
-				$('#keyword4').parent().hide();
-				$('#keyword4').val('');
+//				$('#keyword4').parent().hide();
+//				$('#keyword4').val('');
+				if ($('#pushType').val() == '41') {
+					$('#toKind').parent().show();
+				} 
 			} else if(v == 1) {
 				$('#toMobile').parent().show();
-				$('#keyword4').parent().show();
+//				$('#keyword4').parent().show();
 				if ($('#pushType').val() == '41') {
 					alert('公告只能群发');
 					$('#kind').val('2');
 					$('#kind').trigger('change');
-				}
+					$('#toKind').parent().show();
+				} 
 			} else {
 				$('#toMobile').parent().show();
+			}
+			
+			if (!($('#kind').val() == 2 && $('#pushType').val() == '41')) {
+				$('#toKind').parent().hide();
 			}
 		},
 		readonly: view,
 		hidden: view
+	}, {
+		title: '针对分组',
+		field: 'toKind',
+		type: 'select',
+		key: 'user_kind',
+		required: true,
+		readonly: view,
+		hidden: true
 	}, {
 		title: '接收者手机号',
 		field: 'toMobile',
@@ -183,7 +247,8 @@ $(function() {
 		title: '发送标题',
 		field: 'smsTitle',
 		maxlength: 100,
-		readonly: view
+		readonly: view,
+		hidden: true
 	}, {
 		title: '发送内容',
 		field: 'smsContent',
@@ -238,11 +303,48 @@ $(function() {
 		readonly: view,
 		hidden: true
 	}, {
+		title: '变动时间',
+		field: 'dateT1',
+		required: true,
+		maxlength: 100,
+		readonly: view,
+		hidden: true,
+		type: 'datetime'
+	}, {
+		title: '变动金额',
+		field: 'adChargeT1',
+		required: true,
+		maxlength: 100,
+		readonly: view,
+		hidden: true,
+		amount: true
+	}, {
+		title: '账户类型',
+		field: 'typeT1',
+		required: true,
+		maxlength: 100,
+		readonly: view,
+		hidden: true
+	}, {
+		title: '账户余额',
+		field: 'cashBalanceT1',
+		required: true,
+		maxlength: 100,
+		readonly: view,
+		hidden: true,
+		amount: true
+	}, {
 		title: '备注',
 		field: 'remark',
 		required: true,
 		maxlength: 100,
 		readonly: view,
+		hidden: true
+	}, {
+		title: '预览',
+		field: 'preview',
+		readonly: true,
+		value: '',
 		hidden: true
 	}, {
 		title: '创建时间',
@@ -283,7 +385,7 @@ $(function() {
 							data[item.field] = item.emptyValue;
 						}
 					}
-					if ($('#pushType').val() == '31') {
+					if ($('#templateId').val() == 'E1KoO96UdD5-xAuUDhEIktkQBDarcsRJxhljsDEOk3M') {
 						var wxContent = {};
 						wxContent.first = $('#first').val();
 						wxContent.keyword1 = $('#keyword1').val();
@@ -291,6 +393,15 @@ $(function() {
 						wxContent.keyword3 = $('#keyword3').val();
 						wxContent.keyword4 = $('#keyword4').val();
 						wxContent.keyword5 = $('#keyword5').val();
+						wxContent.remark = $('#remark').val();
+						data.wxContent = wxContent;
+					} else if ($('#templateId').val() == '2rB1FVWGvvqkL0uOnuTuMB2jhyn3e8sd_a2caRvXGyQ') {
+						var wxContent = {};
+						wxContent.first = $('#first').val();
+						wxContent.date = $('#dateT1').val();
+						wxContent.adCharge = $('#adChargeT1').val();
+						wxContent.type = $('#typeT1').val();
+						wxContent.cashBalance = $('#cashBalanceT1').val();
 						wxContent.remark = $('#remark').val();
 						data.wxContent = wxContent;
 					}
@@ -310,6 +421,7 @@ $(function() {
 		buttons: buttons,
 		afterData: function(data) {
 			//view && data.smsType != 2 && $('#topushDatetime').parent().hide();
+			//view && data.pushType == '41' && $('#toKind').parent().show();
 		}
 	});
 });

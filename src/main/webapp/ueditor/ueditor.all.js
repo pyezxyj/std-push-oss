@@ -23143,7 +23143,7 @@ UE.plugins['catchremoteimage'] = function () {
 
         var catcherLocalDomain = me.getOpt('catcherLocalDomain'),
             catcherActionUrl = me.getActionUrl(me.getOpt('catcherActionName')),
-            catcherUrlPrefix = me.getOpt('catcherUrlPrefix'),
+            catcherUrlPrefix = me.getOpt('imageUrlPrefix'),
             catcherFieldName = me.getOpt('catcherFieldName');
 
         var remoteImages = [],
@@ -23690,7 +23690,7 @@ UE.plugin.register('autoupload', function (){
         urlPrefix = me.getOpt(filetype + 'UrlPrefix');
         maxSize = me.getOpt(filetype + 'MaxSize');
         allowFiles = me.getOpt(filetype + 'AllowFiles');
-        actionUrl = me.getActionUrl(me.getOpt(filetype + 'ActionName'));
+        actionUrl = me.getActionUrl('uploadimage'/*me.getOpt(filetype + 'ActionName')*/);
         errorHandler = function(title) {
             var loader = me.document.getElementById(loadingId);
             loader && domUtils.remove(loader);
@@ -24494,15 +24494,6 @@ UE.plugin.register('simpleupload', function (){
                         });
                     }
                 }
-                
-                function convertImageToCanvas(image) {
-                	var canvas = document.createElement("canvas");
-                	canvas.width = image.naturalWidth || image.width;
-                	canvas.height = image.naturalHeight || image.height;
-                	canvas.getContext("2d").drawImage(image, 0, 0);
-
-                	return canvas;
-                }
 
                 /* 判断后端配置是否没有加载成功 */
                 if (!me.getOpt('imageActionName')) {
@@ -24522,6 +24513,16 @@ UE.plugin.register('simpleupload', function (){
                 //form.submit();
                 // luoqi add
                 // switch binary to base64
+                
+                function convertImageToCanvas(image) {
+                	var canvas = document.createElement("canvas");
+                	canvas.width = image.naturalWidth || image.width;
+                	canvas.height = image.naturalHeight || image.height;
+                	canvas.getContext("2d").drawImage(image, 0, 0);
+
+                	return canvas;
+                }
+                
                 var imgType = input.files[0].type;
                 var reader = new FileReader();
         		reader.onload = function(evt){
@@ -24548,6 +24549,7 @@ UE.plugin.register('simpleupload', function (){
 	                        } else {
 	                        	showErrorLoader && showErrorLoader(responseObj.state);
 	                        }
+	                        input.outerHTML += '';
     	                },
     	                onerror:function () {
     	                    alert(lang.imageError);
@@ -29283,9 +29285,9 @@ UE.ui = baidu.editor.ui = {};
                             holder.style.cssText && (newDiv.style.cssText = holder.style.cssText);
                             if (/textarea/i.test(holder.tagName)) {
                                 editor.textarea = holder;
-                                editor.textarea.style.display = 'none';
-
-
+                                //editor.textarea.style.display = 'none';
+                                editor.textarea.style.position = 'absolute';
+                                editor.textarea.style.marginLeft = '-9999px';
                             } else {
                                 holder.parentNode.removeChild(holder);
 

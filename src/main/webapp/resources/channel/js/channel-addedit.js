@@ -52,6 +52,21 @@ $(function() {
 		maxlength: 1000,
 		readonly: view
 	}, {
+		title: '密钥4',
+		field: 'privateKey4',
+		maxlength: 250,
+		readonly: view
+	}, {
+		title: '密钥5',
+		field: 'privateKey5',
+		maxlength: 250,
+		readonly: view
+	}, {
+		title: '密钥6',
+		field: 'privateKey6',
+		maxlength: 250,
+		readonly: view
+	}, {
 		title: '备注',
 		field: 'remark',
 		maxlength: 250,

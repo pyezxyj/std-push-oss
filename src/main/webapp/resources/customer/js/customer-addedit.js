@@ -31,9 +31,10 @@ $(function() {
 			}
 		}
 	}, {
-		title: '用户等级',
+		title: '用户分组',
 		field: 'level',
-		maxlength: 30,
+		key: 'user_kind',
+		type: 'select',
 		readonly: view
 	}, {
 		title: '微信id',
