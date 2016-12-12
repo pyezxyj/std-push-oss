@@ -47,3 +47,23 @@ Dict.getNameForList = function(type) {
 		return key ? Dict.findName(SYJDictCache[type], key) : '-';
 	}
 }
+Dict.getNameForList1 = function(type, systemCode) {
+	if (!SYJDictCache[type]) {
+		doGetAjaxIsAsync($("#dictUrl").val(), {"parentKey": type}, false, function(res) {
+			if(res.success){
+				for(var i = 0, result = []; i < res.data.length; i++){
+					if(res.data[i].dkey == systemCode){
+						result.push(res.data[i]);
+						break;
+					}
+				}
+				SYJDictCache[type] = result;
+			}else{
+				SYJDictCache[type] = [];
+			}
+		});
+	}
+	return function(key) {
+		return key ? Dict.findName(SYJDictCache[type], key) : '-';
+	}
+}

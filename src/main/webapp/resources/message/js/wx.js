@@ -16,7 +16,7 @@ $(function() {
     	field : 'fromSystemCode',
 		title : '发送单位',
 		key: 'system',
-		formatter: Dict.getNameForList('system'),
+		formatter: Dict.getNameForList1('system', toSystemCode),
 		search: true
     }, {
     	field : 'pushType',
@@ -27,7 +27,7 @@ $(function() {
     	field : 'toSystemCode',
 		title : '接收单位',
 		key: 'system',
-		formatter: Dict.getNameForList('system'),
+		formatter: Dict.getNameForList1('system', toSystemCode),
 		search: true
     }, {
 		field : 'toMobile',

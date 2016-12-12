@@ -6,10 +6,29 @@ String.prototype.temp = function(obj) {
 	};
 	
 $(function() {
-	var toSystemCode = "";
+	var toSystemCode = "", userInfo = {}, tmplList = [];
 	ajaxGet($('#basePath').val() + '/role/sysCode', {}, false, true).then(function(res) {
 		if (res.success) {
-			toSystemCode = res.data[0].systemCode;
+			userInfo = res.data[0];
+			toSystemCode = userInfo.systemCode;
+		}else{
+			alert(res.msg);
+		}
+	});
+	ajaxGet($('#basePath').val() + '/tpl/list?channelType=3&pushType=31&systemCode='+toSystemCode, {}, false, true).then(function(res) {
+		if (res.success) {
+			var list = res.data;
+			for(var i = 0; i < list.length; i++){
+				if(list[i].content.indexOf("keyword1") != -1){
+					list[i].first = userInfo.first;
+					list[i].keyword1 = userInfo.content;
+					list[i].keyword2 = userInfo.department;
+					break;
+				}
+			}
+			tmplList = list;
+		}else{
+			alert(res.msg);
 		}
 	});
 	var code = getQueryString('id');
@@ -30,18 +49,22 @@ $(function() {
 		title: '内容',
 		field: 'templateId',
 		type: 'select',
-		url: $('#basePath').val() + '/tpl/list?channelType=3&pushType=31&systemCode='+toSystemCode,
+		//url: $('#basePath').val() + '/tpl/list?channelType=3&pushType=31&systemCode='+toSystemCode,
+		wxData: tmplList,
 		keyName: 'templateId',
 		valueName: 'title',
 		required: true,
 		onChange: function(v, r) {
 			tpl = r.content;
 			tpldata.title = r.title;
-			$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+			tpldata.keyword2 = r.keyword2;
+			tpldata.keyword1 = r.keyword1;
+			tpldata.first = r.first;
 			//if(v == 'E1KoO96UdD5-xAuUDhEIktkQBDarcsRJxhljsDEOk3M'){
 			if(r.content.indexOf("keyword1") != -1){
-				$('#keyword1').parent().show();
-				$('#keyword2').parent().show();
+				$("#first").val(r.first);
+				$('#keyword1').val(r.keyword1).parent().show();
+				$('#keyword2').val(r.keyword2).parent().show();
 				$('#keyword3').parent().show();
 				$('#keyword4').parent().show();
 				$('#keyword5').parent().show();
@@ -51,6 +74,7 @@ $(function() {
 				$('#cashBalance').parent().hide();
 			//}else if(v == '2rB1FVWGvvqkL0uOnuTuMB2jhyn3e8sd_a2caRvXGyQ'){
 			}else if(r.content.indexOf("adCharge") != -1){
+				$("#first").val("");
 				$('#date').parent().show();
 				$('#adCharge').parent().show();
 				$('#type').parent().show();
@@ -61,6 +85,7 @@ $(function() {
 				$('#keyword4').parent().hide();
 				$('#keyword5').parent().hide();
 			}
+			$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
 		}
 	}, {
 		title: '问候语',
@@ -87,9 +112,11 @@ $(function() {
 		required: true,
 		maxlength: 100,
 		type: 'datetime',
-		onKeyup: function(v) {
-			tpldata.date = v;
-			$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+		onBlur: function(v) {
+			setTimeout(function(){
+				tpldata.date = $("#date").val();
+				$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+			}, 100);
 		},
 		hidden: true
 	}, {
@@ -161,8 +188,10 @@ $(function() {
 		maxlength: 100,
 		type: 'datetime',
 		onBlur: function(v) {
-			tpldata.keyword5 = v;
-			$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+			setTimeout(function(){
+				tpldata.keyword5 = $("#keyword5").val();
+				$('#content').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + tpl.temp(tpldata).replace(/\n/g,"<br/>"));
+			}, 100);
 		},
 		hidden: true
 	}, {
