@@ -1375,7 +1375,15 @@ function buildDetail(router, fields, code, options) {
 			})(item);
 			
 		}
-		
+		if (item.onKeyup) {
+			
+			(function(i) {
+				$('#' + i.field).on('keyup', function(e) {
+					i.onKeyup(this.value);
+				});
+			})(item);
+			
+		}
 	}
 	
 	var detailParams = {code: code};

@@ -18,15 +18,7 @@ $(function() {
 	var tpl = '';
 	var tpldata = {};
 	
-	var fields = [{
-		title: '接收者',
-		field: 'toMobile',
-		type: 'select',
-		url: $('#basePath').val() + '/customer/list?systemCode='+toSystemCode,
-		keyName: 'mobile',
-		valueName: 'mobile',
-		required: true
-	}, {
+	var fields = [ {
 		title: '内容',
 		field: 'templateId',
 		type: 'select',

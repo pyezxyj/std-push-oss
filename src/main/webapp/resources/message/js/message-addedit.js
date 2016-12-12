@@ -34,6 +34,21 @@ $(function() {
 						$('#channelCode').trigger('change');
 					}
 				});
+				ajaxGet($('#basePath').val() + '/tpl/list', {
+					systemCode: v || '0'
+				}).then(function(res) {
+					if (res.success) {
+						var data = res.data || [];
+						var html = "";
+						for(var i = 0;i < data.length;i++){
+							html += "<option value='"+data[i]['templateId']+"'>"+data[i]['title']+"</option>";
+						}
+						$('#templateId').html(html).trigger('change');
+						$('#templateId').val('');
+					}else{
+						alert("暂时无法获取消息模版");
+					}
+				});
 			}
 		},
 		readonly: view
@@ -71,21 +86,25 @@ $(function() {
 			$('#adChargeT1').parent().hide();
 			$('#typeT1').parent().hide();
 			$('#cashBalanceT1').parent().hide();
-			if (v == "E1KoO96UdD5-xAuUDhEIktkQBDarcsRJxhljsDEOk3M") {
-				$('#first').parent().show();
-				$('#keyword1').parent().show();
-				$('#keyword2').parent().show();
-				$('#keyword3').parent().show();
-				$('#keyword4').parent().show();
-				$('#keyword5').parent().show();
-				$('#remark').parent().show();
-			} else if (v == "2rB1FVWGvvqkL0uOnuTuMB2jhyn3e8sd_a2caRvXGyQ") {
-				$('#first').parent().show();
-				$('#dateT1').parent().show();
-				$('#adChargeT1').parent().show();
-				$('#typeT1').parent().show();
-				$('#cashBalanceT1').parent().show();
-				$('#remark').parent().show();
+			//if (v == "E1KoO96UdD5-xAuUDhEIktkQBDarcsRJxhljsDEOk3M") {
+			if($("#pushType").val() == "31"){
+				if(r && r.content && r.content.indexOf("keyword1") != -1){
+					$('#first').parent().show();
+					$('#keyword1').parent().show();
+					$('#keyword2').parent().show();
+					$('#keyword3').parent().show();
+					$('#keyword4').parent().show();
+					$('#keyword5').parent().show();
+					$('#remark').parent().show();
+				//} else if (v == "2rB1FVWGvvqkL0uOnuTuMB2jhyn3e8sd_a2caRvXGyQ") {
+				}else if(r && r.content && r.content.indexOf("adCharge") != -1){
+					$('#first').parent().show();
+					$('#dateT1').parent().show();
+					$('#adChargeT1').parent().show();
+					$('#typeT1').parent().show();
+					$('#cashBalanceT1').parent().show();
+					$('#remark').parent().show();
+				}
 			}
 		}
     }, {
@@ -196,7 +215,7 @@ $(function() {
 				$('#toMobile').parent().show();
 			}
 			
-			if (!($('#kind').val() == 2 && $('#pushType').val() == '41')) {
+			if (!($('#kind').val() == 2 && $('#pushType').val() == '41') && !view) {
 				$('#toKind').parent().hide();
 			}
 		},
@@ -209,7 +228,8 @@ $(function() {
 		key: 'user_kind',
 		required: true,
 		readonly: view,
-		hidden: true
+		hidden: !view,
+		formatter: Dict.getNameForList('user_kind')
 	}, {
 		title: '接收者手机号',
 		field: 'toMobile',
@@ -385,7 +405,7 @@ $(function() {
 							data[item.field] = item.emptyValue;
 						}
 					}
-					if ($('#templateId').val() == 'E1KoO96UdD5-xAuUDhEIktkQBDarcsRJxhljsDEOk3M') {
+					if(!$('#keyword1').parent().is(':hidden')){
 						var wxContent = {};
 						wxContent.first = $('#first').val();
 						wxContent.keyword1 = $('#keyword1').val();
@@ -395,7 +415,7 @@ $(function() {
 						wxContent.keyword5 = $('#keyword5').val();
 						wxContent.remark = $('#remark').val();
 						data.wxContent = wxContent;
-					} else if ($('#templateId').val() == '2rB1FVWGvvqkL0uOnuTuMB2jhyn3e8sd_a2caRvXGyQ') {
+					}else if(!$('#adChargeT1').parent().is(':hidden')){
 						var wxContent = {};
 						wxContent.first = $('#first').val();
 						wxContent.date = $('#dateT1').val();

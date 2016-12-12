@@ -38,8 +38,7 @@ $(function() {
 			ajaxGet($('#basePath').val() + '/message/wx/tpl', {
 				systemCode: getSystemId()
 			}).then(function(res) {
-				tpldata.title = res.data.title;
-				$('#smsContent').html('<b style="color: #000">' + tpldata.title + '</b><br/>' + data.smsContent.replace(/\n/g,"<br/>"));
+				$('#smsContent').html(data.smsContent.replace(/\n/g,"<br/>"));
 				$('#smsContent').parent().show();
 			});
 		}

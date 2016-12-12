@@ -22,13 +22,6 @@ $(function() {
     	field : 'dvalue',
 		title : '字典值'
     },{
-		field : 'updater',
-		title : '更新人'
-	},{
-		field : 'updateDatetime',
-		title : '更新时间',
-		formatter: dateTimeFormat
-	}, {
 		field: 'remark',
 		title: '备注'
 	}];

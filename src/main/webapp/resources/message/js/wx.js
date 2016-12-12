@@ -1,7 +1,12 @@
 $(function() {
 	
 	showPermissionControl();
-	
+	var toSystemCode = "";
+	ajaxGet($('#basePath').val() + '/role/sysCode', {}, false, true).then(function(res) {
+		if (res.success) {
+			toSystemCode = res.data[0].systemCode;
+		}
+	});
 	var router = '/message/wx';
 	var columns = [{
 		field : '',
@@ -36,13 +41,14 @@ $(function() {
 	}];
 	buildList(router, columns, {
 		searchParams: {
-			pushType: '31'
+			pushType: '31',
+			toSystemCode: toSystemCode || ""
 		}
 	});
 	$('#singleBtn').click(function() {
 		window.location.href = $("#basePath").val()+ "/message/wx_send.htm?-=-";
 	});
 	$('#groupBtn').click(function() {
-		window.location.href = $("#basePath").val()+ "/message/wx_send.htm?-=-&g=1";
+		window.location.href = $("#basePath").val()+ "/message/wx_sends.htm?-=-&g=1";
 	});
 });
